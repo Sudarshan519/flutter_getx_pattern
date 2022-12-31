@@ -110,7 +110,7 @@ jobs:
         with:
           credentials: ${{secrets.DRIVE_SECRETS}}
           filename: "build/app/outputs/apk/release/app-release.apk"
-          folderId: "https://drive.google.com/drive/u/0/folders/15UvmaFKz0KNbv96jV5UvCujfZqgB9Thu"
+          folderId: "https://drive.google.com/drive/u/0/folders/15UvmaFKz0KNbv96jV5UvCujfZqgB9Thu/"
           name: ${{steps.date.outputs.date}}.apk #"documentation.zip" # optional string
-          overwrite: "true" # optional boolean
+          # overwrite: "true" # optional boolean
           mimeType: "application/vnd.android.package-archive"
