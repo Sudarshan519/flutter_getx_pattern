@@ -67,8 +67,8 @@ jobs:
           cache: true
       # 12
       - name: Get dependencies
-        run: flutter pub get
-        run: flutter build apk --release --split-per-abi
+      -  run: flutter pub get
+      -  run: flutter build apk --release
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
