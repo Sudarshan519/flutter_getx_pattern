@@ -67,8 +67,9 @@ jobs:
           channel: 'stable'
           cache: true
       # 12
-      - name: Get dependencies
+      # - name: Get dependencies
         # run: flutter pub get
+      - name: Build APK
         run: flutter build apk --release
         # run: |
         #   flutter build ios --no-codesign
@@ -91,7 +92,7 @@ jobs:
 
       - name: Get Today Date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d'")
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       # - name: Get Folder id by condition
       #   uses: haya14busa/action-cond@v1
       #   id: folderId
@@ -110,6 +111,6 @@ jobs:
           credentials: ${{ secrets.DRIVE_SECRETS }}
           filename: "build/app/outputs/apk/release/app-release.apk"
           folderId: "hajir"
-          name: ${{ steps.date.outputs.date }} #"documentation.zip" # optional string
+          name: ${{ steps.date.outputs.date }}.apk #"documentation.zip" # optional string
           overwrite: "true" # optional boolean
           mimeType: "application/vnd.android.package-archive"
