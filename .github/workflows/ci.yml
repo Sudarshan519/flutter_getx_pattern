@@ -109,8 +109,8 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{secrets.DRIVE_SECRETS}}
-          filename: "build/app/outputs/apk/release/app-release.apk"
+          filename: "app-release.apk"
           folderId: "https://drive.google.com/drive/u/1/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/"
           name: ${{steps.date.outputs.date}}.apk #"documentation.zip" # optional string
-          overwrite: "true" # optional boolean
+          overwrite: true # optional boolean
           mimeType: "application/vnd.android.package-archive"
