@@ -8,7 +8,7 @@ import 'package:hajir/app/modules/dashboard/views/home.dart';
 import 'package:hajir/app/modules/dashboard/views/my_account.dart';
 import '../controllers/dashboard_controller.dart';
 
-var tabs = [Home(), ApplyLeave(), MyAccount()];
+var tabs = [const Home(), const ApplyLeave(), MyAccount()];
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
@@ -16,43 +16,17 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: const SizedBox(),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset(
-                        "assets/notification.svg",
-                        height: 24,
-                        width: 24,
-                      ),
-                      Positioned(
-                        top: 3,
-                        right: 0,
-                        child: Container(
-                          height: 8,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              color: Colors.red, shape: BoxShape.circle),
-                        ),
-                      ),
-                    ],
-                  ))),
-          SizedBox(
-            width: 20,
-          )
-        ],
-      ),
+      backgroundColor: Colors.white,
       body: Obx(() => tabs[controller.selectedIndex]),
       bottomNavigationBar: Obx(() => BottomNavigationBar(
-              onTap: (i) => controller.selectedIndex = i,
+              onTap: (i) {
+                if (i == 1) {
+                  Get.bottomSheet(
+                      Material(color: Colors.white, child: ApplyLeave()),
+                      isScrollControlled: true);
+                } else
+                  controller.selectedIndex = i;
+              },
               unselectedItemColor: Colors.grey,
               currentIndex: controller.selectedIndex,
               selectedItemColor: AppColors.primary,

@@ -80,7 +80,7 @@ class ClockPainter extends CustomPainter {
     canvas.drawCircle(center, 3, centerFillBrush..color = Colors.grey);
 
     var outerCircleRadius = radius;
-    var innerCircleRadiusHour = radius - 6;
+    var innerCircleRadiusHour = radius - 5;
     // for (double i = 0; i < 360; i += 24) {
     //   var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
     //   var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
@@ -92,21 +92,24 @@ class ClockPainter extends CustomPainter {
     // }
 
     var innerCircleRadius = radius - 4;
+
     for (double i = 0; i < 360; i += 6) {
-      if (i % 24 == 0) {
+      if (i % 30 == 0) {
         var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
         var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
 
         var x2 = centerX + innerCircleRadiusHour * cos(i * pi / 180);
         var y2 = centerX + innerCircleRadiusHour * sin(i * pi / 180);
-        canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashHourBrush);
+        canvas.drawLine(
+            Offset(x1, y1), Offset(x2, y2), dashHourBrush..strokeWidth = 1);
       } else {
         var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
         var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
 
         var x2 = centerX + innerCircleRadius * cos(i * pi / 180);
         var y2 = centerX + innerCircleRadius * sin(i * pi / 180);
-        canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);
+        canvas.drawLine(
+            Offset(x1, y1), Offset(x2, y2), dashBrush..strokeWidth = 1);
       }
     }
   }

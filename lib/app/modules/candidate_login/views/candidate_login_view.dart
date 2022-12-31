@@ -2,274 +2,473 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/modules/candidate_login/views/widgets/charts/line_chart.dart';
 import 'package:hajir/app/modules/candidate_login/views/widgets/clock_painter.dart';
+import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/utils/custom_paint/arc_painter.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
 import '../controllers/candidate_login_controller.dart';
 
 class CandidateLoginView extends GetView<CandidateLoginController> {
   const CandidateLoginView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(children: [
+    final DashboardController dashboardController = Get.find();
+    return SizedBox(
+      height: Get.height,
+      child: Stack(children: [
         SizedBox(
-          height: Get.height,
-          child: Stack(children: [
-            SizedBox(
-              height: 229.h,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: ArcPainter(color: Colors.grey),
-              ),
-            ),
-            Positioned(
-                top: 78.h,
-                left: 136.w,
-                right: 136.w,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Today",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 34.sp,
-                          color: AppColors.red),
-                    ),
-                    SizedBox(
-                      height: 10.r,
-                    ),
-                    Text(
-                      DateFormat('dd MMM yyyy').format(DateTime.now()),
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xff555555)),
-                    ),
-                  ],
-                )),
-            Positioned(
-                top: 151.h,
-                left: 110.w,
-                right: 110.w,
-                child: Stack(
-                  children: [
-                    Container(
-                        height: 155,
-                        width: 155,
-                        padding: const EdgeInsets.all(11),
-                        decoration: BoxDecoration(
-                            color: Colors.white, shape: BoxShape.circle),
-                        child: Stack(
-                          children: [
-                            // SemiCircleWidget(
-                            //   sweepAngle: 80,
-                            //   color: Colors.green,
-                            // ),
-                            // SemiCircleWidget(
-                            //   sweepAngle: 0,
-                            //   color: Colors.yellow,
-                            // ),
-                            // SemiCircleWidget(
-                            //   sweepAngle: 0,
-                            //   color: Colors.green,
-                            // ),
-                            Container(
-                              height: 155,
-                              width: 155,
-                              padding: const EdgeInsets.all(14),
-                              decoration: BoxDecoration(
-                                  // color: Colors.red,
-                                  color: Colors.grey.withOpacity(.1),
-                                  shape: BoxShape.circle),
-                              child: Container(
-                                  // alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Transform.rotate(
-                                      angle: -pi / 2, child: Clock())),
-                            ),
-                            SizedBox(
-                              height: 155,
-                              width: 155,
-                              child: Obx(
-                                (() => CircularPercentIndicator(
-                                      animationDuration: 300,
-                                      backgroundColor:
-                                          Colors.grey.withOpacity(.1),
-                                      radius: 65.0,
-                                      lineWidth: 14.0,
-                                      percent: controller.percentage.value,
-                                      circularStrokeCap:
-                                          CircularStrokeCap.round,
-                                      // center: new Text("100%"),
-                                      progressColor: Colors.green,
-                                    )),
+          height: 229.h,
+          width: double.infinity,
+          child: CustomPaint(
+            painter: ArcPainter(color: Colors.grey),
+          ),
+        ),
+        Positioned(
+            top: 78.h,
+            left: 136.w,
+            right: 136.w,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Today",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 34.sp,
+                      color: AppColors.red),
+                ),
+                SizedBox(
+                  height: 10.r,
+                ),
+                Text(
+                  DateFormat('dd MMM yyyy').format(DateTime.now()),
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff555555)),
+                ),
+              ],
+            )),
+        Positioned(
+            top: 151.h,
+            left: 110.w,
+            right: 110.w,
+            child: Stack(
+              children: [
+                Container(
+                    height: 155,
+                    width: 155,
+                    padding: const EdgeInsets.all(11),
+                    decoration: const BoxDecoration(
+                        color: Colors.white, shape: BoxShape.circle),
+                    child: Stack(
+                      children: [
+                        // SemiCircleWidget(
+                        //   sweepAngle: 80,
+                        //   color: Colors.green,
+                        // ),
+                        // SemiCircleWidget(
+                        //   sweepAngle: 0,
+                        //   color: Colors.yellow,
+                        // ),
+                        // SemiCircleWidget(
+                        //   sweepAngle: 0,
+                        //   color: Colors.green,
+                        // ),
+                        Container(
+                          height: 155,
+                          width: 155,
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                              // color: Colors.grey.withOpacity(.1),
+                              shape: BoxShape.circle),
+                          child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
                               ),
+                              child: Transform.rotate(
+                                  angle: -pi / 2, child: Clock())),
+                        ),
+                        if (controller.isloggedIn)
+                          SizedBox(
+                            height: 155,
+                            width: 155,
+                            child: Obx(
+                              (() => CircularPercentIndicator(
+                                    animationDuration: 300,
+                                    backgroundColor:
+                                        Colors.grey.withOpacity(.1),
+                                    radius: 65.0,
+                                    lineWidth: 14.0,
+                                    percent: controller.percentage.value,
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    // center: new Text("100%"),
+                                    progressColor: Colors.green,
+                                  )),
                             ),
-                            Transform.rotate(
-                              angle: pi / 4 * 180,
-                              child: SizedBox(
-                                height: 155,
-                                width: 155,
-                                child: CircularPercentIndicator(
-                                  backgroundColor: Colors.grey.withOpacity(.1),
-                                  radius: 65.0,
-                                  lineWidth: 14.0,
-                                  percent: .0,
-                                  circularStrokeCap: CircularStrokeCap.square,
-                                  // center: new Text("100%"),
-                                  progressColor: Colors.yellow,
-                                ),
-                              ),
+                          ),
+                        Transform.rotate(
+                          angle: pi / 4 * 180,
+                          child: SizedBox(
+                            height: 155,
+                            width: 155,
+                            child: CircularPercentIndicator(
+                              backgroundColor: Colors.grey.withOpacity(.1),
+                              radius: 65.0,
+                              lineWidth: 14.0,
+                              percent: .0,
+                              circularStrokeCap: CircularStrokeCap.square,
+                              progressColor: Colors.yellow,
                             ),
-                          ],
-                        )),
-                    const Positioned(
-                        top: 70, left: 47, right: 47, child: TimeWidget()),
-                  ],
-                )),
-            Positioned(
-                top: 317.r,
-                left: 18,
-                right: 18,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 48,
-                      width: 200,
-                      child: ElevatedButton(
+                          ),
+                        ),
+                      ],
+                    )),
+                const Positioned(
+                    top: 70, left: 47, right: 47, child: TimeWidget()),
+              ],
+            )),
+        Positioned(
+            top: 317.r,
+            left: 18,
+            right: 18,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  height: 48,
+                  width: 200,
+                  child: Obx(() => controller.authStatus ==
+                          AuthStatus.Authenticated
+                      ? OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: Colors.red.shade800),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              )),
+                          onPressed: () {
+                            controller.authStatus = AuthStatus.Unauthenticated;
+                          },
+                          child: Text(
+                            "Logout",
+                            style:
+                                AppTextStyles.b2.copyWith(color: AppColors.red),
+                          ))
+                      : ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24))),
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.login();
+                          },
                           child: Text(
                             "Login",
                             style: AppTextStyles.b1,
-                          )),
-                    ),
-                    SizedBox(
-                      height: 103,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Income History",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff555555)),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    SizedBox(
-                      height: 148.h,
-                    ),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    Container(
-                      height: 36.h,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7.r),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(236, 237, 240, 1),
-                                blurRadius: 2)
-                          ],
-                          color: Color.fromRGBO(236, 237, 240, 1)),
-                      child: Obx(
-                        () => Row(
+                          ))),
+                ),
+                Obx(
+                  () => controller.authStatus == AuthStatus.Authenticated
+                      ? Column(
                           children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  controller.selected = 0;
-                                },
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(7.r),
-                                        color: controller.selected == 0
-                                            ? Colors.white
-                                            : Colors.transparent),
-                                    height: 32.h,
-                                    width: double.infinity,
-                                    child: Text(
-                                      "Weekly",
-                                      style: AppTextStyles.b2,
-                                    )),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "START BREAK",
+                                  style: AppTextStyles.medium.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade600),
+                                ),
+                                SvgPicture.asset(
+                                  "assets/codicon_debug-start.svg",
+                                  height: 16,
+                                  width: 16,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                              "Today's earning",
+                              style: AppTextStyles.medium
+                                  .copyWith(fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(
+                              height: 21,
+                            ),
+                            SizedBox(
+                              height: 154,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CandidateIncomeItem(),
+                                    CandidateIncomeItem(),
+                                    CandidateIncomeItem(),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Dot(),
+                                    CandidateIncomeItem(),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Obx(() => CandidateIncomeItem(
+                                            gradientTop: true,
+                                            value: controller.d1.value == 0
+                                                ? 9
+                                                : controller.d1.value - 1)),
+                                        Spacer(),
+                                        Obx(() => CandidateIncomeItem(
+                                            value: controller.d1.value)),
+                                        Spacer(),
+                                        Obx(
+                                          () => CandidateIncomeItem(
+                                              gradientBottom: true,
+                                              value: (controller.d1.value +
+                                                          1) ==
+                                                      10
+                                                  ? 0
+                                                  : (controller.d1.value + 1)),
+                                        ),
+                                      ],
+                                    )
+                                  ]),
+                            )
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Income History",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xff555555)),
                               ),
                             ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  controller.selected = 1;
-                                },
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(7.r),
-                                        color: controller.selected == 1
-                                            ? Colors.white
-                                            : Colors.transparent),
-                                    height: 32.h,
-                                    width: double.infinity,
-                                    child: Text(
-                                      "Monthly",
-                                      style: AppTextStyles.b2,
-                                    )),
-                              ),
+                            SizedBox(
+                              height: 20.h,
                             ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  controller.selected = 2;
-                                },
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(7.r),
-                                        color: controller.selected == 2
-                                            ? Colors.white
-                                            : Colors.transparent),
-                                    height: 32.h,
-                                    width: double.infinity,
-                                    child: Text(
-                                      "Annual",
-                                      style: AppTextStyles.b2,
-                                    )),
+                            SizedBox(
+                              height: 248.h,
+                              child: LineChart(),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Container(
+                              height: 36.h,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7.r),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Color.fromRGBO(236, 237, 240, 1),
+                                        blurRadius: 2)
+                                  ],
+                                  color:
+                                      const Color.fromRGBO(236, 237, 240, 1)),
+                              child: Obx(
+                                () => Row(
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          controller.selected = 0;
+                                        },
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7.r),
+                                                color: controller.selected == 0
+                                                    ? Colors.white
+                                                    : Colors.transparent),
+                                            height: 32.h,
+                                            width: double.infinity,
+                                            child: Text(
+                                              "Weekly",
+                                              style: AppTextStyles.b2,
+                                            )),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          controller.selected = 1;
+                                        },
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7.r),
+                                                color: controller.selected == 1
+                                                    ? Colors.white
+                                                    : Colors.transparent),
+                                            height: 32.h,
+                                            width: double.infinity,
+                                            child: Text(
+                                              "Monthly",
+                                              style: AppTextStyles.b2,
+                                            )),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          controller.selected = 2;
+                                        },
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(7.r),
+                                                color: controller.selected == 2
+                                                    ? Colors.white
+                                                    : Colors.transparent),
+                                            height: 32.h,
+                                            width: double.infinity,
+                                            child: Text(
+                                              "Annual",
+                                              style: AppTextStyles.b2,
+                                            )),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],
                         ),
-                      ),
-                    )
-                  ],
-                ))
-          ]),
-        ),
+                )
+              ],
+            )),
+        Positioned(
+          right: 0,
+          child: SafeArea(
+            child: IconButton(
+                onPressed: () {},
+                icon: SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: Stack(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/notification.svg",
+                          height: 24,
+                          width: 24,
+                        ),
+                        Positioned(
+                          top: 3,
+                          right: 0,
+                          child: Container(
+                            height: 8,
+                            width: 8,
+                            decoration: BoxDecoration(
+                                color: Colors.red, shape: BoxShape.circle),
+                          ),
+                        ),
+                      ],
+                    ))),
+          ),
+        )
+      ]),
+    );
+  }
+}
+
+class Dot extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      ".",
+      style: AppTextStyles().large.copyWith(color: AppColors.primary),
+    );
+  }
+}
+
+class CandidateIncomeItem extends StatelessWidget {
+  const CandidateIncomeItem(
+      {Key? key,
+      this.gradientTop = false,
+      this.gradientBottom = false,
+      this.value = 0})
+      : super(key: key);
+  final bool gradientTop;
+  final bool gradientBottom;
+  final int value;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 9,
+      ),
+      height: 46,
+      width: 33.95,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.57143),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                if (gradientTop) ...[
+                  Color.fromRGBO(255, 255, 255, 1),
+                  Color.fromRGBO(41, 100, 255, 1),
+                ] else
+                  ...[],
+                Color.fromRGBO(41, 100, 255, 1),
+                gradientBottom
+                    ? Color.fromRGBO(255, 255, 255, 1)
+                    : Color.fromRGBO(34, 64, 139, 1)
+              ])),
+      child: Stack(alignment: Alignment.center, children: [
+        Positioned(
+            top: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(6.57143),
+                    topRight: Radius.circular(6.57143),
+                  ),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: gradientTop
+                          ? [Colors.white, Colors.white24]
+                          : [
+                              Color.fromRGBO(34, 64, 139, 1),
+                              Color.fromRGBO(41, 100, 255, 1),
+                            ])),
+              height: 26,
+              width: 34,
+            )),
+        Text(
+          value.toString(),
+          style: AppTextStyles().large,
+        )
       ]),
     );
   }
