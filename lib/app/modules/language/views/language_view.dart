@@ -27,14 +27,14 @@ class LanguageView extends GetView<LanguageController> {
                       size: Size(Get.width, (Get.width * 0.812).toDouble()),
                       painter: ArcPainter(color: AppColors.deepOrange)),
                   Positioned(
-                      left: 47,
-                      top: 128,
-                      right: 47,
+                      left: 47.r,
+                      top: 128.h,
+                      right: 47.h,
                       child: Container(
                           decoration: const BoxDecoration(
                               color: Colors.white, shape: BoxShape.circle),
-                          height: 281,
-                          width: 281,
+                          height: 281.r,
+                          width: 281.r,
                           padding: const EdgeInsets.all(12),
                           child: Container(
                             decoration: const BoxDecoration(
@@ -46,23 +46,23 @@ class LanguageView extends GetView<LanguageController> {
                                       Color.fromRGBO(236, 236, 236, 0)
                                     ]),
                                 shape: BoxShape.circle),
-                            height: 257,
-                            width: 257,
+                            height: 257.r,
+                            width: 257.r,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
                                   AppImages.logo,
-                                  height: 60,
-                                  width: 178,
+                                  height: 60.h,
+                                  width: 178.w,
                                 )
                               ],
                             ),
                           ))),
                   Positioned(
-                      top: 503,
-                      left: 16,
-                      right: 16,
+                      top: 503.h,
+                      left: 16.r,
+                      right: 16.r,
                       child: Column(
                         children: [
                           const Text(
