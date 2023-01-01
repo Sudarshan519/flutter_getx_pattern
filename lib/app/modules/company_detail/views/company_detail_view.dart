@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
-import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 
