@@ -1,9 +1,17 @@
 import 'package:get/get.dart';
 
+import '../modules/add_employee/bindings/add_employee_binding.dart';
+import '../modules/add_employee/views/add_employee_view.dart';
 import '../modules/candidate_login/bindings/candidate_login_binding.dart';
 import '../modules/candidate_login/views/candidate_login_view.dart';
+import '../modules/company_detail/bindings/company_detail_binding.dart';
+import '../modules/company_detail/views/company_detail_view.dart';
+import '../modules/create_company/bindings/create_company_binding.dart';
+import '../modules/create_company/views/create_company_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
+import '../modules/employer_dashboard/bindings/employer_dashboard_binding.dart';
+import '../modules/employer_dashboard/views/employer_dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/language/bindings/language_binding.dart';
@@ -57,6 +65,26 @@ class AppPages {
       name: _Paths.CANDIDATE_LOGIN,
       page: () => const CandidateLoginView(),
       binding: CandidateLoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.EMPLOYER_DASHBOARD,
+      page: () => const EmployerDashboardView(),
+      binding: EmployerDashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_COMPANY,
+      page: () => const CreateCompanyView(),
+      binding: CreateCompanyBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMPANY_DETAIL,
+      page: () => const CompanyDetailView(),
+      binding: CompanyDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_EMPLOYEE,
+      page: () => const AddEmployeeView(),
+      binding: AddEmployeeBinding(),
     ),
   ];
 }

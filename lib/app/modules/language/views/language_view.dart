@@ -16,91 +16,87 @@ class LanguageView extends GetView<LanguageController> {
     ScreenUtil.init(context);
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            SizedBox(
-              height: Get.height,
-              width: Get.width,
-              child: Stack(
-                children: [
-                  CustomPaint(
-                      size: Size(Get.width, (Get.width * 0.812).toDouble()),
-                      painter: ArcPainter(color: AppColors.deepOrange)),
-                  Positioned(
-                      left: 47.r,
-                      top: 128.h,
-                      right: 47.h,
+        body: SizedBox(
+          height: Get.height,
+          width: Get.width,
+          child: Stack(
+            children: [
+              CustomPaint(
+                  size: Size(Get.width, (Get.width * 0.812).toDouble()),
+                  painter: ArcPainter(color: AppColors.deepOrange)),
+              Positioned(
+                  left: 47.r,
+                  top: 128.h,
+                  right: 47.h,
+                  child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white, shape: BoxShape.circle),
+                      height: 281.r,
+                      width: 281.r,
+                      padding: const EdgeInsets.all(12),
                       child: Container(
-                          decoration: const BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
-                          height: 281.r,
-                          width: 281.r,
-                          padding: const EdgeInsets.all(12),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color.fromRGBO(255, 80, 80, .19),
-                                      Color.fromRGBO(236, 236, 236, 0)
-                                    ]),
-                                shape: BoxShape.circle),
-                            height: 257.r,
-                            width: 257.r,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  AppImages.logo,
-                                  height: 60.h,
-                                  width: 178.w,
-                                )
-                              ],
-                            ),
-                          ))),
-                  Positioned(
-                      top: 503.h,
-                      left: 16.r,
-                      right: 16.r,
-                      child: Column(
-                        children: [
-                          const Text(
-                            "Choose your language",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          CustomButton(
-                              onPressed: () {
-                                Get.offNamed(Routes.WELCOME);
-                              },
-                              label: "English"),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Text(
-                            "Or",
-                            style: TextStyle(color: Colors.black, fontSize: 13),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          CustomButton(
-                              onPressed: () {
-                                Get.updateLocale(Locale("ne", "NE"));
-                                Get.offNamed(Routes.WELCOME);
-                              },
-                              label: "Nepali",
-                              color: AppColors.red)
-                        ],
-                      ))
-                ],
-              ),
-            ),
-          ],
+                        decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color.fromRGBO(255, 80, 80, .19),
+                                  Color.fromRGBO(236, 236, 236, 0)
+                                ]),
+                            shape: BoxShape.circle),
+                        height: 257.r,
+                        width: 257.r,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AppImages.logo,
+                              height: 60.h,
+                              width: 178.w,
+                            )
+                          ],
+                        ),
+                      ))),
+              Positioned(
+                  top: 503.h,
+                  left: 16.r,
+                  right: 16.r,
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Choose your language",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomButton(
+                          onPressed: () {
+                            Get.offNamed(Routes.WELCOME);
+                          },
+                          label: "English"),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      const Text(
+                        "Or",
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      CustomButton(
+                          onPressed: () {
+                            Get.updateLocale(Locale("ne", "NE"));
+                            Get.offNamed(Routes.WELCOME);
+                          },
+                          label: "Nepali",
+                          color: AppColors.red)
+                    ],
+                  ))
+            ],
+          ),
         ));
   }
 }

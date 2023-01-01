@@ -31,24 +31,29 @@ class DashboardView extends GetView<DashboardController> {
               },
               unselectedItemColor: Colors.grey,
               currentIndex: controller.selectedIndex,
+              iconSize: 20,
               selectedItemColor: AppColors.primary,
               items: [
                 BottomNavigationBarItem(
                     activeIcon: SvgPicture.asset(
                       "assets/home.svg",
+                      height: 20,
+                      width: 19.98,
                       color: AppColors.primary,
                     ),
                     icon: SvgPicture.asset(
                       "assets/home.svg",
                       color: Colors.grey,
+                      height: 20,
+                      width: 19.98,
                     ),
                     label: strings.home),
                 BottomNavigationBarItem(
                     activeIcon: SvgPicture.asset(
                       "assets/leave.svg",
+                      color: AppColors.primary,
                       height: 20,
                       width: 19.98,
-                      color: AppColors.primary,
                     ),
                     icon: SvgPicture.asset(
                       "assets/leave.svg",
@@ -58,11 +63,15 @@ class DashboardView extends GetView<DashboardController> {
                     label: "Apply Leave"),
                 BottomNavigationBarItem(
                     activeIcon: SvgPicture.asset(
-                      "assets/profile.svg",
+                      "assets/Icon.svg",
+                      height: 20,
+                      width: 19.98,
                       color: AppColors.primary,
                     ),
                     icon: SvgPicture.asset(
                       "assets/profile.svg",
+                      height: 20,
+                      width: 19.98,
                       // color: Colors.grey,
                     ),
                     label: "My Account"),

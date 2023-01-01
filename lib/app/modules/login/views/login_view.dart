@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -18,18 +19,18 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: REdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: 50.h,
             ),
             HajirLogo(),
-            const SizedBox(
-              height: 84,
+            SizedBox(
+              height: 50.h,
             ),
             SizedBox(
-              height: 230,
+              height: 236.h,
               width: double.infinity,
               child: CarouselSlider(
                   items: List.generate(
@@ -40,13 +41,13 @@ class LoginView extends GetView<LoginController> {
                               children: [
                                 Image.asset(
                                   candidateItems[index].icon,
-                                  height: 170,
-                                  width: 170,
+                                  height: 160.r,
+                                  width: 160.r,
                                 ),
                                 Text(
                                   candidateItems[index].label,
                                   style: AppTextStyles.medium
-                                      .copyWith(height: 1.4),
+                                      .copyWith(height: 1.4, fontSize: 14.sp),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -59,8 +60,8 @@ class LoginView extends GetView<LoginController> {
                       viewportFraction: 1,
                       autoPlay: true)),
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: 20.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -69,8 +70,8 @@ class LoginView extends GetView<LoginController> {
                   (index) => Obx(
                         () => AnimatedContainer(
                           duration: 300.milliseconds,
-                          height: 12,
-                          width: 12,
+                          height: 12.sp,
+                          width: 12.sp,
                           decoration: BoxDecoration(
                               color: controller.selectedItem == index
                                   ? Colors.grey
@@ -80,8 +81,8 @@ class LoginView extends GetView<LoginController> {
                         ),
                       )),
             ),
-            const SizedBox(
-              height: 60,
+            SizedBox(
+              height: 40.h,
             ),
             TextFormField(
               decoration: InputDecoration(
@@ -89,12 +90,12 @@ class LoginView extends GetView<LoginController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: REdgeInsets.all(8.0),
                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                           SvgPicture.asset(
                             "assets/twemoji_flag-nepal.svg",
-                            height: 22,
-                            width: 22,
+                            height: 22.r,
+                            width: 22.r,
                           ),
                           Text(
                             "+977",
@@ -103,11 +104,11 @@ class LoginView extends GetView<LoginController> {
                         ]),
                       ),
                       Container(
-                        height: 56,
+                        height: 40.r,
                         color: Colors.grey.shade300,
-                        width: 1,
+                        width: 1.r,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       )
                     ],
@@ -118,24 +119,28 @@ class LoginView extends GetView<LoginController> {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
             const SizedBox(
-              height: 20,
+              height: 25,
             ),
             CustomButton(
                 onPressed: () {
-                  Get.toNamed(Routes.MOBILE_OPT);
+                  Get.toNamed(Routes.MOBILE_OPT,
+                      arguments: controller.isEmployer.value);
                 },
                 label: "Get OTP"),
             const SizedBox(
               height: 20,
             ),
-            Text("We wil sen you an one time password on this mobile number",
-                style: AppTextStyles.l2),
-            const SizedBox(
-              height: 5,
+            Text(
+              "We wil sen you an one time password on this mobile number.",
+              style: AppTextStyles.l2,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 5.h,
             ),
             RichText(
                 text: TextSpan(children: [
@@ -146,6 +151,9 @@ class LoginView extends GetView<LoginController> {
               ),
               TextSpan(text: "Terms & Services", style: AppTextStyles.l2)
             ])),
+            SizedBox(
+              height: 20.h,
+            ),
           ],
         ),
       ),
@@ -162,8 +170,8 @@ class HajirLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       AppImages.logo,
-      height: 36,
-      width: 106,
+      height: 36.h,
+      width: 106.w,
     );
   }
 }

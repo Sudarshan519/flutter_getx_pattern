@@ -21,8 +21,8 @@ class AppTextStyles {
   static TextStyle medium = const TextStyle(fontSize: 14, color: Colors.grey);
   static TextStyle regular =
       const TextStyle(fontSize: 19, fontWeight: FontWeight.w400);
-  static TextStyle l1 = const TextStyle(
-      fontSize: 15, color: Colors.grey, fontWeight: FontWeight.w600);
+  static TextStyle l1 = TextStyle(
+      fontSize: 14.sp, color: Colors.grey, fontWeight: FontWeight.w600);
   static TextStyle l2 = TextStyle(fontSize: 10, color: Colors.grey);
   static TextStyle b1 = TextStyle(fontWeight: FontWeight.w700, fontSize: 16);
   static TextStyle b2 = TextStyle(fontWeight: FontWeight.w600, fontSize: 14);

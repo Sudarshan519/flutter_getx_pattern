@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -16,15 +17,15 @@ class MobileOptView extends GetView<MobileOptController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: REdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           SizedBox(
-            height: 50,
+            height: 50.h,
           ),
           HajirLogo(),
           SizedBox(
-            height: 84,
+            height: 84.h,
           ),
           SizedBox(
             height: 170,
@@ -100,7 +101,11 @@ class MobileOptView extends GetView<MobileOptController> {
           ),
           CustomButton(
               onPressed: () {
-                Get.toNamed(Routes.DASHBOARD);
+                if (Get.arguments) {
+                  Get.toNamed(Routes.EMPLOYER_DASHBOARD);
+                } else {
+                  Get.toNamed(Routes.DASHBOARD);
+                }
               },
               label: "Verify"),
           SizedBox(

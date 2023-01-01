@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
@@ -13,126 +14,128 @@ class WelcomeView extends GetView<WelcomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        SizedBox(
-          height: 94,
-        ),
-        Text(
-          "Welcome to",
-          style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary),
-        ),
-        SizedBox(
-          height: 60,
-        ),
-        Image.asset(
-          AppImages.logo,
-          height: 60,
-          width: 178,
-        ),
-        const SizedBox(
-          height: 17,
-        ),
-        Text(
-          "Smart Attendance System",
-          style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.w400,
-              color: AppColors.primary),
-        ),
-        SizedBox(
-          height: 106,
-        ),
-        WelcomeSlider(),
-        SizedBox(
-          height: 89,
-        ),
-        Text(
-          "Click below to continue login as",
-          style:
-              TextStyle(color: AppColors.black.withOpacity(.5), fontSize: 14),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        SizedBox(
-          height: 48,
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Stack(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed(Routes.LOGIN, arguments: false);
-                      },
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(6),
-                          bottomLeft: Radius.circular(6)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 50.h,
+          ),
+          Text(
+            "Welcome to",
+            style: TextStyle(
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary),
+          ),
+          SizedBox(
+            height: 60.h,
+          ),
+          Image.asset(
+            AppImages.logo,
+            height: 60.r,
+            width: 178.r,
+          ),
+          SizedBox(
+            height: 17.r,
+          ),
+          Text(
+            "Smart Attendance System",
+            style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColors.primary),
+          ),
+          SizedBox(
+            height: 80.r,
+          ),
+          WelcomeSlider(),
+          SizedBox(
+            height: 80.r,
+          ),
+          Text(
+            "Click below to continue login as",
+            style:
+                TextStyle(color: AppColors.black.withOpacity(.5), fontSize: 14),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          SizedBox(
+            height: 48,
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Stack(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.LOGIN, arguments: false);
+                        },
+                        borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(6),
                             bottomLeft: Radius.circular(6)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(6),
+                              bottomLeft: Radius.circular(6)),
+                          child: Container(
+                              height: 48,
+                              alignment: Alignment.center,
+                              color: AppColors.red,
+                              child: Text(
+                                "Candidate",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              )),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        child: InkWell(
+                      onTap: () {
+                        Get.toNamed(Routes.LOGIN, arguments: true);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(6),
+                            bottomRight: Radius.circular(6)),
                         child: Container(
-                            height: 48,
+                            color: AppColors.primary,
                             alignment: Alignment.center,
-                            color: AppColors.red,
+                            height: 48,
                             child: Text(
-                              "Candidate",
+                              "Employer",
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white),
                             )),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                      child: InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.LOGIN, arguments: false);
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(6),
-                          bottomRight: Radius.circular(6)),
-                      child: Container(
-                          color: AppColors.primary,
-                          alignment: Alignment.center,
-                          height: 48,
-                          child: Text(
-                            "Employer",
+                    ))
+                  ],
+                ),
+                Center(
+                    child: Container(
+                        height: 48,
+                        width: 48,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                        child: Text("OR",
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
-                          )),
-                    ),
-                  ))
-                ],
-              ),
-              Center(
-                  child: Container(
-                      height: 48,
-                      width: 48,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
-                      child: Text("OR",
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                          )))),
-            ]),
-          ),
-        )
-      ],
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            )))),
+              ]),
+            ),
+          )
+        ],
+      ),
     ));
   }
 }
@@ -144,7 +147,7 @@ class WelcomeSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final WelcomeController controller = Get.find();
     return SizedBox(
-      height: 112,
+      height: 118.h,
       width: double.infinity,
       child: CarouselSlider(
         items: List.generate(
@@ -155,11 +158,11 @@ class WelcomeSlider extends StatelessWidget {
                     Text(
                       controller.carouselItems[i],
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 14, color: Colors.grey, height: 1.4),
+                      style: TextStyle(
+                          fontSize: 14.sp, color: Colors.grey, height: 1.4),
                     ),
-                    const SizedBox(
-                      height: 40,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -167,9 +170,9 @@ class WelcomeSlider extends StatelessWidget {
                         ...List.generate(
                             3,
                             (index) => AnimatedContainer(
-                                  height: 12,
-                                  width: 12,
-                                  margin: const EdgeInsets.only(right: 8),
+                                  height: 12.h,
+                                  width: 12.h,
+                                  margin: REdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: index == i

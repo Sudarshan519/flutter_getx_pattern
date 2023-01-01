@@ -1,0 +1,24 @@
+import 'package:get/get.dart';
+
+class CompanyDetailController extends GetxController {
+  //TODO: Implement CompanyDetailController
+
+  final count = 0.obs;
+  var candidates = [].obs;
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  void increment() => count.value++;
+}

@@ -15,119 +15,125 @@ class MyAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 16,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Text(
-              "My Account",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // const SizedBox(
+            //   height: 16,
+            // ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Text(
+                "My Account",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Row(
-              children: [
-                Image.asset(
-                  "assets/Avatar Profile.png",
-                  height: 64,
-                  width: 64,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      "Nitesh Shrestha",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "niteshoncode@gmail.com",
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-              ],
+            // const SizedBox(
+            //   height: 12,
+            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/Avatar Profile.png",
+                    height: 64,
+                    width: 64,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Nitesh Shrestha",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "niteshoncode@gmail.com",
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 28,
-          ),
-          ListTile(
-            onTap: () {
-              Get.bottomSheet(const Profile(), isScrollControlled: true);
-            },
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
+            const SizedBox(
+              height: 28,
             ),
-            // tileColor: Color.fromRGBO(67, 118, 254, 0.05),
-            title: Text(
-              "Profile",
-              style: AppTextStyles.normal,
+            ListTile(
+              onTap: () {
+                Get.bottomSheet(const Profile(), isScrollControlled: true);
+              },
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              // tileColor: Color.fromRGBO(67, 118, 254, 0.05),
+              title: Text(
+                "Profile",
+                style: AppTextStyles.normal,
+              ),
             ),
-          ),
-          ListTile(
-            onTap: () {
-              Get.bottomSheet(const Reports(), isScrollControlled: true);
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
+            ListTile(
+              onTap: () {
+                Get.bottomSheet(const Reports(), isScrollControlled: true);
+              },
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              title: Text(
+                "Reports",
+                style: AppTextStyles.normal,
+              ),
             ),
-            title: Text(
-              "Reports",
-              style: AppTextStyles.normal,
+            ListTile(
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              title: Text(
+                "Settings",
+                style: AppTextStyles.normal,
+              ),
             ),
-          ),
-          ListTile(
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
+            ListTile(
+              onTap: () {
+                Get.bottomSheet(const ChangeLanguage(),
+                    isScrollControlled: true);
+              },
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              title: Text(
+                "Change language",
+                style: AppTextStyles.normal,
+              ),
             ),
-            title: Text(
-              "Settings",
-              style: AppTextStyles.normal,
+            ListTile(
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 20,
+              ),
+              title: Text(
+                "Log out",
+                style: AppTextStyles.normal.copyWith(color: AppColors.red),
+              ),
             ),
-          ),
-          ListTile(
-            onTap: () {
-              Get.bottomSheet(const ChangeLanguage(), isScrollControlled: true);
-            },
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
+            const SizedBox(
+              height: 16,
             ),
-            title: Text(
-              "Change language",
-              style: AppTextStyles.normal,
-            ),
-          ),
-          ListTile(
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-            ),
-            title: Text(
-              "Log out",
-              style: AppTextStyles.normal.copyWith(color: AppColors.red),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

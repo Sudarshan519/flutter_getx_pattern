@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 
 class ApplyLeave extends StatelessWidget {
@@ -11,14 +12,14 @@ class ApplyLeave extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SafeArea(
+    return AppBottomSheet(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+        ),
         child: Column(
           children: [
-            SizedBox(
-              height: 16,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -34,10 +35,13 @@ class ApplyLeave extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
             DropdownButtonFormField(
+              isDense: true,
               decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   hintText: "Leave Type",
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
@@ -59,6 +63,8 @@ class ApplyLeave extends StatelessWidget {
             ),
             TextFormField(
               decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   hintText: "Leave Type",
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
@@ -74,6 +80,8 @@ class ApplyLeave extends StatelessWidget {
             TextFormField(
               decoration: InputDecoration(
                   hintText: "Duration",
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
@@ -89,6 +97,7 @@ class ApplyLeave extends StatelessWidget {
               enabled: false,
               maxLines: 3,
               decoration: InputDecoration(
+                  isDense: true,
                   hintText: "Upload Image",
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(

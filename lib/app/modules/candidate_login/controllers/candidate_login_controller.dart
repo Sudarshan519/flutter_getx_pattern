@@ -44,8 +44,8 @@ class CandidateLoginController extends GetxController {
 
     try {
       var isAuthenticated = await localAuth.authenticate(
-          localizedReason: "Verify to continue",
-          options: AuthenticationOptions(biometricOnly: false));
+          localizedReason: "Employee Identity Verification",
+          options: const AuthenticationOptions(biometricOnly: false));
       if (isAuthenticated) {
         authStatus = AuthStatus.Authenticated;
       } else {

@@ -23,16 +23,16 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
       height: 812,
       child: Stack(children: [
         SizedBox(
-          height: 229.h,
+          height: 229,
           width: double.infinity,
           child: CustomPaint(
             painter: ArcPainter(color: Colors.grey),
           ),
         ),
         Positioned(
-            top: 78.h,
-            left: 136.w,
-            right: 136.w,
+            top: 78,
+            left: 80,
+            right: 80,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -40,7 +40,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                   "Today",
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: 34.sp,
+                      fontSize: 18,
                       color: AppColors.red),
                 ),
                 SizedBox(
@@ -56,10 +56,11 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
               ],
             )),
         Positioned(
-            top: 151.h,
-            left: 110.w,
-            right: 110.w,
+            top: 151,
+            left: 80,
+            right: 80,
             child: Stack(
+              alignment: Alignment.center,
               children: [
                 Container(
                     height: 155,
@@ -136,7 +137,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
               ],
             )),
         Positioned(
-            top: 317.r,
+            top: 317,
             left: 18,
             right: 18,
             child: Column(
@@ -181,7 +182,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                       ? Column(
                           children: [
                             SizedBox(
-                              height: 30,
+                              height: 40,
                             ),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
@@ -261,7 +262,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                       : Column(
                           children: [
                             const SizedBox(
-                              height: 20,
+                              height: 50,
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
@@ -284,7 +285,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                               height: 20.h,
                             ),
                             Container(
-                              height: 36.h,
+                              height: 36,
                               width: double.infinity,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(2),
@@ -313,7 +314,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                                 color: controller.selected == 0
                                                     ? Colors.white
                                                     : Colors.transparent),
-                                            height: 32.h,
+                                            height: 32,
                                             width: double.infinity,
                                             child: Text(
                                               "Weekly",
@@ -334,7 +335,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                                 color: controller.selected == 1
                                                     ? Colors.white
                                                     : Colors.transparent),
-                                            height: 32.h,
+                                            height: 32,
                                             width: double.infinity,
                                             child: Text(
                                               "Monthly",
@@ -355,7 +356,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                                 color: controller.selected == 2
                                                     ? Colors.white
                                                     : Colors.transparent),
-                                            height: 32.h,
+                                            height: 32,
                                             width: double.infinity,
                                             child: Text(
                                               "Annual",
