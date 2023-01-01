@@ -16,6 +16,11 @@ class DashboardController extends GetxController {
   bool get isInvited => _isInvited.value;
   set isInvited(bool isUserInvited) => _isInvited(true);
 
+  var selectedWeek = 0.obs;
+  var selectedReport = 0.obs;
+
+  var selectedMonth = 0.obs;
+  var selectedYear = 0.obs;
   listenForInvitation() {
     Future.delayed(3.seconds, () {
       isInvited = true;
@@ -29,6 +34,9 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    var now = DateTime.now();
+    selectedYear(now.year);
+    selectedMonth(now.month);
     listenForInvitation();
   }
 

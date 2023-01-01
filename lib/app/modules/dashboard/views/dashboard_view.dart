@@ -6,6 +6,7 @@ import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/modules/dashboard/views/apply_leave.dart';
 import 'package:hajir/app/modules/dashboard/views/home.dart';
 import 'package:hajir/app/modules/dashboard/views/my_account.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/dashboard_controller.dart';
 
 var tabs = [const Home(), const ApplyLeave(), MyAccount()];
@@ -16,6 +17,7 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Obx(() => tabs[controller.selectedIndex]),
       bottomNavigationBar: Obx(() => BottomNavigationBar(
@@ -40,7 +42,7 @@ class DashboardView extends GetView<DashboardController> {
                       "assets/home.svg",
                       color: Colors.grey,
                     ),
-                    label: "Home"),
+                    label: strings.home),
                 BottomNavigationBarItem(
                     activeIcon: SvgPicture.asset(
                       "assets/leave.svg",

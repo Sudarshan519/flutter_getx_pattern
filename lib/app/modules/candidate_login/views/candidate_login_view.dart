@@ -20,7 +20,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
   Widget build(BuildContext context) {
     final DashboardController dashboardController = Get.find();
     return SizedBox(
-      height: Get.height,
+      height: 812,
       child: Stack(children: [
         SizedBox(
           height: 229.h,
@@ -183,21 +183,27 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             SizedBox(
                               height: 30,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "START BREAK",
-                                  style: AppTextStyles.medium.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade600),
-                                ),
-                                SvgPicture.asset(
-                                  "assets/codicon_debug-start.svg",
-                                  height: 16,
-                                  width: 16,
-                                ),
-                              ],
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(color: Colors.transparent),
+                              ),
+                              onPressed: () {},
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "START BREAK",
+                                    style: AppTextStyles.medium.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade600),
+                                  ),
+                                  SvgPicture.asset(
+                                    "assets/codicon_debug-start.svg",
+                                    height: 16,
+                                    width: 16,
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 40,
@@ -271,7 +277,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                               height: 20.h,
                             ),
                             SizedBox(
-                              height: 248.h,
+                              height: 248,
                               child: LineChart(),
                             ),
                             SizedBox(

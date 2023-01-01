@@ -33,18 +33,18 @@ class LoginView extends GetView<LoginController> {
               width: double.infinity,
               child: CarouselSlider(
                   items: List.generate(
-                      loginItems.length,
+                      candidateItems.length,
                       (index) => Container(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Image.asset(
-                                  loginItems[index].icon,
+                                  candidateItems[index].icon,
                                   height: 170,
                                   width: 170,
                                 ),
                                 Text(
-                                  loginItems[index].label,
+                                  candidateItems[index].label,
                                   style: AppTextStyles.medium
                                       .copyWith(height: 1.4),
                                   textAlign: TextAlign.center,
@@ -65,7 +65,7 @@ class LoginView extends GetView<LoginController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                  loginItems.length,
+                  candidateItems.length,
                   (index) => Obx(
                         () => AnimatedContainer(
                           duration: 300.milliseconds,

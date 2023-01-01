@@ -89,7 +89,10 @@ class LanguageView extends GetView<LanguageController> {
                             height: 12,
                           ),
                           CustomButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.updateLocale(Locale("ne", "NE"));
+                                Get.offNamed(Routes.WELCOME);
+                              },
                               label: "Nepali",
                               color: AppColors.red)
                         ],

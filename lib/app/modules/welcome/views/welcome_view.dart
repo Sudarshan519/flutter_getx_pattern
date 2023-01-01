@@ -70,7 +70,7 @@ class WelcomeView extends GetView<WelcomeController> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Get.toNamed(Routes.LOGIN);
+                        Get.toNamed(Routes.LOGIN, arguments: false);
                       },
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -94,21 +94,26 @@ class WelcomeView extends GetView<WelcomeController> {
                     ),
                   ),
                   Expanded(
-                      child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(6),
-                        bottomRight: Radius.circular(6)),
-                    child: Container(
-                        color: AppColors.primary,
-                        alignment: Alignment.center,
-                        height: 48,
-                        child: Text(
-                          "Employer",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        )),
+                      child: InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.LOGIN, arguments: false);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(6),
+                          bottomRight: Radius.circular(6)),
+                      child: Container(
+                          color: AppColors.primary,
+                          alignment: Alignment.center,
+                          height: 48,
+                          child: Text(
+                            "Employer",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
+                          )),
+                    ),
                   ))
                 ],
               ),
