@@ -13,6 +13,7 @@ import 'package:hajir/app/utils/custom_paint/arc_painter.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../controllers/candidate_login_controller.dart';
+import 'widgets/custom_paint/circular_progress_paint.dart';
 
 class CandidateLoginView extends GetView<CandidateLoginController> {
   const CandidateLoginView({Key? key}) : super(key: key);
@@ -68,69 +69,131 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                     padding: const EdgeInsets.all(11),
                     decoration: const BoxDecoration(
                         color: Colors.white, shape: BoxShape.circle),
-                    child: Stack(
-                      children: [
-                        // SemiCircleWidget(
-                        //   sweepAngle: 80,
-                        //   color: Colors.green,
-                        // ),
-                        // SemiCircleWidget(
-                        //   sweepAngle: 0,
-                        //   color: Colors.yellow,
-                        // ),
-                        // SemiCircleWidget(
-                        //   sweepAngle: 0,
-                        //   color: Colors.green,
-                        // ),
-                        Container(
-                          height: 155,
-                          width: 155,
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                              // color: Colors.grey.withOpacity(.1),
-                              shape: BoxShape.circle),
-                          child: Container(
+                    child: Obx(
+                      () => !controller.isAuthenticated
+                          ? Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(16),
                               decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
+                                  // color: Colors.grey.withOpacity(.1),
+                                  shape: BoxShape.circle),
+                              child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Transform.rotate(
+                                      angle: -pi / 2, child: const Clock())),
+                            )
+                          : Obx(
+                              () => Stack(
+                                children: [
+                                  // SemiCircleWidget(
+                                  //   sweepAngle: 80,
+                                  //   color: Colors.green,
+                                  // ),
+                                  // SemiCircleWidget(
+                                  //   sweepAngle: 0,
+                                  //   color: Colors.yellow,
+                                  // ),
+                                  // SemiCircleWidget(
+                                  //   sweepAngle: 0,
+                                  //   color: Colors.green,
+                                  // ),
+                                  Container(
+                                    height: 155,
+                                    width: 155,
+                                    padding: const EdgeInsets.all(18),
+                                    decoration: const BoxDecoration(
+                                        // color: Colors.grey.withOpacity(.1),
+                                        shape: BoxShape.circle),
+                                    child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Transform.rotate(
+                                            angle: -pi / 2,
+                                            child: const Clock())),
+                                  ),
+
+                                  Container(
+                                    height: 155,
+                                    width: 155,
+                                    padding: const EdgeInsets.all(18),
+                                    child: CustomPaint(
+                                      painter: CircularPercentPaint(
+                                          progress: controller.percentage.value
+                                              .toInt(),
+                                          isFirstHalf: false),
+                                    ),
+                                  ),
+
+                                  /// draw break
+                                  Container(
+                                    height: 155,
+                                    width: 155,
+                                    padding: const EdgeInsets.all(18),
+                                    child: CustomPaint(
+                                      painter: CircularPercentPaint(
+                                          progress: controller.percentage.value
+                                                      .toInt() >
+                                                  60
+                                              ? 60
+                                              : controller.percentage.value
+                                                  .toInt(),
+                                          isBreak: true),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 155,
+                                    width: 155,
+                                    padding: const EdgeInsets.all(18),
+                                    child: CustomPaint(
+                                      painter: CircularPercentPaint(
+                                        progress:
+                                            controller.percentage.value.toInt(),
+                                      ),
+                                    ),
+                                  ),
+
+                                  //     if (controller.isloggedIn)
+                                  //       SizedBox(
+                                  //         height: 155,
+                                  //         width: 155,
+                                  //         child: Obx(
+                                  //           (() => CircularPercentIndicator(
+                                  //                 animationDuration: 300,
+                                  //                 backgroundColor:
+                                  //                     Colors.grey.withOpacity(.1),
+                                  //                 radius: 65.0,
+                                  //                 lineWidth: 14.0,
+                                  //                 percent: controller.percentage.value,
+                                  //                 circularStrokeCap: CircularStrokeCap.round,
+                                  //                 // center: new Text("100%"),
+                                  //                 progressColor: Colors.green,
+                                  //               )),
+                                  //         ),
+                                  //       ),
+                                  //     Transform.rotate(
+                                  //       angle: pi / 4 * 180,
+                                  //       child: SizedBox(
+                                  //         height: 155,
+                                  //         width: 155,
+                                  //         child: CircularPercentIndicator(
+                                  //           backgroundColor: Colors.grey.withOpacity(.1),
+                                  //           radius: 65.0,
+                                  //           lineWidth: 14.0,
+                                  //           percent: .0,
+                                  //           circularStrokeCap: CircularStrokeCap.square,
+                                  //           progressColor: Colors.yellow,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                ],
                               ),
-                              child: Transform.rotate(
-                                  angle: -pi / 2, child: Clock())),
-                        ),
-                        if (controller.isloggedIn)
-                          SizedBox(
-                            height: 155,
-                            width: 155,
-                            child: Obx(
-                              (() => CircularPercentIndicator(
-                                    animationDuration: 300,
-                                    backgroundColor:
-                                        Colors.grey.withOpacity(.1),
-                                    radius: 65.0,
-                                    lineWidth: 14.0,
-                                    percent: controller.percentage.value,
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    // center: new Text("100%"),
-                                    progressColor: Colors.green,
-                                  )),
                             ),
-                          ),
-                        Transform.rotate(
-                          angle: pi / 4 * 180,
-                          child: SizedBox(
-                            height: 155,
-                            width: 155,
-                            child: CircularPercentIndicator(
-                              backgroundColor: Colors.grey.withOpacity(.1),
-                              radius: 65.0,
-                              lineWidth: 14.0,
-                              percent: .0,
-                              circularStrokeCap: CircularStrokeCap.square,
-                              progressColor: Colors.yellow,
-                            ),
-                          ),
-                        ),
-                      ],
                     )),
                 const Positioned(
                     top: 70, left: 47, right: 47, child: TimeWidget()),
@@ -188,8 +251,11 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(color: Colors.transparent),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                controller.breakStarted.toggle();
+                              },
                               child: Row(
+                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
@@ -554,7 +620,6 @@ class _ClockState extends State<Clock> {
   Widget build(BuildContext context) {
     return Obx(() => CustomPaint(
           painter: ClockPainter(controller.now.value),
-          // Text(DateFormat('hh:mm a').format(DateTime.now())),
         ));
   }
 }

@@ -141,8 +141,11 @@ class Home extends StatelessWidget {
                             Container(
                                 height: 167,
                                 width: double.infinity,
+                                margin: const EdgeInsets.all(16),
                                 padding: const EdgeInsets.all(32),
                                 decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.grey.shade300),
                                     borderRadius: BorderRadius.circular(5.92),
                                     color: Colors.white,
                                     boxShadow: [
@@ -158,13 +161,13 @@ class Home extends StatelessWidget {
                                             text: "Rasan Technologies",
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline6!
+                                                .titleMedium!
                                                 .copyWith(
                                                     fontWeight:
-                                                        FontWeight.w700)),
+                                                        FontWeight.w600)),
                                         TextSpan(
-                                            text: """ is invited
-                              to join a company""",
+                                            text:
+                                                """ is invited to \njoin a company""",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleSmall)

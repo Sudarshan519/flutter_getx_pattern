@@ -16,15 +16,18 @@ class ClockPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var centerX = size.width / 2;
-    var centerY = size.height / 2 - 8;
-    var center = Offset(centerX, centerY + 8);
+    var centerY = size.height / 2;
+    var center = Offset(centerX, centerY);
     var radius = min(centerX, centerY);
 
-    var fillBrush = Paint()..color = const Color(0xFF444974);
-    var outlineBrush = Paint()
+    var fillBrush = Paint()
+      ..color = const Color(0xFF444974)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 13;
+    var shadow = Paint()
       // ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 16;
+      ..strokeWidth = 13;
     var centerFillBrush = Paint()
       ..color = Colors.grey
       ..strokeWidth = 4;
@@ -78,7 +81,19 @@ class ClockPainter extends CustomPainter {
     canvas.drawLine(center, Offset(minHandX, minHandY), minHandBrush);
     canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush);
     canvas.drawCircle(center, 3, centerFillBrush..color = Colors.grey);
+    // const progress = .97;
 
+    const startAngle = pi / 2;
+    // const sweepAngle = -2 * pi * progress;
+    // const breakAngle = -2 * pi * .1;
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius + 15),
+        startAngle, 360, false, fillBrush..color = Colors.grey.shade100);
+    // canvas.drawArc(Rect.fromCircle(center: center, radius: radius + 15),
+    //     startAngle - .17, sweepAngle, false, fillBrush..color = Colors.green);
+    // canvas.drawArc(Rect.fromCircle(center: center, radius: radius + 15),
+    //     -pi / 2, breakAngle + .09, false, shadow..color = Colors.red);
+    // canvas.drawArc(Rect.fromCircle(center: center, radius: radius + 20),
+    //     startAngle, sweepAngle, false, fillBrush..color = Colors.red);
     var outerCircleRadius = radius;
     var innerCircleRadiusHour = radius - 5;
     // for (double i = 0; i < 360; i += 24) {

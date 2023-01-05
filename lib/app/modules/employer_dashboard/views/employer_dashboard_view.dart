@@ -50,6 +50,7 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
                       children: List.generate(
                         controller.companyList.length,
                         (index) => InkWell(
+                          borderRadius: BorderRadius.circular(8),
                           onTap: () {
                             Get.toNamed(Routes.COMPANY_DETAIL,
                                 arguments: controller.companyList[index]);
@@ -61,7 +62,7 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
                             margin: const EdgeInsets.only(bottom: 10),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: Colors.grey.shade300),
                                 borderRadius: BorderRadius.circular(8)),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,11 +81,22 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
                                       RichText(
                                         text: TextSpan(
                                             children: [
-                                              TextSpan(text: "EMPLOYEE [  "),
+                                              TextSpan(
+                                                text: "EMPLOYEE [  ",
+                                                style: AppTextStyles.b2
+                                                    .copyWith(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .grey.shade600),
+                                              ),
                                               TextSpan(
                                                   text: "24",
                                                   style: AppTextStyles.b2
                                                       .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                           color:
                                                               AppColors.primary,
                                                           fontSize: 10)),
@@ -109,7 +121,9 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
                                           ],
                                               style: AppTextStyles.b2.copyWith(
                                                   fontSize: 10,
-                                                  color: Colors.grey))),
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      Colors.grey.shade600))),
                                     ],
                                   )
                                 ]),

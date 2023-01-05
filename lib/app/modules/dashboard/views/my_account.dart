@@ -8,6 +8,7 @@ import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
+import 'package:hajir/app/routes/app_pages.dart';
 
 class MyAccount extends StatelessWidget {
   const MyAccount({super.key});
@@ -120,6 +121,9 @@ class MyAccount extends StatelessWidget {
               ),
             ),
             ListTile(
+              onTap: () {
+                Get.offAllNamed(Routes.LANGUAGE);
+              },
               trailing: Icon(
                 Icons.arrow_forward_ios,
                 size: 20,
