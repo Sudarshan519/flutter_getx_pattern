@@ -26,7 +26,7 @@ class CandidateLoginController extends GetxController {
   final _isloggedIn = false.obs;
   bool get isloggedIn => _isloggedIn.value;
   set isloggedIn(bool userloginStatus) => _isloggedIn(userloginStatus);
-
+  final _isloggedOut = false.obs;
   var d1 = 1.obs;
   var d2 = 0.obs;
   //

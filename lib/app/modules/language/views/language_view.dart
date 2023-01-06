@@ -6,6 +6,8 @@ import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_constants.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/app/utils/custom_paint/arc_painter.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/language_controller.dart';
 
@@ -63,8 +65,8 @@ class LanguageView extends GetView<LanguageController> {
                   right: 16.r,
                   child: Column(
                     children: [
-                      const Text(
-                        "Choose your language",
+                      Text(
+                        strings.choose_language,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey),
                       ),
@@ -73,14 +75,15 @@ class LanguageView extends GetView<LanguageController> {
                       ),
                       CustomButton(
                           onPressed: () {
+                            appSettings.changeLang();
                             Get.offNamed(Routes.WELCOME);
                           },
                           label: "English"),
                       const SizedBox(
                         height: 12,
                       ),
-                      const Text(
-                        "Or",
+                      Text(
+                        strings.or,
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                       const SizedBox(
@@ -88,7 +91,7 @@ class LanguageView extends GetView<LanguageController> {
                       ),
                       CustomButton(
                           onPressed: () {
-                            Get.updateLocale(Locale("ne", "NE"));
+                            appSettings.changeLang(en: false);
                             Get.offNamed(Routes.WELCOME);
                           },
                           label: "Nepali",

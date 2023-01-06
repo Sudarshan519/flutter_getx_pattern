@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 class ApplyLeave extends StatelessWidget {
   const ApplyLeave({super.key});
@@ -28,7 +29,7 @@ class ApplyLeave extends StatelessWidget {
                   width: 16,
                 ),
                 Text(
-                  "Apply For Leave",
+                  strings.apply_for_leave,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Spacer(),
@@ -42,7 +43,7 @@ class ApplyLeave extends StatelessWidget {
               decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  hintText: "Leave Type",
+                  hintText: strings.leave_type,
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
@@ -65,13 +66,13 @@ class ApplyLeave extends StatelessWidget {
               decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  hintText: "Leave Type",
+                  hintText: strings.leave_type,
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
             SizedBox(
@@ -79,7 +80,7 @@ class ApplyLeave extends StatelessWidget {
             ),
             TextFormField(
               decoration: InputDecoration(
-                  hintText: "Duration",
+                  hintText: strings.duration,
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   hintStyle: AppTextStyles.l1,
@@ -98,7 +99,7 @@ class ApplyLeave extends StatelessWidget {
               maxLines: 3,
               decoration: InputDecoration(
                   isDense: true,
-                  hintText: "Upload Image",
+                  hintText: strings.upload_image,
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
@@ -113,7 +114,7 @@ class ApplyLeave extends StatelessWidget {
             TextFormField(
               maxLines: 4,
               decoration: InputDecoration(
-                  hintText: "Remarks",
+                  hintText: strings.remarks,
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),

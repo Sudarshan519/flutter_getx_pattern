@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/add_employee_controller.dart';
 
@@ -17,7 +18,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
         padding: const EdgeInsets.all(16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            "Create a Candidate",
+            strings.employee,
             style:
                 Theme.of(context).textTheme.headline6!.copyWith(fontSize: 24),
           ),
@@ -25,7 +26,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             height: 20,
           ),
           Text(
-            "Staff code",
+            strings.staff_code,
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
           SizedBox(
@@ -52,7 +53,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                hintText: "Full Name",
+                hintText: strings.full_name,
                 hintStyle:
                     AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
                 focusedBorder: OutlineInputBorder(
@@ -69,7 +70,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                hintText: "Mobile Number",
+                hintText: strings.mobile_number,
                 hintStyle:
                     AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
                 focusedBorder: OutlineInputBorder(
@@ -86,7 +87,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                hintText: "Designation",
+                hintText: strings.designation,
                 hintStyle:
                     AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
                 focusedBorder: OutlineInputBorder(
@@ -121,7 +122,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             height: 20,
           ),
           Text(
-            "Date of Birth",
+            strings.dob,
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
           SizedBox(
@@ -152,7 +153,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             height: 20,
           ),
           Text(
-            "Office hours",
+            strings.office_hours,
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
           SizedBox(

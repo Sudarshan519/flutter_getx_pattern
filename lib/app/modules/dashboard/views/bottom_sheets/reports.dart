@@ -6,6 +6,7 @@ import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
 
 var weekDay = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -22,8 +23,8 @@ class Reports extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TitleWidget(title: "Report"),
-            SizedBox(
+            TitleWidget(title: strings.reports),
+            const SizedBox(
               height: 18,
             ),
             Padding(
@@ -137,7 +138,7 @@ class Reports extends StatelessWidget {
                               active: controller.selectedReport.value == 0
                                   ? true
                                   : false,
-                              label: "WEEKLY"),
+                              label: strings.weekly),
                         ),
                         SizedBox(
                           width: 20,
@@ -150,7 +151,7 @@ class Reports extends StatelessWidget {
                               onPressed: () {
                                 controller.selectedReport(1);
                               },
-                              label: "MONTHLY"),
+                              label: strings.monthly),
                         ),
                         SizedBox(
                           width: 20,
@@ -163,7 +164,7 @@ class Reports extends StatelessWidget {
                               onPressed: () {
                                 controller.selectedReport(2);
                               },
-                              label: "ANNUAL"),
+                              label: strings.annual),
                         ),
                       ],
                     ),
@@ -248,8 +249,12 @@ class Reports extends StatelessWidget {
                                       controller.selectedYear((now.year) - i);
                                     },
                                     child: Text(
+                                      // (Get.locale! == const Locale('en', 'US'))
+                                      //     ?
                                       DateFormat("yyyy")
-                                          .format(DateTime((now.year) - i)),
+                                          .format(DateTime((now.year) - i))
+                                      // : ""
+                                      ,
                                       style: TextStyle(
                                           color:
                                               controller.selectedYear.value ==
@@ -483,19 +488,21 @@ class Reports extends StatelessWidget {
                         )
                       : Column(
                           children: [
-                            DescriptionItem(label: "Salary", value: 6000),
+                            DescriptionItem(label: strings.salary, value: 6000),
                             SizedBox(
                               height: 5,
                             ),
-                            DescriptionItem(label: "Overtime", value: 6000),
+                            DescriptionItem(
+                                label: strings.overtime, value: 6000),
                             SizedBox(
                               height: 5,
                             ),
-                            DescriptionItem(label: "Bonus", value: 6000),
+                            DescriptionItem(label: strings.bonus, value: 6000),
                             SizedBox(
                               height: 5,
                             ),
-                            DescriptionItem(label: "Allowance", value: 6000),
+                            DescriptionItem(
+                                label: strings.allowance, value: 6000),
                             SizedBox(
                               height: 5,
                             ),
@@ -509,12 +516,12 @@ class Reports extends StatelessWidget {
                                         height: 5,
                                       ),
                                       DescriptionItem(
-                                          label: "Tax", value: 6000),
+                                          label: strings.tax, value: 6000),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
-                                          label: "Penalty", value: 6000),
+                                          label: strings.penalty, value: 6000),
                                       SizedBox(
                                         height: 5,
                                       ),
@@ -530,7 +537,7 @@ class Reports extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "Balance",
+                                  strings.balance,
                                   style: AppTextStyles().large.copyWith(
                                       fontSize: 14, color: AppColors.primary),
                                 ),
@@ -557,7 +564,7 @@ class Reports extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Leave information",
+                                            strings.leave_information,
                                             style: AppTextStyles()
                                                 .large
                                                 .copyWith(
@@ -573,12 +580,14 @@ class Reports extends StatelessWidget {
                                         height: 5,
                                       ),
                                       DescriptionItem(
-                                          label: "Sick leave", value: 6000),
+                                          label: strings.sick_leave,
+                                          value: 6000),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
-                                          label: "Extra leave", value: 6000),
+                                          label: strings.extra_leave,
+                                          value: 6000),
                                       SizedBox(
                                         height: 5,
                                       ),
@@ -591,7 +600,7 @@ class Reports extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Remaining Leave",
+                                            strings.remaining_leave,
                                             style: AppTextStyles()
                                                 .large
                                                 .copyWith(

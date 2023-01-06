@@ -9,6 +9,7 @@ import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/app/modules/login/models/carousel_item.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -34,18 +35,18 @@ class LoginView extends GetView<LoginController> {
               width: double.infinity,
               child: CarouselSlider(
                   items: List.generate(
-                      candidateItems.length,
+                      controller.candidateItems.length,
                       (index) => Container(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Image.asset(
-                                  candidateItems[index].icon,
+                                  controller.candidateItems[index].icon,
                                   height: 160.r,
                                   width: 160.r,
                                 ),
                                 Text(
-                                  candidateItems[index].label,
+                                  controller.candidateItems[index].label,
                                   style: AppTextStyles.medium
                                       .copyWith(height: 1.4, fontSize: 14.sp),
                                   textAlign: TextAlign.center,
@@ -66,7 +67,7 @@ class LoginView extends GetView<LoginController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                  candidateItems.length,
+                  controller.candidateItems.length,
                   (index) => Obx(
                         () => AnimatedContainer(
                           duration: 300.milliseconds,
@@ -98,7 +99,7 @@ class LoginView extends GetView<LoginController> {
                             width: 22.r,
                           ),
                           Text(
-                            "+977",
+                            strings.country_code,
                             style: AppTextStyles.l1,
                           ),
                         ]),
@@ -113,7 +114,7 @@ class LoginView extends GetView<LoginController> {
                       )
                     ],
                   ),
-                  hintText: "Mobile Number",
+                  hintText: strings.mobile_number,
                   hintStyle: AppTextStyles.l1,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
@@ -130,12 +131,12 @@ class LoginView extends GetView<LoginController> {
                   Get.toNamed(Routes.MOBILE_OPT,
                       arguments: controller.isEmployer.value);
                 },
-                label: "Get OTP"),
+                label: strings.get_otp),
             const SizedBox(
               height: 20,
             ),
             Text(
-              "We wil sen you an one time password on this mobile number.",
+              strings.will_send_otp,
               style: AppTextStyles.l2,
               textAlign: TextAlign.center,
             ),
@@ -145,11 +146,12 @@ class LoginView extends GetView<LoginController> {
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                text: "I have read and agree ",
+                text: strings.read_and_agree,
                 style: AppTextStyles.l2
                     .copyWith(color: Colors.black, fontWeight: FontWeight.w600),
               ),
-              TextSpan(text: "Terms & Services", style: AppTextStyles.l2)
+              TextSpan(
+                  text: strings.terms_and_services, style: AppTextStyles.l2)
             ])),
             SizedBox(
               height: 20.h,

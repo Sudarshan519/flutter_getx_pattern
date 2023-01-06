@@ -18,6 +18,9 @@ class AppSettings {
     return Locale(isEnglish ? 'en' : 'ne');
   }
 
+  bool get isEnglish =>
+      _sharedPref.getBool(AuthPreferenceKeys.has_selected_english) ?? true;
+
   void changeLang({bool en = true}) async {
     _sharedPref.setBool(AuthPreferenceKeys.has_selected_english, en);
     Get.updateLocale(Locale(en ? 'en' : 'ne'));

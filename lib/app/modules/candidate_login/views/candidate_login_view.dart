@@ -10,8 +10,8 @@ import 'package:hajir/app/modules/candidate_login/views/widgets/charts/line_char
 import 'package:hajir/app/modules/candidate_login/views/widgets/clock_painter.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/utils/custom_paint/arc_painter.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import '../controllers/candidate_login_controller.dart';
 import 'widgets/custom_paint/circular_progress_paint.dart';
 
@@ -38,7 +38,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Today",
+                  strings.today,
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 18,
@@ -223,7 +223,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             controller.authStatus = AuthStatus.Unauthenticated;
                           },
                           child: Text(
-                            "Logout",
+                            strings.logout,
                             style:
                                 AppTextStyles.b2.copyWith(color: AppColors.red),
                           ))
@@ -259,7 +259,9 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "START BREAK",
+                                    controller.breakStarted.value
+                                        ? strings.stop_break
+                                        : strings.start_break,
                                     style: AppTextStyles.medium.copyWith(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.grey.shade600),
@@ -275,8 +277,9 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             SizedBox(
                               height: 40,
                             ),
+                            Text("😊"),
                             Text(
-                              "Today's earning",
+                              strings.todays_earning,
                               style: AppTextStyles.medium
                                   .copyWith(fontWeight: FontWeight.w400),
                             ),
@@ -333,7 +336,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Income History",
+                                strings.income_history,
                                 style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w700,
@@ -351,7 +354,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                               height: 20.h,
                             ),
                             Container(
-                              height: 36,
+                              height: 36.h,
                               width: double.infinity,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(2),
@@ -380,10 +383,10 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                                 color: controller.selected == 0
                                                     ? Colors.white
                                                     : Colors.transparent),
-                                            height: 32,
+                                            height: 32.h,
                                             width: double.infinity,
                                             child: Text(
-                                              "Weekly",
+                                              strings.weekly,
                                               style: AppTextStyles.b2,
                                             )),
                                       ),
@@ -401,10 +404,10 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                                 color: controller.selected == 1
                                                     ? Colors.white
                                                     : Colors.transparent),
-                                            height: 32,
+                                            height: 32.h,
                                             width: double.infinity,
                                             child: Text(
-                                              "Monthly",
+                                              strings.monthly,
                                               style: AppTextStyles.b2,
                                             )),
                                       ),
@@ -422,10 +425,10 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                                 color: controller.selected == 2
                                                     ? Colors.white
                                                     : Colors.transparent),
-                                            height: 32,
+                                            height: 32.h,
                                             width: double.infinity,
                                             child: Text(
-                                              "Annual",
+                                              strings.annual,
                                               style: AppTextStyles.b2,
                                             )),
                                       ),

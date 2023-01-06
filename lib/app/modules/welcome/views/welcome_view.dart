@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_constants.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/welcome_controller.dart';
 
@@ -15,13 +16,14 @@ class WelcomeView extends GetView<WelcomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
+      // padding: REdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           SizedBox(
             height: 50.h,
           ),
           Text(
-            "Welcome to",
+            strings.welcome,
             style: TextStyle(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.w700,
@@ -53,7 +55,7 @@ class WelcomeView extends GetView<WelcomeController> {
             height: 80.r,
           ),
           Text(
-            "Click below to continue login as",
+            strings.click_below_to_login,
             style:
                 TextStyle(color: AppColors.black.withOpacity(.5), fontSize: 14),
           ),
@@ -86,7 +88,7 @@ class WelcomeView extends GetView<WelcomeController> {
                               alignment: Alignment.center,
                               color: AppColors.red,
                               child: Text(
-                                "Candidate",
+                                strings.candidate,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
@@ -109,7 +111,7 @@ class WelcomeView extends GetView<WelcomeController> {
                             alignment: Alignment.center,
                             height: 48,
                             child: Text(
-                              "Employer",
+                              strings.employer,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
@@ -126,7 +128,7 @@ class WelcomeView extends GetView<WelcomeController> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle, color: Colors.white),
-                        child: Text("OR",
+                        child: Text(strings.or,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
@@ -155,11 +157,14 @@ class WelcomeSlider extends StatelessWidget {
             ((i) => Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      controller.carouselItems[i],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 14.sp, color: Colors.grey, height: 1.4),
+                    RPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Text(
+                        controller.carouselItems[i],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14.sp, color: Colors.grey, height: 1.4),
+                      ),
                     ),
                     SizedBox(
                       height: 30.h,

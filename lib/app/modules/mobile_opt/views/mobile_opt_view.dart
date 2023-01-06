@@ -9,6 +9,7 @@ import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/app/modules/login/views/login_view.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/mobile_opt_controller.dart';
 
 class MobileOptView extends GetView<MobileOptController> {
@@ -23,7 +24,7 @@ class MobileOptView extends GetView<MobileOptController> {
           SizedBox(
             height: 50.h,
           ),
-          HajirLogo(),
+          const HajirLogo(),
           SizedBox(
             height: 84.h,
           ),
@@ -50,23 +51,23 @@ class MobileOptView extends GetView<MobileOptController> {
                   child: SvgPicture.asset("assets/Plant.svg")),
             ]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 2,
           ),
           Text(
-            "OPT Verification",
+            strings.otp_verification,
             style: AppTextStyles.regular.copyWith(color: AppColors.primary),
           ),
-          SizedBox(
+          const SizedBox(
             height: 18,
           ),
           Text(
-            """Enter the OPT sent to""",
+            strings.enter_oto_sent_to,
             textAlign: TextAlign.center,
             style: AppTextStyles.medium,
           ),
           Text(
-            "+977-9818124202",
+            "${strings.country_code}-9818124202",
             textAlign: TextAlign.center,
             style: AppTextStyles.medium.copyWith(fontWeight: FontWeight.w700),
           ),
@@ -96,7 +97,7 @@ class MobileOptView extends GetView<MobileOptController> {
               //     });
             }, // end onSubmit
           ),
-          SizedBox(
+          const SizedBox(
             height: 44,
           ),
           CustomButton(
@@ -107,18 +108,20 @@ class MobileOptView extends GetView<MobileOptController> {
                   Get.toNamed(Routes.DASHBOARD);
                 }
               },
-              label: "Verify"),
-          SizedBox(
+              label: strings.verify),
+          const SizedBox(
             height: 25,
           ),
           RichText(
               text: TextSpan(children: [
-            TextSpan(text: "Do not receive OTP? ", style: AppTextStyles.l2),
             TextSpan(
-                text: "  Resent OTP in 2:59",
+                text: strings.did_not_receive_otp, style: AppTextStyles.l2),
+            TextSpan(
+                text:
+                    "  ${strings.resent_otp_in.replaceFirst("12:02", "12:00")}",
                 style: AppTextStyles.l2.copyWith(color: Colors.red))
           ])),
-          SizedBox(
+          const SizedBox(
             height: 94,
           ),
         ],

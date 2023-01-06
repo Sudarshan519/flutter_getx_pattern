@@ -9,7 +9,7 @@ import 'package:hajir/app/modules/dashboard/views/my_account.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/dashboard_controller.dart';
 
-var tabs = [const Home(), const ApplyLeave(), MyAccount()];
+var tabs = [const Home(), const ApplyLeave(), const MyAccount()];
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
@@ -60,7 +60,7 @@ class DashboardView extends GetView<DashboardController> {
                       height: 20,
                       width: 19.98,
                     ),
-                    label: "Apply Leave"),
+                    label: strings.apply_leave),
                 BottomNavigationBarItem(
                     activeIcon: SvgPicture.asset(
                       "assets/Icon.svg",
@@ -74,7 +74,7 @@ class DashboardView extends GetView<DashboardController> {
                       width: 19.98,
                       // color: Colors.grey,
                     ),
-                    label: "My Account"),
+                    label: strings.my_account),
               ])),
     );
   }

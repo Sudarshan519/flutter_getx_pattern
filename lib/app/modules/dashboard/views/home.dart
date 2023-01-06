@@ -5,6 +5,8 @@ import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/candidate_login/views/candidate_login_view.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -87,22 +89,34 @@ class Home extends StatelessWidget {
                                   child: RichText(
                                       text: TextSpan(children: [
                                     TextSpan(
-                                        text: "You have removed from the ",
+                                        text: !appSettings.isEnglish
+                                            ? strings.removed.split(" ").first
+                                            : strings.removed,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),
                                     TextSpan(
-                                        text: "Rasan Technologies ",
+                                        text: " Rasan Technologies ",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
                                             .copyWith(
                                                 fontWeight: FontWeight.w700)),
                                     TextSpan(
-                                        text: "company.",
+                                        text: "${strings.company}",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyMedium)
+                                            .bodyMedium),
+                                    TextSpan(
+                                        text: !appSettings.isEnglish
+                                            ? (strings.removed.replaceAll(
+                                                    "${strings.removed.split(" ").first} ",
+                                                    " ") +
+                                                "।")
+                                            : "",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
                                   ])),
                                 ),
                               ),
@@ -158,7 +172,7 @@ class Home extends StatelessWidget {
                                     RichText(
                                       text: TextSpan(children: [
                                         TextSpan(
-                                            text: "Rasan Technologies",
+                                            text: "Rasan Technologies ",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium!
@@ -166,8 +180,8 @@ class Home extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.w600)),
                                         TextSpan(
-                                            text:
-                                                """ is invited to \njoin a company""",
+                                            text: strings
+                                                .is_invited_to_join_company,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleSmall)
@@ -203,7 +217,7 @@ class Home extends StatelessWidget {
                                                 // ));
                                                 controller.isEmployed = true;
                                               },
-                                              child: Text("Accept")),
+                                              child: Text(strings.accept)),
                                         ),
                                         SizedBox(
                                           width: 14,
@@ -222,7 +236,7 @@ class Home extends StatelessWidget {
                                                               24))),
                                               onPressed: () {},
                                               child: Text(
-                                                "Decline",
+                                                strings.decline,
                                                 style: AppTextStyles.b2,
                                               )),
                                         ),
@@ -237,8 +251,7 @@ class Home extends StatelessWidget {
                           height: 76,
                         ),
                         Text(
-                          """You’ve not invited to
-        company yet.""",
+                          strings.not_invited_to_company,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ]

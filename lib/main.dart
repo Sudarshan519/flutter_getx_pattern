@@ -16,7 +16,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       theme: ThemeData(primaryColor: AppColors.primary),
-      title: "Application",
+      title: "Hajir",
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate, // Add this line

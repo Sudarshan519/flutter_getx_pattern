@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
+import 'package:hajir/app/modules/dashboard/views/my_account.dart';
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:hajir/main_paint.dart';
 
 import '../controllers/company_detail_controller.dart';
@@ -21,37 +23,37 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.r),
-          child: SizedBox(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Obx((() => controller.candidates.isEmpty
-                  ? Column(
-                      children: [
-                        Center(
-                          child: SvgPicture.asset(
-                            "assets/Group 156.svg",
-                            height: 175.65,
-                            width: 147.48,
-                          ),
+        child: SizedBox(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Obx((() => controller.candidates.isEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 80,
+                      ),
+                      Center(
+                        child: SvgPicture.asset(
+                          "assets/Group 156.svg",
+                          height: 175.65,
+                          width: 147.48,
                         ),
-                        SizedBox(
-                          height: 40,
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Center(
+                        child: Text(
+                          """You’ve not created candidate.""",
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 19, color: AppColors.primary),
                         ),
-                        Center(
-                          child: Text(
-                            """You’ve not created 
-            candidate.""",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 19, color: AppColors.primary),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Obx(() => pages[controller.selectedItem.value]))),
-            ),
+                      ),
+                    ],
+                  )
+                : Obx(() => pages[controller.selectedItem.value]))),
           ),
         ),
       ),
@@ -72,7 +74,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                     : Colors.grey,
                 height: 24,
               ),
-              label: "Home",
+              label: strings.home,
               color: controller.selectedItem.value == 0
                   ? AppColors.primary
                   : Colors.grey,
@@ -89,11 +91,11 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                       : Colors.grey,
                   height: 24,
                 ),
-                label: "Attendance"),
+                label: strings.attendance),
             FloatingActionButton(
               backgroundColor: AppColors.primary,
               onPressed: () async {
-                var isAdded = await Get.toNamed(Routes.ADD_EMPLOYEE);
+                var isAdded = (await Get.toNamed(Routes.ADD_EMPLOYEE) ?? false);
                 if (isAdded) {
                   controller.addEmployee();
                 }
@@ -112,7 +114,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                       : Colors.grey,
                   height: 24,
                 ),
-                label: "Employee"),
+                label: strings.employee),
             BottomNavItem(
                 onTap: () => controller.selectedItem(3),
                 color: controller.selectedItem.value == 3
@@ -125,7 +127,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                       ? AppColors.primary
                       : Colors.grey,
                 ),
-                label: "Settings")
+                label: strings.settings)
           ]),
         ),
       ),

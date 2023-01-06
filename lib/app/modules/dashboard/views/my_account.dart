@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
@@ -9,6 +7,7 @@ import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 class MyAccount extends StatelessWidget {
   const MyAccount({super.key});
@@ -23,10 +22,10 @@ class MyAccount extends StatelessWidget {
             // const SizedBox(
             //   height: 16,
             // ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            RPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Text(
-                "My Account",
+                strings.my_account,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
             ),
@@ -79,7 +78,7 @@ class MyAccount extends StatelessWidget {
               ),
               // tileColor: Color.fromRGBO(67, 118, 254, 0.05),
               title: Text(
-                "Profile",
+                strings.profile,
                 style: AppTextStyles.normal,
               ),
             ),
@@ -92,7 +91,7 @@ class MyAccount extends StatelessWidget {
                 size: 20,
               ),
               title: Text(
-                "Reports",
+                strings.reports,
                 style: AppTextStyles.normal,
               ),
             ),
@@ -102,7 +101,7 @@ class MyAccount extends StatelessWidget {
                 size: 20,
               ),
               title: Text(
-                "Settings",
+                strings.settings,
                 style: AppTextStyles.normal,
               ),
             ),
@@ -116,7 +115,7 @@ class MyAccount extends StatelessWidget {
                 size: 20,
               ),
               title: Text(
-                "Change language",
+                strings.change_language,
                 style: AppTextStyles.normal,
               ),
             ),
@@ -129,7 +128,7 @@ class MyAccount extends StatelessWidget {
                 size: 20,
               ),
               title: Text(
-                "Log out",
+                strings.logout,
                 style: AppTextStyles.normal.copyWith(color: AppColors.red),
               ),
             ),

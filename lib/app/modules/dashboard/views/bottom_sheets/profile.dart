@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
+import 'package:hajir/core/localization/l10n/strings.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -17,7 +18,7 @@ class _ProfileState extends State<Profile> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const TitleWidget(title: "Profile"),
+          TitleWidget(title: strings.profile),
           const SizedBox(
             height: 10,
           ),
@@ -26,14 +27,14 @@ class _ProfileState extends State<Profile> {
             height: 118,
             width: 118,
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
-          const Text(
-            "Change",
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+          Text(
+            strings.change,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Padding(
@@ -42,7 +43,21 @@ class _ProfileState extends State<Profile> {
               children: [
                 TextFormField(
                   decoration: InputDecoration(
-                      hintText: "First name",
+                      hintText: strings.firstname,
+                      hintStyle: AppTextStyles.l1,
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey))),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: strings.lastname,
                       hintStyle: AppTextStyles.l1,
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey.shade400)),
@@ -55,31 +70,18 @@ class _ProfileState extends State<Profile> {
                   height: 20,
                 ),
                 TextFormField(
+                  enabled: false,
                   decoration: InputDecoration(
-                      hintText: "Last name",
+                      hintText: strings.mobile_number,
                       hintStyle: AppTextStyles.l1,
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey.shade400)),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey.shade300)),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey))),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      hintText: "Mobile number",
-                      hintStyle: AppTextStyles.l1,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 InkWell(
@@ -93,7 +95,7 @@ class _ProfileState extends State<Profile> {
                   child: TextFormField(
                     enabled: false,
                     decoration: InputDecoration(
-                        hintText: "Date of birth",
+                        hintText: strings.dob,
                         hintStyle: AppTextStyles.l1,
                         focusedBorder: OutlineInputBorder(
                             borderSide:
@@ -108,7 +110,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 40,
                 ),
-                CustomButton(onPressed: () {}, label: "Update"),
+                CustomButton(onPressed: () {}, label: strings.update),
                 SizedBox(
                   height: 32,
                 ),
