@@ -481,35 +481,58 @@ class CustomDropDownField extends StatelessWidget {
 }
 
 class CustomFormField extends StatelessWidget {
-  const CustomFormField({super.key, this.title = "", required this.hint});
+  const CustomFormField(
+      {super.key,
+      this.title = "",
+      required this.hint,
+      this.isMultiline = false});
   final String title;
   final String hint;
+  final bool isMultiline;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 20),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          title,
-          style: AppTextStyles.l1.copyWith(color: AppColors.primary),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        TextFormField(
-          decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              hintText: hint,
-              hintStyle: AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade400)),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade300)),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey))),
-        ),
-      ]),
+      child: title == ""
+          ? TextFormField(
+              maxLines: isMultiline ? 5 : 1,
+              decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  hintText: hint,
+                  hintStyle:
+                      AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400)),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade300)),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey))),
+            )
+          : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                title,
+                style: AppTextStyles.l1.copyWith(color: AppColors.primary),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                maxLines: isMultiline ? 5 : 1,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 12),
+                    hintText: hint,
+                    hintStyle:
+                        AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey.shade400)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey.shade300)),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey))),
+              ),
+            ]),
     );
   }
 }

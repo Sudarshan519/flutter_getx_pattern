@@ -35,24 +35,30 @@ class LoginView extends GetView<LoginController> {
               width: double.infinity,
               child: CarouselSlider(
                   items: List.generate(
-                      controller.candidateItems.length,
-                      (index) => Container(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  controller.candidateItems[index].icon,
-                                  height: 160.r,
-                                  width: 160.r,
-                                ),
-                                Text(
-                                  controller.candidateItems[index].label,
+                      controller.isEmployer.value
+                          ? controller.employerItems.length
+                          : controller.candidateItems.length,
+                      (index) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                controller.candidateItems[index].icon,
+                                height: 160.r,
+                                width: 160.r,
+                              ),
+                              RPadding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32.0),
+                                child: Text(
+                                  controller.isEmployer.value
+                                      ? controller.employerItems[index].label
+                                      : controller.candidateItems[index].label,
                                   style: AppTextStyles.medium
                                       .copyWith(height: 1.4, fontSize: 14.sp),
                                   textAlign: TextAlign.center,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           )),
                   options: CarouselOptions(
                       onPageChanged: (index, reason) =>
@@ -62,7 +68,7 @@ class LoginView extends GetView<LoginController> {
                       autoPlay: true)),
             ),
             SizedBox(
-              height: 20.h,
+              height: 12.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

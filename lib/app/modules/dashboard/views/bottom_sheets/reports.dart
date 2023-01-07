@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/modules/candidate_login/views/widgets/custom_paint/circular_progress_paint.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
@@ -663,10 +664,17 @@ class DescriptionItem extends StatelessWidget {
 }
 
 class WeekDay extends StatelessWidget {
-  const WeekDay({Key? key, required this.day, required this.date})
+  const WeekDay(
+      {Key? key,
+      required this.day,
+      required this.date,
+      this.onPressed,
+      this.isActive})
       : super(key: key);
   final String day;
   final int date;
+  final isActive;
+  final onPressed;
   bool isLeave() {
     var leave = (day == "SUN" || day == "SAT") ? true : false;
     return leave;
@@ -674,6 +682,7 @@ class WeekDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmployer = isActive != null;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
@@ -684,7 +693,13 @@ class WeekDay extends StatelessWidget {
             style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
-                color: isLeave() ? Colors.red : Colors.green),
+                color: isEmployer
+                    ? isActive
+                        ? Colors.green
+                        : Colors.grey
+                    : isLeave()
+                        ? Colors.red
+                        : Colors.green),
           ),
           SizedBox(
             height: 6,
@@ -694,8 +709,14 @@ class WeekDay extends StatelessWidget {
             style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
-                color: isLeave() ? Colors.red : Colors.green),
-          )
+                color: isEmployer
+                    ? isActive
+                        ? Colors.green
+                        : Colors.grey
+                    : isLeave()
+                        ? Colors.red
+                        : Colors.green),
+          ),
         ],
       ),
     );
@@ -733,23 +754,27 @@ class ReportsButton extends StatelessWidget {
   final bool active;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 28,
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor:
-                    active ? Colors.green.shade800 : Colors.grey.shade200),
-            onPressed: onPressed,
-            child: RPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  label,
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: active
-                          ? null
-                          : Color.fromRGBO(0, 0, 0, 1).withOpacity(.4)),
-                ))));
+    return InkWell(
+      borderRadius: BorderRadius.circular(4),
+      onTap: onPressed,
+      child: Container(
+          height: 28,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active ? Colors.green.shade800 : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(4),
+            // border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: RPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                label,
+                style: TextStyle(
+                    fontSize: 10,
+                    color: active
+                        ? Colors.white
+                        : Color.fromRGBO(0, 0, 0, 0).withOpacity(.4)),
+              ))),
+    );
   }
 }

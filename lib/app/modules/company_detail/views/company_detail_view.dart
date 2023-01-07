@@ -15,13 +15,19 @@ import 'pages/employee.dart';
 import 'pages/home.dart';
 import 'pages/settings.dart';
 
-var pages = [EmployerHome(), Attendance(), EmployeeList(), Settings()];
+var pages = [
+  EmployerHome(),
+  Attendance(),
+  EmployeeList(),
+  const MyAccount(isEmployer: true)
+];
 
 class CompanyDetailView extends GetView<CompanyDetailController> {
   const CompanyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SizedBox(
           child: ClipRRect(

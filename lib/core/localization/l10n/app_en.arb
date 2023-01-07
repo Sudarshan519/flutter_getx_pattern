@@ -127,4 +127,8 @@
 "check_out_time":"Check out time",
 "login_employer_item1":"Login with employer will help you to track your all the staff activities from your smart devices.",
 "login_employer_item2":"You can manage your employee  attendance, salary, overtime and payroll  anywhere in the world",
-"login_employer_item3":"Live attendance, quick reports,  allowance & overtime expense calculation and export reports in csv/excel/pdf."}
+"login_employer_item3":"Live attendance, quick reports,  allowance & overtime expense calculation and export reports in csv/excel/pdf.",
+"candidate_not_created":"You’ve not created candidate.",
+"breaks":"Break",
+"annual_leave_summary":"Annual Leave Summary",
+"change_number":"Change Number"}

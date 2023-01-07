@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
+import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_number.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -13,89 +16,54 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return AppBottomSheet(
-        child: SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TitleWidget(title: strings.profile),
-          const SizedBox(
-            height: 10,
-          ),
-          Image.asset(
-            "assets/Avatar Profile.png",
-            height: 118,
-            width: 118,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            strings.change,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                      hintText: strings.firstname,
-                      hintStyle: AppTextStyles.l1,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                      hintText: strings.lastname,
-                      hintStyle: AppTextStyles.l1,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                      hintText: strings.mobile_number,
-                      hintStyle: AppTextStyles.l1,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade300)),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                  onTap: () {
-                    var date = showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2030));
-                  },
-                  child: TextFormField(
-                    enabled: false,
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 16),
+      child: AppBottomSheet(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TitleWidget(title: strings.profile),
+            const SizedBox(
+              height: 10,
+            ),
+            Image.asset(
+              "assets/Avatar Profile.png",
+              height: 118,
+              width: 118,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              strings.change,
+              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  TextFormField(
                     decoration: InputDecoration(
-                        hintText: strings.dob,
+                        hintText: strings.firstname,
+                        hintStyle: AppTextStyles.l1,
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade400)),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade300)),
+                        border: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey))),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: strings.lastname,
                         hintStyle: AppTextStyles.l1,
                         focusedBorder: OutlineInputBorder(
                             borderSide:
@@ -106,20 +74,69 @@ class _ProfileState extends State<Profile> {
                         border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey))),
                   ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                CustomButton(onPressed: () {}, label: strings.update),
-                SizedBox(
-                  height: 32,
-                ),
-              ],
-            ),
-          )
-        ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.bottomSheet(const ChangeNumber(),
+                          isScrollControlled: true);
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                          hintText: strings.mobile_number,
+                          hintStyle: AppTextStyles.l1,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade300)),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey))),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      var date = showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2030));
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                          hintText: strings.dob,
+                          hintStyle: AppTextStyles.l1,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade400)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade300)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  CustomButton(onPressed: () {}, label: strings.update),
+                  SizedBox(
+                    height: 32,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 

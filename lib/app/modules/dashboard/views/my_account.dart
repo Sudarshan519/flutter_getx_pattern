@@ -10,8 +10,8 @@ import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 class MyAccount extends StatelessWidget {
-  const MyAccount({super.key});
-
+  const MyAccount({super.key, this.isEmployer = false});
+  final bool isEmployer;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,19 +82,82 @@ class MyAccount extends StatelessWidget {
                 style: AppTextStyles.normal,
               ),
             ),
-            ListTile(
-              onTap: () {
-                Get.bottomSheet(const Reports(), isScrollControlled: true);
-              },
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
+            if (!isEmployer)
+              ListTile(
+                onTap: () {
+                  Get.bottomSheet(const Reports(), isScrollControlled: true);
+                },
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.reports,
+                  style: AppTextStyles.normal,
+                ),
+              )
+            else ...[
+              ListTile(
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.inbox,
+                  style: AppTextStyles.normal,
+                ),
               ),
-              title: Text(
-                strings.reports,
-                style: AppTextStyles.normal,
+              ListTile(
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.monthly_reports,
+                  style: AppTextStyles.normal,
+                ),
               ),
-            ),
+              ListTile(
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.add_approver,
+                  style: AppTextStyles.normal,
+                ),
+              ),
+              ListTile(
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.my_plans,
+                  style: AppTextStyles.normal,
+                ),
+              ),
+              ListTile(
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.enroll_attendee,
+                  style: AppTextStyles.normal,
+                ),
+              ),
+              ListTile(
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                ),
+                title: Text(
+                  strings.missing_attendance,
+                  style: AppTextStyles.normal,
+                ),
+              ),
+            ],
             ListTile(
               trailing: Icon(
                 Icons.arrow_forward_ios,

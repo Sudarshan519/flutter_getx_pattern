@@ -12,6 +12,11 @@ class CompanyDetailController extends GetxController {
   var _selected = 0.obs;
   int get selected => _selected.value;
   set selected(int value) => _selected(value);
+  var selectedWeek = 0.obs;
+  var selectedDay = 0.obs;
+  var selectedYear = 0.obs;
+  var selectedMonth = 0.obs;
+  var selectedReport = 0.obs;
   @override
   void onInit() {
     super.onInit();

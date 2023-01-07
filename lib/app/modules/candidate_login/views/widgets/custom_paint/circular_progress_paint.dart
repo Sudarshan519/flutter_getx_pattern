@@ -7,16 +7,19 @@ class CircularPercentPaint extends CustomPainter {
   final int progress;
   final bool isFirstHalf;
   final bool isBreak;
-
+  final bool allGreen;
   CircularPercentPaint(
-      {required this.progress, this.isFirstHalf = true, this.isBreak = false});
+      {required this.progress,
+      this.isFirstHalf = true,
+      this.isBreak = false,
+      this.allGreen = false});
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
   @override
   void paint(Canvas canvas, Size size) {
     /// brush
     var fillBrush = Paint()
-      ..color = Colors.green //const Color(0xFF444974).withOpacity(.1)
+      ..color = Colors.green.shade900 //const Color(0xFF444974).withOpacity(.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 13;
 
@@ -37,14 +40,19 @@ class CircularPercentPaint extends CustomPainter {
             : 5;
     if (isFirstHalf) {
       if (!isBreak) {
-        // canvas.drawArc(
-        //     Rect.fromCircle(center: center, radius: radius),
-        //     startAngle.toDouble(),
-        //     355,
-        //     false,
-        //     fillBrush..color = Colors.grey.shade100);
+        canvas.drawArc(
+            Rect.fromCircle(center: center, radius: radius),
+            startAngle.toDouble(),
+            355,
+            false,
+            fillBrush..color = Colors.grey.shade200);
         for (int i = startAngle;
-            i < (progress < 46 ? angle : (349 ~/ 2 - 7));
+            i <
+                (allGreen
+                    ? angle
+                    : progress < 46
+                        ? angle
+                        : (349 ~/ 2 - 7));
             i++) {
           var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
           var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
@@ -55,7 +63,7 @@ class CircularPercentPaint extends CustomPainter {
               Offset(x1, y1),
               Offset(x2, y2),
               fillBrush
-                ..color = Colors.green
+                ..color = Colors.green.shade800
                 ..strokeWidth = 6
                 ..strokeCap = StrokeCap.round);
         }

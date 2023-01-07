@@ -10,7 +10,12 @@ import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/employer_dashboard_controller.dart';
 
-var pages = [Companies(), MyAccount()];
+var pages = [
+  Companies(),
+  MyAccount(
+    isEmployer: true,
+  )
+];
 
 class Companies extends StatelessWidget {
   const Companies({super.key});
