@@ -131,4 +131,13 @@
 "candidate_not_created":"तपाईंले उम्मेदवार बनाउनुभएको छैन।",
 "breaks":"विश्राम",
 "annual_leave_summary":"वार्षिक बिदा सारांश",
-"change_number":"नम्बर परिवर्तन गर्नुहोस"}
+"change_number":"नम्बर परिवर्तन गर्नुहोस",
+"cancel":"रद्द गर्नु",
+"paid_leave":"भुक्तानी बिदा",
+"type":"वर्गीकरण गर्नु",
+"half_day":"आधा दिन",
+"attached":"जोडिएको",
+"back_to_home":"घर फिर्ता",
+"details":"विवरण",
+"send_invitation":"आमन्त्रित पठाउनुहोस्",
+"weekl":"हप्ता"}

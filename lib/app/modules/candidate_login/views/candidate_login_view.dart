@@ -220,7 +220,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                 borderRadius: BorderRadius.circular(24),
                               )),
                           onPressed: () {
-                            controller.authStatus = AuthStatus.Unauthenticated;
+                            controller.logout();
                           },
                           child: Text(
                             strings.logout,

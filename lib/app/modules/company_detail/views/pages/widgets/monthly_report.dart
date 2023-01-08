@@ -1,5 +1,6 @@
- 
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,8 +15,8 @@ import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
 
-class IndividualReport extends StatelessWidget {
-  const IndividualReport({super.key});
+class MonthlyReports extends StatelessWidget {
+  const MonthlyReports({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class IndividualReport extends StatelessWidget {
       child: AppBottomSheet(
           child: Column(mainAxisSize: MainAxisSize.min, children: [
         /// TITLE
-        TitleWidget(title: strings.individual_reports),
+        TitleWidget(title: strings.monthly_reports),
 
         ///  GAP
         const SizedBox(
@@ -508,7 +509,7 @@ class IndividualReport extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${strings.total_earning} ",
+                            "Total Earning ",
                             style: TextStyle(color: Colors.blueGrey.shade600),
                           ),
                           Text(
@@ -542,13 +543,13 @@ class IndividualReport extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            strings.description,
+                            "Descirption",
                             style: AppTextStyles().large.copyWith(
                                 fontSize: 14, color: AppColors.primary),
                           ),
                           Spacer(),
                           Text(
-                            strings.amount,
+                            "Amount",
                             style: AppTextStyles().large.copyWith(
                                 fontSize: 14, color: AppColors.primary),
                           ),

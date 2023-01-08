@@ -131,4 +131,13 @@
 "candidate_not_created":"You’ve not created candidate.",
 "breaks":"Break",
 "annual_leave_summary":"Annual Leave Summary",
-"change_number":"Change Number"}
+"change_number":"Change Number",
+"cancel":"Cancel",
+"paid_leave":"Paid Leave",
+"type":"Type",
+"half_day":"Half Day",
+"attached":"Attached",
+"back_to_home":"Back to home",
+"details":"Details",
+"send_invitation":"Send Invitation",
+"weekl":"Week"}

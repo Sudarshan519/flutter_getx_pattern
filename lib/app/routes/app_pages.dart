@@ -14,6 +14,8 @@ import '../modules/employer_dashboard/bindings/employer_dashboard_binding.dart';
 import '../modules/employer_dashboard/views/employer_dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/inbox/bindings/inbox_binding.dart';
+import '../modules/inbox/views/inbox_view.dart';
 import '../modules/language/bindings/language_binding.dart';
 import '../modules/language/views/language_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -85,6 +87,11 @@ class AppPages {
       name: _Paths.ADD_EMPLOYEE,
       page: () => const AddEmployeeView(),
       binding: AddEmployeeBinding(),
+    ),
+    GetPage(
+      name: _Paths.INBOX,
+      page: () => const InboxView(),
+      binding: InboxBinding(),
     ),
   ];
 }

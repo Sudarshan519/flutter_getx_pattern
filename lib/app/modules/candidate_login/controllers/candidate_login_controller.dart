@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
@@ -50,29 +52,48 @@ class CandidateLoginController extends GetxController {
   // login
   login() async {
     final localAuth = LocalAuthentication();
-
+    var isSupported = false;
+    var availbaleBiometrics = [];
     try {
-      var isAuthenticated = await localAuth.authenticate(
-          localizedReason: "Employee Identity Verification",
-          options: const AuthenticationOptions(biometricOnly: false));
-      if (isAuthenticated) {
+      if (Platform.isLinux) {
+        isSupported = await localAuth.isDeviceSupported();
+        availbaleBiometrics = await localAuth.getAvailableBiometrics();
+      }
+    } catch (e) {}
+    if (isSupported && availbaleBiometrics.isNotEmpty) {
+      try {
+        var isAuthenticated = await localAuth.authenticate(
+            localizedReason: "Employee Identity Verification",
+            options: const AuthenticationOptions(biometricOnly: false));
+        if (isAuthenticated) {
+          authStatus = AuthStatus.Authenticated;
+          timerInit(true);
+          timer = Timer.periodic(1.seconds, (timer) {
+            now(DateTime.now());
+            updatePercentage();
+          });
+        } else {
+          authStatus = AuthStatus.Unauthenticated;
+          Get.rawSnackbar(message: "Authentication Failed");
+        }
+      } on PlatformException catch (e) {
+        Get.rawSnackbar(message: e.message);
+      }
+    } else {
+      if (kDebugMode) {
         authStatus = AuthStatus.Authenticated;
         timerInit(true);
         timer = Timer.periodic(1.seconds, (timer) {
           now(DateTime.now());
           updatePercentage();
         });
-      } else {
-        authStatus = AuthStatus.Unauthenticated;
-        Get.rawSnackbar(message: "Authentication Failed");
       }
-    } on PlatformException catch (e) {
-      Get.rawSnackbar(message: e.message);
     }
   }
 
   logout() {
     authStatus = AuthStatus.Unauthenticated;
+    _isloggedOut(true);
     timer.cancel();
   }
 

@@ -14,6 +14,7 @@ abstract class Routes {
   static const CREATE_COMPANY = _Paths.CREATE_COMPANY;
   static const COMPANY_DETAIL = _Paths.COMPANY_DETAIL;
   static const ADD_EMPLOYEE = _Paths.ADD_EMPLOYEE;
+  static const INBOX = _Paths.INBOX;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const CREATE_COMPANY = '/create-company';
   static const COMPANY_DETAIL = '/company-detail';
   static const ADD_EMPLOYEE = '/add-employee';
+  static const INBOX = '/inbox';
 }

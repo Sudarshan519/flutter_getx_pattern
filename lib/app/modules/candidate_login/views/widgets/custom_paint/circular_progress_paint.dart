@@ -40,12 +40,12 @@ class CircularPercentPaint extends CustomPainter {
             : 5;
     if (isFirstHalf) {
       if (!isBreak) {
-        canvas.drawArc(
-            Rect.fromCircle(center: center, radius: radius),
-            startAngle.toDouble(),
-            355,
-            false,
-            fillBrush..color = Colors.grey.shade200);
+        // canvas.drawArc(
+        //     Rect.fromCircle(center: center, radius: radius),
+        //     startAngle.toDouble(),
+        //     355,
+        //     false,
+        //     fillBrush..color = Colors.grey.shade200);
         for (int i = startAngle;
             i <
                 (allGreen
@@ -78,7 +78,7 @@ class CircularPercentPaint extends CustomPainter {
               Offset(x1, y1),
               Offset(x2, y2),
               fillBrush
-                ..color = Colors.yellow.shade600
+                ..color = Colors.orange.shade600
                 ..strokeWidth = 6
                 ..strokeCap = StrokeCap.round);
         }

@@ -22,7 +22,7 @@ class OverAllReports extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: AppBottomSheet(
         child: Column(children: [
-          TitleWidget(title: "Overall reports"),
+          TitleWidget(title: strings.overall_reports),
           SizedBox(
             height: 20,
           ),
@@ -143,7 +143,7 @@ class OverAllReports extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text("Send Invitation"),
+                  Text(strings.send_invitation),
                 ],
               ),
             ),
@@ -151,7 +151,7 @@ class OverAllReports extends StatelessWidget {
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Export"),
+                child: Text(strings.export),
               ),
             )
           ]),

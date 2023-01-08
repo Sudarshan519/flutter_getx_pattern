@@ -162,6 +162,7 @@ class Attendance extends StatelessWidget {
                 itemBuilder: (_, i) => Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
                         onTap: () {
                           Get.bottomSheet(
                             IndividualReport(),
@@ -169,7 +170,7 @@ class Attendance extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          height: 66.h,
+                          height: 80.r,
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
@@ -195,8 +196,8 @@ class Attendance extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                height: 16.h,
-                                width: 56.w,
+                                height: 20.r,
+                                width: 64.r,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -215,8 +216,8 @@ class Attendance extends StatelessWidget {
                                 width: 8,
                               ),
                               SizedBox(
-                                height: 16.h,
-                                width: 54.w,
+                                height: 20.r,
+                                width: 60.r,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -227,7 +228,7 @@ class Attendance extends StatelessWidget {
                                         .split(" ")
                                         .last
                                         .toUpperCase(),
-                                    style: TextStyle(fontSize: 7),
+                                    style: const TextStyle(fontSize: 7),
                                   ),
                                 ),
                               ),
@@ -235,8 +236,8 @@ class Attendance extends StatelessWidget {
                                 width: 6.w,
                               ),
                               SizedBox(
-                                height: 16.h,
-                                width: 50.w,
+                                height: 20.r,
+                                width: 60.r,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       elevation: 0,
@@ -281,8 +282,8 @@ class AttendanceItem extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: Container(
-          height: 80,
-          width: 80,
+          height: 78.r,
+          width: 78.r,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(color: color),

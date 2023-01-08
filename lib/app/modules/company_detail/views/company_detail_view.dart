@@ -1,19 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart'; 
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
-import 'package:hajir/app/modules/dashboard/views/my_account.dart';
-import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
+import 'package:hajir/app/modules/dashboard/views/my_account.dart'; 
 import 'package:hajir/app/routes/app_pages.dart';
-import 'package:hajir/core/localization/l10n/strings.dart';
-import 'package:hajir/main_paint.dart';
-
+import 'package:hajir/core/localization/l10n/strings.dart'; 
 import '../controllers/company_detail_controller.dart';
 import 'pages/attendance.dart';
 import 'pages/employee.dart';
-import 'pages/home.dart';
-import 'pages/settings.dart';
+import 'pages/home.dart'; 
 
 var pages = [
   EmployerHome(),
@@ -51,7 +46,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                       ),
                       Center(
                         child: Text(
-                          """You’ve not created candidate.""",
+                          strings.candidate_not_created,
                           textAlign: TextAlign.center,
                           style:
                               TextStyle(fontSize: 19, color: AppColors.primary),

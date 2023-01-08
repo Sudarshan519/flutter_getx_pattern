@@ -3,6 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/modules/company_detail/views/pages/widgets/add_approver.dart';
+import 'package:hajir/app/modules/company_detail/views/pages/widgets/monthly_report.dart';
+import 'package:hajir/app/modules/company_detail/views/pages/widgets/my_plans.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
@@ -98,7 +101,10 @@ class MyAccount extends StatelessWidget {
               )
             else ...[
               ListTile(
-                trailing: Icon(
+                onTap: () {
+                  Get.toNamed(Routes.INBOX);
+                },
+                trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
                 ),
@@ -108,7 +114,11 @@ class MyAccount extends StatelessWidget {
                 ),
               ),
               ListTile(
-                trailing: Icon(
+                onTap: () {
+                  Get.bottomSheet(const MonthlyReports(),
+                      isScrollControlled: true);
+                },
+                trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
                 ),
@@ -118,6 +128,10 @@ class MyAccount extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Get.bottomSheet(const AddApprover(),
+                      isScrollControlled: true);
+                },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
@@ -128,6 +142,9 @@ class MyAccount extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Get.bottomSheet(const MyPlans(), isScrollControlled: true);
+                },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
@@ -138,6 +155,10 @@ class MyAccount extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Get.bottomSheet(const AddApprover(),
+                      isScrollControlled: true);
+                },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
@@ -148,6 +169,10 @@ class MyAccount extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Get.bottomSheet(const AddApprover(),
+                      isScrollControlled: true);
+                },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
@@ -159,6 +184,9 @@ class MyAccount extends StatelessWidget {
               ),
             ],
             ListTile(
+              onTap: () {
+                Get.bottomSheet(const AddApprover(), isScrollControlled: true);
+              },
               trailing: Icon(
                 Icons.arrow_forward_ios,
                 size: 20,
