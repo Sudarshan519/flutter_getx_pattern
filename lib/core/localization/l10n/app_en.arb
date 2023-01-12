@@ -140,4 +140,13 @@
 "back_to_home":"Back to home",
 "details":"Details",
 "send_invitation":"Send Invitation",
-"weekl":"Week"}
+"week":"Week",
+"logout_dialog":"Are you sure you want to log out?",
+"payment_options":"Payment Options",
+"pay_now":"Pay Now",
+"successful_payment":"Successful payment!",
+"thank_for_purchanse":"Thank you for your purchase",
+"done":"Done!",
+"upgrade_to_premium":"Upgrade to premium",
+"select_approver":"Select Approver",
+"select_company":"Select Company"}

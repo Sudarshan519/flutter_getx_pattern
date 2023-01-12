@@ -8,6 +8,8 @@ import 'package:local_auth/local_auth.dart';
 
 enum AuthStatus { Uninitialized, Authenticated, Unauthenticated }
 
+enum BreakStatus { NotStarted, Started, Running, Ended }
+
 class CandidateLoginController extends GetxController {
   final count = 0.obs;
   get selected => count.value;
@@ -18,8 +20,11 @@ class CandidateLoginController extends GetxController {
   late Timer timer;
   var timerInit = false.obs;
   var now = DateTime.now().obs;
-  var breakStarted = false.obs;
+  var breakStarted = BreakStatus.NotStarted.obs;
+
   var percentage = 0.0.obs;
+  var breakStartedPercentage = 5.0.obs;
+  var breakEndPercentage = 5.0.obs;
   var loggedInTime = 4.0.obs;
   final _authStatus = AuthStatus.Unauthenticated.obs;
   AuthStatus get authStatus => _authStatus.value;
@@ -29,9 +34,25 @@ class CandidateLoginController extends GetxController {
   bool get isloggedIn => _isloggedIn.value;
   set isloggedIn(bool userloginStatus) => _isloggedIn(userloginStatus);
   final _isloggedOut = false.obs;
+  bool get isLoggedOut => _isloggedOut.value;
   var d1 = 1.obs;
   var d2 = 0.obs;
   //
+
+  startorStopBreak() {
+    if (percentage.value > 10) {
+      if (BreakStatus.NotStarted == breakStarted.value) {
+        breakStarted(BreakStatus.Started);
+        breakStartedPercentage(percentage.value);
+        print(breakStartedPercentage.value);
+      } else if (breakStarted.value == BreakStatus.Started) {
+        breakStarted(BreakStatus.Ended);
+        breakEndPercentage(percentage.value);
+        print(breakEndPercentage.value);
+      } else {}
+    }
+  }
+
   updatePercentage() {
     if (loggedInTime.value > 100)
       loggedInTime(0);
@@ -51,6 +72,8 @@ class CandidateLoginController extends GetxController {
 
   // login
   login() async {
+    breakStarted(BreakStatus.NotStarted);
+    _isloggedOut(false);
     final localAuth = LocalAuthentication();
     var isSupported = false;
     var availbaleBiometrics = [];
@@ -67,10 +90,11 @@ class CandidateLoginController extends GetxController {
             options: const AuthenticationOptions(biometricOnly: false));
         if (isAuthenticated) {
           authStatus = AuthStatus.Authenticated;
+          timer.cancel();
           timerInit(true);
           timer = Timer.periodic(1.seconds, (timer) {
             now(DateTime.now());
-            updatePercentage();
+            if (!isLoggedOut && isloggedIn) updatePercentage();
           });
         } else {
           authStatus = AuthStatus.Unauthenticated;
@@ -93,6 +117,9 @@ class CandidateLoginController extends GetxController {
 
   logout() {
     authStatus = AuthStatus.Unauthenticated;
+    loggedInTime(0);
+    // breakStarted(BreakStatus.NotStarted);
+    _isloggedIn(false);
     _isloggedOut(true);
     timer.cancel();
   }
@@ -100,6 +127,12 @@ class CandidateLoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    timerInit(true);
+    timer = Timer.periodic(1.seconds, (timer) {
+      now(DateTime.now());
+      if (!isLoggedOut && isloggedIn) updatePercentage();
+    });
   }
 
   @override

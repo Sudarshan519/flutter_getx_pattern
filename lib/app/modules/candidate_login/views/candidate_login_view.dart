@@ -63,138 +63,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Container(
-                    height: 155,
-                    width: 155,
-                    padding: const EdgeInsets.all(11),
-                    decoration: const BoxDecoration(
-                        color: Colors.white, shape: BoxShape.circle),
-                    child: Obx(
-                      () => !controller.isAuthenticated
-                          ? Container(
-                              height: 155,
-                              width: 155,
-                              padding: const EdgeInsets.all(16),
-                              decoration: const BoxDecoration(
-                                  // color: Colors.grey.withOpacity(.1),
-                                  shape: BoxShape.circle),
-                              child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Transform.rotate(
-                                      angle: -pi / 2, child: const Clock())),
-                            )
-                          : Obx(
-                              () => Stack(
-                                children: [
-                                  // SemiCircleWidget(
-                                  //   sweepAngle: 80,
-                                  //   color: Colors.green,
-                                  // ),
-                                  // SemiCircleWidget(
-                                  //   sweepAngle: 0,
-                                  //   color: Colors.yellow,
-                                  // ),
-                                  // SemiCircleWidget(
-                                  //   sweepAngle: 0,
-                                  //   color: Colors.green,
-                                  // ),
-                                  Container(
-                                    height: 155,
-                                    width: 155,
-                                    padding: const EdgeInsets.all(18),
-                                    decoration: const BoxDecoration(
-                                        // color: Colors.grey.withOpacity(.1),
-                                        shape: BoxShape.circle),
-                                    child: Container(
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Transform.rotate(
-                                            angle: -pi / 2,
-                                            child: const Clock())),
-                                  ),
-
-                                  Container(
-                                    height: 155,
-                                    width: 155,
-                                    padding: const EdgeInsets.all(18),
-                                    child: CustomPaint(
-                                      painter: CircularPercentPaint(
-                                          progress: controller.percentage.value
-                                              .toInt(),
-                                          isFirstHalf: false),
-                                    ),
-                                  ),
-
-                                  /// draw break
-                                  Container(
-                                    height: 155,
-                                    width: 155,
-                                    padding: const EdgeInsets.all(18),
-                                    child: CustomPaint(
-                                      painter: CircularPercentPaint(
-                                          progress: controller.percentage.value
-                                                      .toInt() >
-                                                  60
-                                              ? 60
-                                              : controller.percentage.value
-                                                  .toInt(),
-                                          isBreak: true),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 155,
-                                    width: 155,
-                                    padding: const EdgeInsets.all(18),
-                                    child: CustomPaint(
-                                      painter: CircularPercentPaint(
-                                        progress:
-                                            controller.percentage.value.toInt(),
-                                      ),
-                                    ),
-                                  ),
-
-                                  //     if (controller.isloggedIn)
-                                  //       SizedBox(
-                                  //         height: 155,
-                                  //         width: 155,
-                                  //         child: Obx(
-                                  //           (() => CircularPercentIndicator(
-                                  //                 animationDuration: 300,
-                                  //                 backgroundColor:
-                                  //                     Colors.grey.withOpacity(.1),
-                                  //                 radius: 65.0,
-                                  //                 lineWidth: 14.0,
-                                  //                 percent: controller.percentage.value,
-                                  //                 circularStrokeCap: CircularStrokeCap.round,
-                                  //                 // center: new Text("100%"),
-                                  //                 progressColor: Colors.green,
-                                  //               )),
-                                  //         ),
-                                  //       ),
-                                  //     Transform.rotate(
-                                  //       angle: pi / 4 * 180,
-                                  //       child: SizedBox(
-                                  //         height: 155,
-                                  //         width: 155,
-                                  //         child: CircularPercentIndicator(
-                                  //           backgroundColor: Colors.grey.withOpacity(.1),
-                                  //           radius: 65.0,
-                                  //           lineWidth: 14.0,
-                                  //           percent: .0,
-                                  //           circularStrokeCap: CircularStrokeCap.square,
-                                  //           progressColor: Colors.yellow,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                ],
-                              ),
-                            ),
-                    )),
+                PercentageWidget(controller: controller),
                 const Positioned(
                     top: 70, left: 47, right: 47, child: TimeWidget()),
               ],
@@ -229,37 +98,41 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                           ))
                       : ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                              backgroundColor: controller.isLoggedOut
+                                  ? Colors.grey
+                                  : Colors.green,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24))),
                           onPressed: () {
                             controller.login();
                           },
                           child: Text(
-                            "Login",
-                            style: AppTextStyles.b1,
+                            controller.isLoggedOut ? "Logged Out" : "Login",
+                            style: AppTextStyles.b2,
                           ))),
                 ),
                 Obx(
                   () => controller.authStatus == AuthStatus.Authenticated
                       ? Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.transparent),
+                                side:
+                                    const BorderSide(color: Colors.transparent),
                               ),
                               onPressed: () {
-                                controller.breakStarted.toggle();
+                                controller.startorStopBreak();
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    controller.breakStarted.value
+                                    controller.breakStarted.value ==
+                                            BreakStatus.Started
                                         ? strings.stop_break
                                         : strings.start_break,
                                     style: AppTextStyles.medium.copyWith(
@@ -473,6 +346,303 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
         )
       ]),
     );
+  }
+}
+
+class PercentageWidget extends StatelessWidget {
+  const PercentageWidget({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final CandidateLoginController controller;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 155,
+        width: 155,
+        padding: const EdgeInsets.all(11),
+        decoration:
+            const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+        child: Obx(
+          () => !controller.isAuthenticated && !controller.isLoggedOut
+              ? Container(
+                  height: 155,
+                  width: 155,
+                  padding: const EdgeInsets.all(16),
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Transform.rotate(
+                          angle: -pi / 2, child: const Clock())),
+                )
+              : Obx(
+                  () => controller.isLoggedOut
+                      ? Stack(
+                          children: [
+                            // SemiCircleWidget(
+                            //   sweepAngle: 80,
+                            //   color: Colors.green,
+                            // ),
+                            // SemiCircleWidget(
+                            //   sweepAngle: 0,
+                            //   color: Colors.yellow,
+                            // ),
+                            // SemiCircleWidget(
+                            //   sweepAngle: 0,
+                            //   color: Colors.green,
+                            // ),
+                            Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(18),
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Transform.rotate(
+                                      angle: -pi / 2, child: const Clock())),
+                            ),
+
+                            Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(18),
+                              child: Obx(() => CustomPaint(
+                                    painter: CircularPercentPaint(
+                                        color: controller.isLoggedOut
+                                            ? Colors.red
+                                            : null,
+                                        breakEndPercentage:
+                                            controller.breakEndPercentage.value,
+                                        progress:
+                                            controller.percentage.value.toInt(),
+                                        isFirstHalf: false),
+                                  )),
+                            ),
+
+                            /// draw break
+                            if (controller.breakStarted.value ==
+                                    BreakStatus.Started ||
+                                controller.breakStarted.value ==
+                                    BreakStatus.Ended)
+                              Container(
+                                height: 155,
+                                width: 155,
+                                padding: const EdgeInsets.all(18),
+                                child: Obx(() => CustomPaint(
+                                      painter: CircularPercentPaint(
+                                          breakStartedPercentage: controller
+                                              .breakStartedPercentage.value,
+                                          progress: controller
+                                                      .breakStarted.value ==
+                                                  BreakStatus.Started
+                                              ? controller.percentage.value
+                                                  .toInt()
+                                              : controller.breakStarted.value ==
+                                                      BreakStatus.Ended
+                                                  ? controller
+                                                      .breakEndPercentage.value
+                                                      .toInt()
+                                                  : 10,
+                                          isBreak: true),
+                                    )),
+                              ),
+                            Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(18),
+                              child: Obx(
+                                () => CustomPaint(
+                                    painter: CircularPercentPaint(
+                                  color: controller.isLoggedOut
+                                      ? Colors.red
+                                      : null,
+                                  progress: controller.breakStarted.value ==
+                                              BreakStatus.Started ||
+                                          controller.breakStarted.value ==
+                                              BreakStatus.Ended
+                                      ? controller.breakStartedPercentage.value
+                                          .toInt()
+                                      : controller.percentage.value.toInt(),
+                                )),
+                              ),
+                            ),
+
+                            //     if (controller.isloggedIn)
+                            //       SizedBox(
+                            //         height: 155,
+                            //         width: 155,
+                            //         child: Obx(
+                            //           (() => CircularPercentIndicator(
+                            //                 animationDuration: 300,
+                            //                 backgroundColor:
+                            //                     Colors.grey.withOpacity(.1),
+                            //                 radius: 65.0,
+                            //                 lineWidth: 14.0,
+                            //                 percent: controller.percentage.value,
+                            //                 circularStrokeCap: CircularStrokeCap.round,
+                            //                 // center: new Text("100%"),
+                            //                 progressColor: Colors.green,
+                            //               )),
+                            //         ),
+                            //       ),
+                            //     Transform.rotate(
+                            //       angle: pi / 4 * 180,
+                            //       child: SizedBox(
+                            //         height: 155,
+                            //         width: 155,
+                            //         child: CircularPercentIndicator(
+                            //           backgroundColor: Colors.grey.withOpacity(.1),
+                            //           radius: 65.0,
+                            //           lineWidth: 14.0,
+                            //           percent: .0,
+                            //           circularStrokeCap: CircularStrokeCap.square,
+                            //           progressColor: Colors.yellow,
+                            //         ),
+                            //       ),
+                            //     ),
+                          ],
+                        )
+                      : Stack(
+                          children: [
+                            // SemiCircleWidget(
+                            //   sweepAngle: 80,
+                            //   color: Colors.green,
+                            // ),
+                            // SemiCircleWidget(
+                            //   sweepAngle: 0,
+                            //   color: Colors.yellow,
+                            // ),
+                            // SemiCircleWidget(
+                            //   sweepAngle: 0,
+                            //   color: Colors.green,
+                            // ),
+                            Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(18),
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Transform.rotate(
+                                      angle: -pi / 2, child: const Clock())),
+                            ),
+
+                            Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(18),
+                              child: Obx(() => CustomPaint(
+                                    painter: CircularPercentPaint(
+                                        breakEndPercentage:
+                                            controller.breakEndPercentage.value,
+                                        progress:
+                                            controller.percentage.value.toInt(),
+                                        isFirstHalf: false),
+                                  )),
+                            ),
+
+                            /// draw break
+                            if (controller.breakStarted.value ==
+                                    BreakStatus.Started ||
+                                controller.breakStarted.value ==
+                                    BreakStatus.Ended)
+                              Container(
+                                height: 155,
+                                width: 155,
+                                padding: const EdgeInsets.all(18),
+                                child: Obx(
+                                  () => CustomPaint(
+                                      painter: CircularPercentPaint(
+                                          breakStartedPercentage: controller
+                                              .breakStartedPercentage.value,
+                                          progress: controller
+                                                      .breakStarted.value ==
+                                                  BreakStatus.Started
+                                              ? controller.percentage.value
+                                                  .toInt()
+                                              : controller.breakStarted.value ==
+                                                      BreakStatus.Ended
+                                                  ? controller
+                                                      .breakEndPercentage.value
+                                                      .toInt()
+                                                  : 10,
+                                          isBreak: true)),
+                                ),
+                              ),
+                            Container(
+                              height: 155,
+                              width: 155,
+                              padding: const EdgeInsets.all(18),
+                              child: Obx(
+                                () => CustomPaint(
+                                    painter: CircularPercentPaint(
+                                  // breakStartedPercentage: controller
+                                  //                 .breakStarted.value ==
+                                  //             BreakStatus.Started ||
+                                  //         controller.breakStarted.value ==
+                                  //             BreakStatus.Ended
+                                  //     ? controller.breakStartedPercentage.value
+                                  //     : controller.percentage.value,
+                                  progress: controller.breakStarted.value ==
+                                              BreakStatus.Started ||
+                                          controller.breakStarted.value ==
+                                              BreakStatus.Ended
+                                      ? controller.breakStartedPercentage.value
+                                          .toInt()
+                                      : controller.percentage.value.toInt(),
+                                )),
+                              ),
+                            ),
+
+                            //     if (controller.isloggedIn)
+                            //       SizedBox(
+                            //         height: 155,
+                            //         width: 155,
+                            //         child: Obx(
+                            //           (() => CircularPercentIndicator(
+                            //                 animationDuration: 300,
+                            //                 backgroundColor:
+                            //                     Colors.grey.withOpacity(.1),
+                            //                 radius: 65.0,
+                            //                 lineWidth: 14.0,
+                            //                 percent: controller.percentage.value,
+                            //                 circularStrokeCap: CircularStrokeCap.round,
+                            //                 // center: new Text("100%"),
+                            //                 progressColor: Colors.green,
+                            //               )),
+                            //         ),
+                            //       ),
+                            //     Transform.rotate(
+                            //       angle: pi / 4 * 180,
+                            //       child: SizedBox(
+                            //         height: 155,
+                            //         width: 155,
+                            //         child: CircularPercentIndicator(
+                            //           backgroundColor: Colors.grey.withOpacity(.1),
+                            //           radius: 65.0,
+                            //           lineWidth: 14.0,
+                            //           percent: .0,
+                            //           circularStrokeCap: CircularStrokeCap.square,
+                            //           progressColor: Colors.yellow,
+                            //         ),
+                            //       ),
+                            //     ),
+                          ],
+                        ),
+                ),
+        ));
   }
 }
 

@@ -12,6 +12,8 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/employer_dashboard/bindings/employer_dashboard_binding.dart';
 import '../modules/employer_dashboard/views/employer_dashboard_view.dart';
+import '../modules/enroll_attendee/bindings/enroll_attendee_binding.dart';
+import '../modules/enroll_attendee/views/enroll_attendee_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/inbox/bindings/inbox_binding.dart';
@@ -20,6 +22,8 @@ import '../modules/language/bindings/language_binding.dart';
 import '../modules/language/views/language_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/missing_attendance/bindings/missing_attendance_binding.dart';
+import '../modules/missing_attendance/views/missing_attendance_view.dart';
 import '../modules/mobile_opt/bindings/mobile_opt_binding.dart';
 import '../modules/mobile_opt/views/mobile_opt_view.dart';
 import '../modules/welcome/bindings/welcome_binding.dart';
@@ -92,6 +96,16 @@ class AppPages {
       name: _Paths.INBOX,
       page: () => const InboxView(),
       binding: InboxBinding(),
+    ),
+    GetPage(
+      name: _Paths.ENROLL_ATTENDEE,
+      page: () => const EnrollAttendeeView(),
+      binding: EnrollAttendeeBinding(),
+    ),
+    GetPage(
+      name: _Paths.MISSING_ATTENDANCE,
+      page: () => const MissingAttendanceView(),
+      binding: MissingAttendanceBinding(),
     ),
   ];
 }

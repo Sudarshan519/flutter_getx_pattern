@@ -277,33 +277,37 @@ class AttendanceItem extends StatelessWidget {
   final onPressed;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: InkWell(
-        onTap: onPressed,
-        child: Container(
-          height: 78.r,
-          width: 78.r,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: color),
-              color: borderColor),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            label == "Reports"
-                ? SvgPicture.asset(
-                    "assets/material-symbols_export-notes-outline-rounded.svg")
-                : Text(
-                    value,
-                    style: AppTextStyles.b1
-                        .copyWith(fontSize: 19.sp, color: Colors.red),
-                  ),
-            Text(
-              label,
-              style: AppTextStyles.title.copyWith(
-                fontSize: 12.sp,
-              ),
-            )
-          ]),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: InkWell(
+          onTap: onPressed,
+          child: Container(
+            height: 78.r,
+            width: 78.r,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(color: color),
+                color: borderColor),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              label == "Reports"
+                  ? SvgPicture.asset(
+                      "assets/material-symbols_export-notes-outline-rounded.svg")
+                  : Text(
+                      value,
+                      style: AppTextStyles.b1
+                          .copyWith(fontSize: 19.sp, color: Colors.red),
+                    ),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.title.copyWith(
+                  fontSize: 12.sp,
+                ),
+              )
+            ]),
+          ),
         ),
       ),
     );

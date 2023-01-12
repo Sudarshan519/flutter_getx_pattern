@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
+import 'package:hajir/app/modules/company_detail/views/pages/widgets/payment_options.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -14,13 +16,13 @@ class MyPlans extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CompanyDetailController controller = Get.find();
+    final EmployerDashboardController controller = Get.find();
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16),
       child: AppBottomSheet(
         child: Column(children: [
           TitleWidget(title: strings.my_plans),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -77,7 +79,7 @@ class PlanItem extends StatelessWidget {
   final String label;
   final items;
   final bool isPremium;
-  final CompanyDetailController controller;
+  final EmployerDashboardController controller;
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -97,7 +99,7 @@ class PlanItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                          width: isPremium ? 1 : 3,
+                          width: isPremium ? 1 : 2,
                           color: controller.myPlan.value == label
                               ? Colors.green.shade800
                               : Colors.grey.shade200)),
@@ -144,7 +146,12 @@ class PlanItem extends StatelessWidget {
                         Spacer(),
                         if (isPremium)
                           CustomButton(
-                              onPressed: () {}, label: "Upgrade to premium")
+                              onPressed: () {
+                                Get.back();
+                                Get.bottomSheet(PaymentOptions(),
+                                    isScrollControlled: true);
+                              },
+                              label: strings.upgrade_to_premium)
                       ]),
                 ),
                 if (controller.myPlan.value == label)
@@ -177,13 +184,15 @@ class CustomGreenShadow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         Container(
-            // height: 212,
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(width: 3, color: Colors.green.shade800),
+              border: Border.all(width: 2, color: Colors.green.shade800),
             ),
             child: child),
         Positioned(

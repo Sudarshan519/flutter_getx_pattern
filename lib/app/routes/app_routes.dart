@@ -15,6 +15,8 @@ abstract class Routes {
   static const COMPANY_DETAIL = _Paths.COMPANY_DETAIL;
   static const ADD_EMPLOYEE = _Paths.ADD_EMPLOYEE;
   static const INBOX = _Paths.INBOX;
+  static const ENROLL_ATTENDEE = _Paths.ENROLL_ATTENDEE;
+  static const MISSING_ATTENDANCE = _Paths.MISSING_ATTENDANCE;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const COMPANY_DETAIL = '/company-detail';
   static const ADD_EMPLOYEE = '/add-employee';
   static const INBOX = '/inbox';
+  static const ENROLL_ATTENDEE = '/enroll-attendee';
+  static const MISSING_ATTENDANCE = '/missing-attendance';
 }

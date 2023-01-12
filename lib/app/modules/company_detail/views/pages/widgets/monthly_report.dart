@@ -11,6 +11,7 @@ import 'package:hajir/app/modules/candidate_login/views/widgets/custom_paint/cir
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +21,7 @@ class MonthlyReports extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CompanyDetailController controller = Get.find();
+    final EmployerDashboardController controller = Get.find();
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16),
       child: AppBottomSheet(
@@ -509,7 +510,7 @@ class MonthlyReports extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Total Earning ",
+                            strings.total_earning + " ",
                             style: TextStyle(color: Colors.blueGrey.shade600),
                           ),
                           Text(
@@ -543,13 +544,13 @@ class MonthlyReports extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "Descirption",
+                            strings.description,
                             style: AppTextStyles().large.copyWith(
                                 fontSize: 14, color: AppColors.primary),
                           ),
                           Spacer(),
                           Text(
-                            "Amount",
+                            strings.amount,
                             style: AppTextStyles().large.copyWith(
                                 fontSize: 14, color: AppColors.primary),
                           ),
@@ -585,7 +586,7 @@ class MonthlyReports extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      "Total",
+                                      strings.total,
                                       style: AppTextStyles().large.copyWith(
                                           fontSize: 14,
                                           color: AppColors.primary),

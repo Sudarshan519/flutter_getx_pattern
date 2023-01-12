@@ -24,8 +24,9 @@ class LanguageView extends GetView<LanguageController> {
           child: Stack(
             children: [
               CustomPaint(
-                  size: Size(Get.width, (Get.width * 0.812).toDouble()),
-                  painter: ArcPainter(color: AppColors.deepOrange)),
+                size: Size(Get.width, (Get.width * 0.812).toDouble()),
+                painter: ArcPainter(color: AppColors.deepOrange),
+              ),
               Positioned(
                   left: 47.r,
                   top: 128.h,
@@ -48,14 +49,19 @@ class LanguageView extends GetView<LanguageController> {
                             shape: BoxShape.circle),
                         height: 257.r,
                         width: 257.r,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Stack(
+                          alignment: Alignment.center,
                           children: [
+                            Image.asset(
+                              "assets/Ellipse 13.png",
+                              height: 257.r,
+                              width: 257.r,
+                            ),
                             Image.asset(
                               AppImages.logo,
                               height: 60.h,
                               width: 178.w,
-                            )
+                            ),
                           ],
                         ),
                       ))),

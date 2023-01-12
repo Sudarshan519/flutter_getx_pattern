@@ -140,4 +140,13 @@
 "back_to_home":"घर फिर्ता",
 "details":"विवरण",
 "send_invitation":"आमन्त्रित पठाउनुहोस्",
-"weekl":"हप्ता"}
+"week":"हप्ता",
+"logout_dialog":"के तपाईं लग आउट गर्न चाहनुहुन्छ?",
+"payment_options":"भुक्तानी विकल्प",
+"pay_now":"अबो तिरे",
+"successful_payment":"सफल भुक्तानी!",
+"thank_for_purchanse":"तपाईको खरीदको लागि धन्यवाद",
+"done":"पूरा भयो!",
+"upgrade_to_premium":"प्रीमियममा अपग्रेड गर्नुहोस्",
+"select_approver":"अनुप्रयोग चयन गर्नुहोस्",
+"select_company":"कम्पनी चयन गर्नुहोस्"}

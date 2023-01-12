@@ -9,6 +9,7 @@ import 'package:hajir/app/modules/company_detail/views/pages/widgets/my_plans.da
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
+import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -156,8 +157,9 @@ class MyAccount extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  Get.bottomSheet(const AddApprover(),
-                      isScrollControlled: true);
+                  Get.toNamed(Routes.ENROLL_ATTENDEE);
+                  // Get.bottomSheet(const AddApprover(),
+                  //     isScrollControlled: true);
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
@@ -170,8 +172,7 @@ class MyAccount extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  Get.bottomSheet(const AddApprover(),
-                      isScrollControlled: true);
+                  Get.toNamed(Routes.MISSING_ATTENDANCE);
                 },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
@@ -212,7 +213,7 @@ class MyAccount extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Get.offAllNamed(Routes.LANGUAGE);
+                Get.dialog(LogoutDialog());
               },
               trailing: Icon(
                 Icons.arrow_forward_ios,
@@ -229,6 +230,50 @@ class MyAccount extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class LogoutDialog extends StatelessWidget {
+  const LogoutDialog({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text(
+         strings.logout_dialog,
+          style: AppTextStyles.b1,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: 320.w,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: CustomButton(
+                    color: Colors.grey,
+                    onPressed: () => Get.back(),
+                    label: strings.cancel),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: CustomButton(
+                    color: Colors.red.shade700,
+                    onPressed: () => Get.offAllNamed(Routes.WELCOME),
+                    label: strings.logout),
+              ),
+            ],
+          ),
+        )
+      ]),
     );
   }
 }

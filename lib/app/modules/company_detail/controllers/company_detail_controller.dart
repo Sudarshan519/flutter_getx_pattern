@@ -20,6 +20,7 @@ class CompanyDetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    addEmployee();
     loading(true);
     company(Get.arguments);
     loading(false);

@@ -148,4 +148,13 @@ cancel	Cancel	रद्द गर्नु
 back_to_home	Back to home	घर फिर्ता	
 details	Details	विवरण	
 send_invitation	Send Invitation	आमन्त्रित पठाउनुहोस्	
-weekl	Week	हप्ता	
+week	Week	हप्ता	
+logout_dialog	Are you sure you want to log out?	के तपाईं लग आउट गर्न चाहनुहुन्छ?	
+payment_options	Payment Options	भुक्तानी विकल्प	
+pay_now	Pay Now	अबो तिरे	
+successful_payment	Successful payment!	सफल भुक्तानी!	
+thank_for_purchanse	Thank you for your purchase	तपाईको खरीदको लागि धन्यवाद	
+done	Done!	पूरा भयो!	
+upgrade_to_premium	Upgrade to premium	प्रीमियममा अपग्रेड गर्नुहोस्	
+select_approver	Select Approver	अनुप्रयोग चयन गर्नुहोस्	
+select_company	Select Company	कम्पनी चयन गर्नुहोस्	
