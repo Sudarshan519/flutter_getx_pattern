@@ -54,10 +54,17 @@ class CandidateLoginController extends GetxController {
   }
 
   updatePercentage() {
-    if (loggedInTime.value > 100)
-      loggedInTime(0);
-    else
-      loggedInTime(loggedInTime.value + 1);
+    if (loggedInTime.value > 100) {
+      logout(); 
+    } else if(loggedInTime>50 && breakStarted.value==BreakStatus.NotStarted){
+      startorStopBreak();
+    }
+     else if(loggedInTime>60 && breakStarted.value==BreakStatus.Started){
+       startorStopBreak();
+     }
+    else {
+       loggedInTime(loggedInTime.value + 1);
+     }
     percentage(loggedInTime.value);
     // print(loggedInTime.value);
     if (now.value.second % 5 == 0) {
@@ -78,12 +85,10 @@ class CandidateLoginController extends GetxController {
     var isSupported = false;
     var availbaleBiometrics = [];
     try {
-      if (Platform.isLinux) {
+      if (Platform.isAndroid) {
         isSupported = await localAuth.isDeviceSupported();
         availbaleBiometrics = await localAuth.getAvailableBiometrics();
-      }
-    } catch (e) {}
-    if (isSupported && availbaleBiometrics.isNotEmpty) {
+       if (isSupported && availbaleBiometrics.isNotEmpty) {
       try {
         var isAuthenticated = await localAuth.authenticate(
             localizedReason: "Employee Identity Verification",
@@ -91,6 +96,7 @@ class CandidateLoginController extends GetxController {
         if (isAuthenticated) {
           authStatus = AuthStatus.Authenticated;
           timer.cancel();
+          _isloggedIn(true);
           timerInit(true);
           timer = Timer.periodic(1.seconds, (timer) {
             now(DateTime.now());
@@ -113,15 +119,23 @@ class CandidateLoginController extends GetxController {
         });
       }
     }
+      }
+    } catch (e) {}
+   
   }
 
   logout() {
     authStatus = AuthStatus.Unauthenticated;
-    loggedInTime(0);
+    // loggedInTime(0);
     // breakStarted(BreakStatus.NotStarted);
     _isloggedIn(false);
     _isloggedOut(true);
     timer.cancel();
+     timerInit(true);
+    timer = Timer.periodic(1.seconds, (timer) {
+      now(DateTime.now());
+      if (!isLoggedOut && isloggedIn) updatePercentage();
+    });
   }
 
   @override

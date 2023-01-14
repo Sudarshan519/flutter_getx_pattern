@@ -556,7 +556,7 @@ class MonthlyReports extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Divider(thickness: 2),
+                      Divider(thickness: 1),
                       SizedBox(
                         height: 5,
                       ),
@@ -578,7 +578,7 @@ class MonthlyReports extends StatelessWidget {
                                   height: 5,
                                 ),
                                 Divider(
-                                  thickness: 2,
+                                  thickness: 1,
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -604,7 +604,7 @@ class MonthlyReports extends StatelessWidget {
                                   height: 5,
                                 ),
                                 Divider(
-                                  thickness: 2,
+                                  thickness: 1,
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -637,7 +637,7 @@ class MonthlyReports extends StatelessWidget {
                                     ? Column(
                                         children: [
                                           Divider(
-                                            thickness: 2,
+                                            thickness: 1,
                                           ),
                                           SizedBox(
                                             height: 5,
@@ -657,7 +657,7 @@ class MonthlyReports extends StatelessWidget {
                                       )
                                     : SizedBox()),
                                 Divider(
-                                  thickness: 2,
+                                  thickness: 1,
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -683,7 +683,7 @@ class MonthlyReports extends StatelessWidget {
                                   height: 5,
                                 ),
                                 Divider(
-                                  thickness: 2,
+                                  thickness: 1,
                                 ),
                                 SizedBox(
                                   height: 20,
@@ -705,7 +705,7 @@ class MonthlyReports extends StatelessWidget {
                                             ],
                                           ),
                                           Divider(
-                                            thickness: 2,
+                                            thickness: 1,
                                           ),
                                           SizedBox(
                                             height: 5,
@@ -723,7 +723,7 @@ class MonthlyReports extends StatelessWidget {
                                             height: 5,
                                           ),
                                           Divider(
-                                            thickness: 2,
+                                            thickness: 1,
                                           ),
                                           SizedBox(
                                             height: 5,

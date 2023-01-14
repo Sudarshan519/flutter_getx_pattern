@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_constants.dart';
+import 'package:hajir/app/modules/candidate_login/views/candidate_login_view.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/app/utils/custom_paint/arc_painter.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
-
+import 'dart:math';
 import '../controllers/language_controller.dart';
 
 class LanguageView extends GetView<LanguageController> {
@@ -50,12 +53,17 @@ class LanguageView extends GetView<LanguageController> {
                         height: 257.r,
                         width: 257.r,
                         child: Stack(
-                          alignment: Alignment.center,
+                          alignment: Alignment.center,    
                           children: [
+                      //       Container(
+                      //            height: 240,
+                      //  width:240,
+                      //         child: ClockWidget()),
                             Image.asset(
                               "assets/Ellipse 13.png",
-                              height: 257.r,
-                              width: 257.r,
+                              height: 240.r,
+                              width: 240.r,
+                              
                             ),
                             Image.asset(
                               AppImages.logo,
@@ -107,6 +115,41 @@ class LanguageView extends GetView<LanguageController> {
             ],
           ),
         ));
+  }
+}
+
+class ClockWidget extends StatefulWidget {
+  const ClockWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<ClockWidget> createState() => _ClockWidgetState();
+}
+
+class _ClockWidgetState extends State<ClockWidget> {
+  var now=DateTime.now();
+  late Timer timer;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+ timer=   Timer.periodic(1.seconds, (timer) {now=DateTime.now();
+    setState(() {
+      
+    });
+    });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer.cancel();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+                          angle: -pi / 2, child:   Clock(now:now ));
   }
 }
 

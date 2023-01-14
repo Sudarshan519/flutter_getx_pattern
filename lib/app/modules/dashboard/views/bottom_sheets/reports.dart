@@ -434,7 +434,7 @@ class Reports extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Divider(thickness: 2),
+                  Divider(thickness: 1),
                   SizedBox(
                     height: 5,
                   ),
@@ -456,7 +456,7 @@ class Reports extends StatelessWidget {
                               height: 5,
                             ),
                             Divider(
-                              thickness: 2,
+                              thickness: 1,
                             ),
                             SizedBox(
                               height: 5,
@@ -480,7 +480,7 @@ class Reports extends StatelessWidget {
                               height: 5,
                             ),
                             Divider(
-                              thickness: 2,
+                              thickness: 1,
                             ),
                             SizedBox(
                               height: 5,
@@ -511,7 +511,7 @@ class Reports extends StatelessWidget {
                                 ? Column(
                                     children: [
                                       Divider(
-                                        thickness: 2,
+                                        thickness: 1,
                                       ),
                                       SizedBox(
                                         height: 5,
@@ -530,7 +530,7 @@ class Reports extends StatelessWidget {
                                   )
                                 : SizedBox()),
                             Divider(
-                              thickness: 2,
+                              thickness: 1,
                             ),
                             SizedBox(
                               height: 5,
@@ -554,7 +554,7 @@ class Reports extends StatelessWidget {
                               height: 5,
                             ),
                             Divider(
-                              thickness: 2,
+                              thickness: 1,
                             ),
                             SizedBox(
                               height: 20,
@@ -575,7 +575,7 @@ class Reports extends StatelessWidget {
                                         ],
                                       ),
                                       Divider(
-                                        thickness: 2,
+                                        thickness: 1,
                                       ),
                                       SizedBox(
                                         height: 5,
@@ -593,7 +593,7 @@ class Reports extends StatelessWidget {
                                         height: 5,
                                       ),
                                       Divider(
-                                        thickness: 2,
+                                        thickness: 1,
                                       ),
                                       SizedBox(
                                         height: 5,

@@ -186,7 +186,7 @@ class MyAccount extends StatelessWidget {
             ],
             ListTile(
               onTap: () {
-                Get.bottomSheet(const AddApprover(), isScrollControlled: true);
+                // Get.bottomSheet(const AddApprover(), isScrollControlled: true);
               },
               trailing: Icon(
                 Icons.arrow_forward_ios,

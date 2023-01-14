@@ -67,7 +67,7 @@ class ApplyLeave extends StatelessWidget {
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   hintText: strings.leave_type,
-                  hintStyle: AppTextStyles.l1,
+                  hintStyle: AppTextStyles.l1.copyWith(fontWeight: FontWeight.normal),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(

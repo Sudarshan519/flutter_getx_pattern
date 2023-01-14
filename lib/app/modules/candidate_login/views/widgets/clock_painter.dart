@@ -59,14 +59,14 @@ class ClockPainter extends CustomPainter {
       ..color = Colors.grey
       ..strokeCap = StrokeCap.square
       ..strokeWidth = 1;
-    var secondHandX = centerX + 40 * cos(dateTime.second * 6 * pi / 180);
-    var secondHandY = centerX + 40 * sin(dateTime.second * 6 * pi / 180);
+    var secondHandX = centerX + size.height/2.5 * cos(dateTime.second * 6 * pi / 180);
+    var secondHandY = centerX + size.height/2.5  * sin(dateTime.second * 6 * pi / 180);
 
-    var minHandX = centerX + 30 * cos(dateTime.minute * 6 * pi / 180);
-    var minHandY = centerX + 30 * sin(dateTime.minute * 6 * pi / 180);
+    var minHandX = centerX +  size.height/3.2 * cos(dateTime.minute * 6 * pi / 180);
+    var minHandY = centerX + size.height/3.2 * sin(dateTime.minute * 6 * pi / 180);
 
-    var hourHandX = centerX + 20 * cos(dateTime.hour * 30 * pi / 180);
-    var hourHandY = centerX + 20 * sin(dateTime.hour * 30 * pi / 180);
+    var hourHandX = centerX + size.height/5 * cos(dateTime.hour * 30 * pi / 180);
+    var hourHandY = centerX + size.height/5 * sin(dateTime.hour * 30 * pi / 180);
 
     // canvas.drawCircle(center, radius - 10, fillBrush);
     // canvas.drawCircle(center, radius - 10, outlineBrush);
@@ -78,9 +78,9 @@ class ClockPainter extends CustomPainter {
     // canvas.drawCircle(center, 50, centerFillBrush..color = Colors.white);
     canvas.drawLine(center, Offset(secondHandX, secondHandY), secHandBrush);
 
-    canvas.drawLine(center, Offset(minHandX, minHandY), minHandBrush);
-    canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush);
-    canvas.drawCircle(center, 3, centerFillBrush..color = Colors.grey);
+    canvas.drawLine(center, Offset(minHandX, minHandY), minHandBrush..color=Colors.grey);
+    canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush..color=Colors.grey);
+    canvas.drawCircle(center, 3, centerFillBrush..color=Colors.blueGrey.shade200);
     // const progress = .97;
 
     const startAngle = pi / 2;
