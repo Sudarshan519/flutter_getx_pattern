@@ -9,7 +9,7 @@ class CompanyDetailController extends GetxController {
   var candidates = <EmployeeModel>[].obs;
   var loading = false.obs;
   var myPlan = "Free(Forever)".obs;
-  var _selected = 0.obs;
+  final _selected = 1.obs;
   int get selected => _selected.value;
   set selected(int value) => _selected(value);
   var selectedWeek = 0.obs;

@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
-import 'package:hajir/app/modules/dashboard/views/my_account.dart'; 
+import 'package:hajir/app/modules/dashboard/views/my_account.dart';
 import 'package:hajir/app/routes/app_pages.dart';
-import 'package:hajir/core/localization/l10n/strings.dart'; 
+import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/company_detail_controller.dart';
 import 'pages/attendance.dart';
 import 'pages/employee.dart';
-import 'pages/home.dart'; 
+import 'pages/home.dart';
 
 var pages = [
   EmployerHome(),
@@ -67,7 +67,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
           () =>
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             BottomNavItem(
-              onTap: () => controller.selectedItem(0),
+              onTap: () => Get.back(),
               icon: SvgPicture.asset(
                 "assets/Vector(4).svg",
                 color: controller.selectedItem.value == 0

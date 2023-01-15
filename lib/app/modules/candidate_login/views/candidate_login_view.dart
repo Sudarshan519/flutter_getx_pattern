@@ -147,16 +147,16 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
-                            Text("😊"),
+                            // Text("😊"),
                             Text(
                               strings.todays_earning,
                               style: AppTextStyles.medium
                                   .copyWith(fontWeight: FontWeight.w400),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 21,
                             ),
                             SizedBox(
@@ -201,117 +201,183 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             )
                           ],
                         )
-                      : Column(
-                          children: [
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                strings.income_history,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: const Color(0xff555555)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                            SizedBox(
-                              height: 248,
-                              child: LineChart(),
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                            Container(
-                              height: 36.h,
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7.r),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        color: Color.fromRGBO(236, 237, 240, 1),
-                                        blurRadius: 2)
-                                  ],
-                                  color:
-                                      const Color.fromRGBO(236, 237, 240, 1)),
-                              child: Obx(
-                                () => Row(
+                      // : controller.authStatus == AuthStatus.Unauthenticated
+                      //     ? Text("Logged out")
+                      : controller.isLoggedOut
+                          ? Column(
+                              children: [
+                                SizedBox(
+                                  height: 60,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                          controller.selected = 0;
-                                        },
-                                        child: Container(
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(7.r),
-                                                color: controller.selected == 0
-                                                    ? Colors.white
-                                                    : Colors.transparent),
-                                            height: 32.h,
-                                            width: double.infinity,
-                                            child: Text(
-                                              strings.weekly,
-                                              style: AppTextStyles.b2,
-                                            )),
-                                      ),
+                                    Text(
+                                      "Today you’ve earned",
+                                      style: TextStyle(
+                                          color: Colors.grey.shade700),
                                     ),
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                          controller.selected = 1;
-                                        },
-                                        child: Container(
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(7.r),
-                                                color: controller.selected == 1
-                                                    ? Colors.white
-                                                    : Colors.transparent),
-                                            height: 32.h,
-                                            width: double.infinity,
-                                            child: Text(
-                                              strings.monthly,
-                                              style: AppTextStyles.b2,
-                                            )),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: InkWell(
-                                        onTap: () {
-                                          controller.selected = 2;
-                                        },
-                                        child: Container(
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(7.r),
-                                                color: controller.selected == 2
-                                                    ? Colors.white
-                                                    : Colors.transparent),
-                                            height: 32.h,
-                                            width: double.infinity,
-                                            child: Text(
-                                              strings.annual,
-                                              style: AppTextStyles.b2,
-                                            )),
-                                      ),
-                                    )
+                                    // Text(
+                                    //   strings.todays_earning,
+                                    //   style: AppTextStyles.medium.copyWith(
+                                    //       fontWeight: FontWeight.w400),
+                                    // ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                Text(
+                                  "8,230/-",
+                                  style: AppTextStyles.b1
+                                      .copyWith(color: AppColors.primary),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                Text(
+                                  "Thank You",
+                                  style: AppTextStyles.b1.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.green),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "Have a good time.",
+                                  style: TextStyle(color: Colors.grey.shade700),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  "😊",
+                                  style: TextStyle(fontSize: 32),
+                                ),
+                              ],
                             )
-                          ],
-                        ),
+                          : Column(
+                              children: [
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    strings.income_history,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color(0xff555555)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                SizedBox(
+                                  height: 248,
+                                  child: LineChart(),
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                Container(
+                                  height: 36.h,
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7.r),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Color.fromRGBO(
+                                                236, 237, 240, 1),
+                                            blurRadius: 2)
+                                      ],
+                                      color: const Color.fromRGBO(
+                                          236, 237, 240, 1)),
+                                  child: Obx(
+                                    () => Row(
+                                      children: [
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              controller.selected = 0;
+                                            },
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7.r),
+                                                    color:
+                                                        controller.selected == 0
+                                                            ? Colors.white
+                                                            : Colors
+                                                                .transparent),
+                                                height: 32.h,
+                                                width: double.infinity,
+                                                child: Text(
+                                                  strings.weekly,
+                                                  style: AppTextStyles.b2,
+                                                )),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              controller.selected = 1;
+                                            },
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7.r),
+                                                    color:
+                                                        controller.selected == 1
+                                                            ? Colors.white
+                                                            : Colors
+                                                                .transparent),
+                                                height: 32.h,
+                                                width: double.infinity,
+                                                child: Text(
+                                                  strings.monthly,
+                                                  style: AppTextStyles.b2,
+                                                )),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () {
+                                              controller.selected = 2;
+                                            },
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7.r),
+                                                    color:
+                                                        controller.selected == 2
+                                                            ? Colors.white
+                                                            : Colors
+                                                                .transparent),
+                                                height: 32.h,
+                                                width: double.infinity,
+                                                child: Text(
+                                                  strings.annual,
+                                                  style: AppTextStyles.b2,
+                                                )),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                 )
               ],
             )),
