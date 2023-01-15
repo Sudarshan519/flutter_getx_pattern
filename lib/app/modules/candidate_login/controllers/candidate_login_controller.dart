@@ -44,27 +44,30 @@ class CandidateLoginController extends GetxController {
       if (BreakStatus.NotStarted == breakStarted.value) {
         breakStarted(BreakStatus.Started);
         breakStartedPercentage(percentage.value);
-        print(breakStartedPercentage.value);
+        if (kDebugMode) {
+          print(breakStartedPercentage.value);
+        }
       } else if (breakStarted.value == BreakStatus.Started) {
         breakStarted(BreakStatus.Ended);
         breakEndPercentage(percentage.value);
-        print(breakEndPercentage.value);
+        if (kDebugMode) {
+          print(breakEndPercentage.value);
+        }
       } else {}
     }
   }
 
   updatePercentage() {
     if (loggedInTime.value > 100) {
-      logout(); 
-    } else if(loggedInTime>50 && breakStarted.value==BreakStatus.NotStarted){
+      logout();
+    } else if (loggedInTime > 50 &&
+        breakStarted.value == BreakStatus.NotStarted) {
       startorStopBreak();
+    } else if (loggedInTime > 60 && breakStarted.value == BreakStatus.Started) {
+      startorStopBreak();
+    } else {
+      loggedInTime(loggedInTime.value + 1);
     }
-     else if(loggedInTime>60 && breakStarted.value==BreakStatus.Started){
-       startorStopBreak();
-     }
-    else {
-       loggedInTime(loggedInTime.value + 1);
-     }
     percentage(loggedInTime.value);
     // print(loggedInTime.value);
     if (now.value.second % 5 == 0) {
@@ -88,40 +91,39 @@ class CandidateLoginController extends GetxController {
       if (Platform.isAndroid) {
         isSupported = await localAuth.isDeviceSupported();
         availbaleBiometrics = await localAuth.getAvailableBiometrics();
-       if (isSupported && availbaleBiometrics.isNotEmpty) {
-      try {
-        var isAuthenticated = await localAuth.authenticate(
-            localizedReason: "Employee Identity Verification",
-            options: const AuthenticationOptions(biometricOnly: false));
-        if (isAuthenticated) {
-          authStatus = AuthStatus.Authenticated;
-          timer.cancel();
-          _isloggedIn(true);
-          timerInit(true);
-          timer = Timer.periodic(1.seconds, (timer) {
-            now(DateTime.now());
-            if (!isLoggedOut && isloggedIn) updatePercentage();
-          });
+        if (isSupported && availbaleBiometrics.isNotEmpty) {
+          try {
+            var isAuthenticated = await localAuth.authenticate(
+                localizedReason: "Employee Identity Verification",
+                options: const AuthenticationOptions(biometricOnly: false));
+            if (isAuthenticated) {
+              authStatus = AuthStatus.Authenticated;
+              timer.cancel();
+              _isloggedIn(true);
+              timerInit(true);
+              timer = Timer.periodic(1.seconds, (timer) {
+                now(DateTime.now());
+                if (!isLoggedOut && isloggedIn) updatePercentage();
+              });
+            } else {
+              authStatus = AuthStatus.Unauthenticated;
+              Get.rawSnackbar(message: "Authentication Failed");
+            }
+          } on PlatformException catch (e) {
+            Get.rawSnackbar(message: e.message);
+          }
         } else {
-          authStatus = AuthStatus.Unauthenticated;
-          Get.rawSnackbar(message: "Authentication Failed");
+          if (kDebugMode) {
+            authStatus = AuthStatus.Authenticated;
+            timerInit(true);
+            timer = Timer.periodic(1.seconds, (timer) {
+              now(DateTime.now());
+              updatePercentage();
+            });
+          }
         }
-      } on PlatformException catch (e) {
-        Get.rawSnackbar(message: e.message);
-      }
-    } else {
-      if (kDebugMode) {
-        authStatus = AuthStatus.Authenticated;
-        timerInit(true);
-        timer = Timer.periodic(1.seconds, (timer) {
-          now(DateTime.now());
-          updatePercentage();
-        });
-      }
-    }
       }
     } catch (e) {}
-   
   }
 
   logout() {
@@ -131,7 +133,7 @@ class CandidateLoginController extends GetxController {
     _isloggedIn(false);
     _isloggedOut(true);
     timer.cancel();
-     timerInit(true);
+    timerInit(true);
     timer = Timer.periodic(1.seconds, (timer) {
       now(DateTime.now());
       if (!isLoggedOut && isloggedIn) updatePercentage();
