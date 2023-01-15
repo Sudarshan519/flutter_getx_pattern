@@ -823,26 +823,23 @@ class _TimeWidgetState extends State<TimeWidget> {
       style: Theme.of(context)
           .textTheme
           .bodyLarge!
-          .copyWith(fontWeight: FontWeight.w700),
+          .copyWith(fontWeight: FontWeight.w700,color: Colors.grey.shade200,shadows: [Shadow(color: Colors.black,offset: Offset(1,1))]),
       textAlign: TextAlign.center,
     );
   }
 }
 
 class Clock extends StatefulWidget {
-  const Clock({super.key});
-
+  const Clock({super.key,this.now});
+final DateTime? now;
   @override
   State<Clock> createState() => _ClockState();
 }
 
-class _ClockState extends State<Clock> {
-  var now = DateTime.now();
-  late Timer timer;
-  final CandidateLoginController controller = Get.find();
+class _ClockState extends State<Clock> { 
+ late CandidateLoginController  controller   ;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // timer = Timer.periodic(1.seconds, (timer) {
     //   setState(() {});
@@ -851,14 +848,22 @@ class _ClockState extends State<Clock> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => CustomPaint(
-          painter: ClockPainter(controller.now.value),
+ if(widget.now!=null)
+  { 
+
+ return CustomPaint( painter: ClockPainter(widget.now ));
+        } 
+       
+  else {
+      controller=Get.find();
+   return Obx(() => CustomPaint(
+          painter: ClockPainter( controller.now.value),
         ));
+ }
   }
 }
