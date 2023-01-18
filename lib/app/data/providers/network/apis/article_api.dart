@@ -5,7 +5,7 @@ import 'package:hajir/app/data/providers/network/api_request_representable.dart'
 
 enum ArticleType { fetchHeadline, fetchNews }
 
-class ArticleAPI implements APIRequestRepresentable {
+class  ArticleAPI implements APIRequestRepresentable {
   final ArticleType type;
   String? keyword;
   int? page;
@@ -25,6 +25,7 @@ class ArticleAPI implements APIRequestRepresentable {
   @override
   String get endpoint => APIEndpoint.newsapi;
 
+  @override
   String get path {
     switch (type) {
       case ArticleType.fetchHeadline:
@@ -54,6 +55,7 @@ class ArticleAPI implements APIRequestRepresentable {
   @override
   get body => null;
 
+  @override
   Future request() {
     return APIProvider.instance.request(this);
   }

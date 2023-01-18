@@ -87,6 +87,7 @@ class MobileOptView extends GetView<MobileOptController> {
             },
             //runs when every textfield is filled
             onSubmit: (String verificationCode) {
+              controller.code(verificationCode);
               // showDialog(
               //     context: context,
               //     builder: (context) {
@@ -102,11 +103,7 @@ class MobileOptView extends GetView<MobileOptController> {
           ),
           CustomButton(
               onPressed: () {
-                if (Get.arguments) {
-                  Get.toNamed(Routes.EMPLOYER_DASHBOARD);
-                } else {
-                  Get.toNamed(Routes.DASHBOARD);
-                }
+                controller.verifyOtp();
               },
               label: strings.verify),
           const SizedBox(

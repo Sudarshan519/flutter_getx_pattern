@@ -21,7 +21,7 @@ class APIProvider {
       );
       return _returnResponse(response);
     } on TimeoutException catch (_) {
-      throw TimeOutException(null);
+      rethrow;
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }

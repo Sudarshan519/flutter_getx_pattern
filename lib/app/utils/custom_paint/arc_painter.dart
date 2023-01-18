@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:hajir/app/config/app_colors.dart';
 
 //Add this CustomPaint widget to the Widget Tree
 // CustomPaint(

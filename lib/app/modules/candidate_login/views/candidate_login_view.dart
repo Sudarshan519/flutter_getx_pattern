@@ -52,7 +52,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
-                      color: Color(0xff555555)),
+                      color: const Color(0xff555555)),
                 ),
               ],
             )),
@@ -107,7 +107,9 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             controller.login();
                           },
                           child: Text(
-                            controller.isLoggedOut ? "Logged Out" : "Login",
+                            controller.isLoggedOut
+                                ? "Logged Out"
+                                : strings.login,
                             style: AppTextStyles.b2,
                           ))),
                 ),
@@ -213,7 +215,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Today you’ve earned",
+                                      strings.today_you_ve_earned,
                                       style: TextStyle(
                                           color: Colors.grey.shade700),
                                     ),
@@ -236,7 +238,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                   height: 40,
                                 ),
                                 Text(
-                                  "Thank You",
+                                  strings.thank_you,
                                   style: AppTextStyles.b1.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.green),
@@ -245,7 +247,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                   height: 8,
                                 ),
                                 Text(
-                                  "Have a good time.",
+                                  strings.have_a_good_time,
                                   style: TextStyle(color: Colors.grey.shade700),
                                 ),
                                 SizedBox(
@@ -820,24 +822,24 @@ class _TimeWidgetState extends State<TimeWidget> {
   Widget build(BuildContext context) {
     return Text(
       DateFormat('hh:mm a').format(now),
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge!
-          .copyWith(fontWeight: FontWeight.w700,color: Colors.grey.shade200,shadows: [Shadow(color: Colors.black,offset: Offset(1,1))]),
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.w700,
+          color: Colors.grey.shade200,
+          shadows: [Shadow(color: Colors.black, offset: Offset(1, 1))]),
       textAlign: TextAlign.center,
     );
   }
 }
 
 class Clock extends StatefulWidget {
-  const Clock({super.key,this.now});
-final DateTime? now;
+  const Clock({super.key, this.now});
+  final DateTime? now;
   @override
   State<Clock> createState() => _ClockState();
 }
 
-class _ClockState extends State<Clock> { 
- late CandidateLoginController  controller   ;
+class _ClockState extends State<Clock> {
+  late CandidateLoginController controller;
   @override
   void initState() {
     super.initState();
@@ -853,17 +855,13 @@ class _ClockState extends State<Clock> {
 
   @override
   Widget build(BuildContext context) {
- if(widget.now!=null)
-  { 
-
- return CustomPaint( painter: ClockPainter(widget.now ));
-        } 
-       
-  else {
-      controller=Get.find();
-   return Obx(() => CustomPaint(
-          painter: ClockPainter( controller.now.value),
-        ));
- }
+    if (widget.now != null) {
+      return CustomPaint(painter: ClockPainter(widget.now));
+    } else {
+      controller = Get.find();
+      return Obx(() => CustomPaint(
+            painter: ClockPainter(controller.now.value),
+          ));
+    }
   }
 }

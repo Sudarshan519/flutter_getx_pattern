@@ -15,8 +15,11 @@ import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController phone = TextEditingController();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -92,6 +95,7 @@ class LoginView extends GetView<LoginController> {
               height: 40.h,
             ),
             TextFormField(
+              controller: phone,
               decoration: InputDecoration(
                   prefixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -134,8 +138,9 @@ class LoginView extends GetView<LoginController> {
             ),
             CustomButton(
                 onPressed: () {
-                  Get.toNamed(Routes.MOBILE_OPT,
-                      arguments: controller.isEmployer.value);
+                  if (formKey.currentState!.validate()) {
+                    controller.registerPhone(phone: phone.text);
+                  }
                 },
                 label: strings.get_otp),
             const SizedBox(
