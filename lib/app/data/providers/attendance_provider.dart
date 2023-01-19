@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:hajir/app/data/providers/network/api_provider.dart';
 
 class BaseResponse {
-  String message;
+  dynamic body;
+  String? message;
   int statusCode;
-  BaseResponse({required this.message, required this.statusCode});
+  BaseResponse({this.body, this.message, required this.statusCode});
 }
 
 class ServerException implements Exception {
@@ -15,54 +17,63 @@ class ServerException implements Exception {
 class ValidatorException implements Exception {
   String? message;
   int? statusCode;
-  List? data;
+  dynamic data;
   ValidatorException([this.message, this.statusCode, this.data]);
 }
 
 class AttendanceSystemProvider extends GetConnect {
   @override
   void onInit() {
-    httpClient.baseUrl = 'localhost:8000/api';
+    httpClient.baseUrl = 'https://attendance.an4soft.com/api/';
   }
+
+  // dynamic _returnResponse(Response<dynamic> response) {
+  //   switch (response.statusCode) {
+  //     case 200:
+  //       return response.body;
+  //     case 400:
+  //       throw BadRequestException(response.body.toString());
+  //     case 401:
+  //     case 403:
+  //       throw UnauthorisedException(response.body.toString());
+  //     case 404:
+  //       throw BadRequestException('Not found');
+  //     case 500:
+  //       throw FetchDataException('Internal Server Error');
+  //     default:
+  //       throw FetchDataException(
+  //           'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+  //   }
+  // }
 
   /// candidate
   Future<BaseResponse> register(String phone) async {
-    var body = {'phone': '9874565689'};
+    var body = {'phone': phone};
     try {
       var res = await post('candidate/register', body);
       return parseRes(res);
-    } on ValidatorException catch (e) {
-      rethrow;
     } catch (e) {
-      throw ServerException(e.toString());
+      rethrow;
+      //  throw ServerException(e.toString());
       // return BaseResponse(message: "Something went wrong", statusCode: 400);
     }
   }
 
   ///
-  Future<BaseResponse> verifyOtp(String phone, String code) async {
-    var body = {'phone': '9874565689', 'otp': '5827'};
+  Future<dynamic> verifyOtp(String phone, String code,
+      {bool isEmployer = false}) async {
+    var body = {'phone': phone, 'otp': code};
 
-    try {
-      var res = await post('/candidate/verify-opt', body);
-      return parseRes(res);
-    } on ValidatorException catch (e) {
-      rethrow;
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
+    var res = await post('candidate/verify-opt', body);
+    return parseRes(res);
   }
 
   ///Employer login
   Future<BaseResponse> registerEmployer() async {
     var body = {'phone': '9874565689', 'otp': '5827'};
 
-    try {
-      var res = await post('/employer/verify-opt', body);
-      return parseRes(res);
-    } catch (e) {
-      rethrow;
-    }
+    var res = await post('/employer/verify-opt', body);
+    return parseRes(res);
   }
 
   verifyEmployerOtp() async {
@@ -257,13 +268,29 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   parseRes(Response res) {
+    print(res.statusCode);
+    switch (res.statusCode) {
+      case 200:
+        return BaseResponse(body: res.body, statusCode: res.statusCode!);
+      case 400:
+        throw BadRequestException(res.body.toString());
+      case 401:
+      case 403:
+        throw UnauthorisedException(res.body.toString());
+      case 404:
+        throw BadRequestException('Not found');
+      case 500:
+        throw FetchDataException('Internal Server Error');
+      default:
+        throw FetchDataException(
+            'Error occured while Communication with Server with StatusCode : ${res.statusCode}');
+    }
     if (res.body != null) {
       if (res.statusCode! >= 200 && res.statusCode! < 300) {
-        return BaseResponse(
-            message: res.body['message'], statusCode: res.statusCode!);
+        return BaseResponse(body: res.body, statusCode: res.statusCode!);
       } else {
-        throw ValidatorException(
-            res.body['message'], res.statusCode!, res.body['data']);
+        throw ValidatorException(res.body['message'], res.statusCode!,
+            res.body['data']['phone'].toString());
       }
     } else {
       return BaseResponse(message: "Something went wrong", statusCode: 400);

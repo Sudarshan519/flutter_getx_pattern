@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +8,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
-import 'package:hajir/app/modules/login/views/login_view.dart';
-import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/app/modules/login/views/login_view.dart'; 
 import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/mobile_opt_controller.dart';
 
@@ -67,7 +67,7 @@ class MobileOptView extends GetView<MobileOptController> {
             style: AppTextStyles.medium,
           ),
           Text(
-            "${strings.country_code}-9818124202",
+            "${strings.country_code}-${controller.args[1]}",
             textAlign: TextAlign.center,
             style: AppTextStyles.medium.copyWith(fontWeight: FontWeight.w700),
           ),
@@ -77,7 +77,7 @@ class MobileOptView extends GetView<MobileOptController> {
           OtpTextField(
             borderWidth: 1,
             fieldWidth: 48,
-            numberOfFields: 5,
+            numberOfFields: 4,
             borderColor: Colors.grey.shade300,
             //set to true to show as box or false to show as dash
             showFieldAsBox: true,
@@ -87,6 +87,9 @@ class MobileOptView extends GetView<MobileOptController> {
             },
             //runs when every textfield is filled
             onSubmit: (String verificationCode) {
+              if (kDebugMode) {
+                print(verificationCode);
+              }
               controller.code(verificationCode);
               // showDialog(
               //     context: context,
@@ -103,21 +106,31 @@ class MobileOptView extends GetView<MobileOptController> {
           ),
           CustomButton(
               onPressed: () {
-                controller.verifyOtp();
+                if (controller.code.isEmpty) {
+                  Get.rawSnackbar(message: "Enter a valid code.");
+                } else if (controller.loading.isTrue) {
+                } else {
+                  controller.verifyOtp();
+                }
               },
               label: strings.verify),
           const SizedBox(
             height: 25,
           ),
           RichText(
-              text: TextSpan(children: [
-            TextSpan(
-                text: strings.did_not_receive_otp, style: AppTextStyles.l2),
-            TextSpan(
-                text:
-                    "  ${strings.resent_otp_in.replaceFirst("12:02", "12:00")}",
-                style: AppTextStyles.l2.copyWith(color: Colors.red))
-          ])),
+            text: TextSpan(children: [
+              TextSpan(
+                  text: strings.did_not_receive_otp, style: AppTextStyles.l2),
+              WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Obx(
+                    () => Text(
+                      "  ${strings.resent_otp_in.replaceFirst("12:02", controller.elapsedTime.value.toString())}",
+                      style: AppTextStyles.l2.copyWith(color: Colors.red),
+                    ),
+                  ))
+            ]),
+          ),
           const SizedBox(
             height: 94,
           ),

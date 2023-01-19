@@ -18,8 +18,6 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController phone = TextEditingController();
-    final formKey = GlobalKey<FormState>();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -29,7 +27,7 @@ class LoginView extends GetView<LoginController> {
             SizedBox(
               height: 50.h,
             ),
-            HajirLogo(),
+            const HajirLogo(),
             SizedBox(
               height: 50.h,
             ),
@@ -70,9 +68,9 @@ class LoginView extends GetView<LoginController> {
                       viewportFraction: 1,
                       autoPlay: true)),
             ),
-            SizedBox(
-              height: 12.h,
-            ),
+            // SizedBox(
+            //   height: 8.h,
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -80,8 +78,8 @@ class LoginView extends GetView<LoginController> {
                   (index) => Obx(
                         () => AnimatedContainer(
                           duration: 300.milliseconds,
-                          height: 12.sp,
-                          width: 12.sp,
+                          height: 8.sp,
+                          width: 8.sp,
                           decoration: BoxDecoration(
                               color: controller.selectedItem == index
                                   ? Colors.grey
@@ -94,52 +92,60 @@ class LoginView extends GetView<LoginController> {
             SizedBox(
               height: 40.h,
             ),
-            TextFormField(
-              controller: phone,
-              decoration: InputDecoration(
-                  prefixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: REdgeInsets.all(8.0),
-                        child: Row(mainAxisSize: MainAxisSize.min, children: [
-                          SvgPicture.asset(
-                            "assets/twemoji_flag-nepal.svg",
-                            height: 22.r,
-                            width: 22.r,
-                          ),
-                          Text(
-                            strings.country_code,
-                            style: AppTextStyles.l1,
-                          ),
-                        ]),
-                      ),
-                      Container(
-                        height: 40.r,
-                        color: Colors.grey.shade300,
-                        width: 1.r,
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      )
-                    ],
-                  ),
-                  hintText: strings.mobile_number,
-                  hintStyle: AppTextStyles.l1,
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400)),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey))),
+            Form(
+              key: controller.formKey,
+              child: TextFormField(
+                controller: controller.phone,
+                validator: (v) {
+                  if (!GetUtils.isPhoneNumber(v!)) {
+                    return 'Enter a valid phone';
+                  }
+                },
+                decoration: InputDecoration(
+                    prefixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: REdgeInsets.all(8.0),
+                          child: Row(mainAxisSize: MainAxisSize.min, children: [
+                            SvgPicture.asset(
+                              "assets/twemoji_flag-nepal.svg",
+                              height: 22.r,
+                              width: 22.r,
+                            ),
+                            Text(
+                              strings.country_code,
+                              style: AppTextStyles.l1,
+                            ),
+                          ]),
+                        ),
+                        Container(
+                          height: 40.r,
+                          color: Colors.grey.shade300,
+                          width: 1.r,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        )
+                      ],
+                    ),
+                    hintText: strings.mobile_number,
+                    hintStyle: AppTextStyles.l1,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey.shade400)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey.shade300)),
+                    border: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey))),
+              ),
             ),
             const SizedBox(
               height: 25,
             ),
             CustomButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    controller.registerPhone(phone: phone.text);
+                  if (controller.formKey.currentState!.validate()) {
+                    controller.registerPhone();
                   }
                 },
                 label: strings.get_otp),

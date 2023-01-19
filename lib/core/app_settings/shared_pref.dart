@@ -12,6 +12,9 @@ class AppSettings {
   final SharedPreferences _sharedPref;
 
   AppSettings(this._sharedPref);
+
+  String get token => _sharedPref.getString('token') ?? '';
+  set token(String tkn) => _sharedPref.setString('token', tkn);
   Locale getLocale() {
     bool isEnglish =
         _sharedPref.getBool(AuthPreferenceKeys.has_selected_english) ?? true;

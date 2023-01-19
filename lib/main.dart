@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
-import 'package:hajir/app/data/providers/network/apis/attendance_api.dart';
 import 'package:hajir/app/initial_bindings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
@@ -43,7 +42,7 @@ appInit() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   AppSettings appSettings = AppSettings(sharedPreferences);
   final AttendanceSystemProvider attendanceApi = AttendanceSystemProvider();
-  Get.lazyPut(() => attendanceApi);
+  Get.lazyPut(() => attendanceApi, fenix: true);
   Get.lazyPut<SharedPreferences>(() => sharedPreferences);
 
   Get.lazyPut<AppSettings>(() => appSettings);
