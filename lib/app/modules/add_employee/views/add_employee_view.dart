@@ -22,14 +22,14 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             style:
                 Theme.of(context).textTheme.headline6!.copyWith(fontSize: 24),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.staff_code,
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextFormField(
@@ -43,10 +43,10 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                     borderSide: BorderSide(color: Colors.grey.shade400)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300)),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextFormField(
@@ -60,10 +60,10 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                     borderSide: BorderSide(color: Colors.grey.shade400)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300)),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextFormField(
@@ -77,10 +77,10 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                     borderSide: BorderSide(color: Colors.grey.shade400)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300)),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextFormField(
@@ -94,14 +94,14 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                     borderSide: BorderSide(color: Colors.grey.shade400)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300)),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text("[Add from contact address]"),
-          SizedBox(
+          const Text("[Add from contact address]"),
+          const SizedBox(
             height: 20,
           ),
           TextFormField(
@@ -115,17 +115,17 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                     borderSide: BorderSide(color: Colors.grey.shade400)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300)),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.dob,
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
           InkWell(
@@ -145,18 +145,18 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.office_hours,
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Container(
@@ -206,7 +206,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
               ),
             ]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -256,14 +256,14 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
               ),
             ]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             "Break hours",
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Container(
@@ -313,20 +313,20 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
               ),
             ]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          CustomDropDownField(
+          const CustomDropDownField(
             title: "Salary Type",
             hint: "eg.2500",
             items: ['Full Time', 'Part Time'],
           ),
-          CustomFormField(title: "Salary Amount", hint: "eg.2500"),
+          const CustomFormField(title: "Salary Amount", hint: "eg.2500"),
           Text(
             "Joining Date",
             style: AppTextStyles.l1.copyWith(color: AppColors.primary),
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
           InkWell(
@@ -346,17 +346,17 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             children: [
-              Text("Duty Time"),
-              Spacer(),
+              const Text("Duty Time"),
+              const Spacer(),
               Container(
                 width: 191,
                 height: 46,
@@ -366,9 +366,9 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                 child: Row(children: [
                   Expanded(
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 8),
+                              EdgeInsets.symmetric(horizontal: 8),
                           border: InputBorder.none),
                     ),
                   ),
@@ -384,19 +384,19 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(.1),
                     ),
-                    child: Text("AM"),
+                    child: const Text("AM"),
                   ),
                 ]),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             children: [
-              Text("Overtime [Ratio]"),
-              Spacer(),
+              const Text("Overtime [Ratio]"),
+              const Spacer(),
               Checkbox(value: false, onChanged: (v) {}),
               Container(
                   width: 191,
@@ -405,15 +405,15 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                       border: Border.all(color: Colors.grey.shade300),
                       borderRadius: BorderRadius.circular(4)),
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "eg.1,1.5,2",
                         contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 8),
+                            EdgeInsets.symmetric(horizontal: 8),
                         border: InputBorder.none),
                   )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           CustomButton(
@@ -421,7 +421,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                 Get.back(result: true);
               },
               label: "Add"),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ]),
@@ -470,7 +470,7 @@ class CustomDropDownField extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.grey.shade400)),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300)),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
             onChanged: (value) {},
           ),
@@ -506,7 +506,7 @@ class CustomFormField extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             )
           : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -514,7 +514,7 @@ class CustomFormField extends StatelessWidget {
                 title,
                 style: AppTextStyles.l1.copyWith(color: AppColors.primary),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextFormField(
@@ -529,7 +529,7 @@ class CustomFormField extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.grey.shade400)),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey.shade300)),
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey))),
               ),
             ]),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -9,13 +10,6 @@ import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/employer_dashboard_controller.dart';
-
-var pages = [
-  Companies(),
-  MyAccount(
-    isEmployer: true,
-  )
-];
 
 class Companies extends StatelessWidget {
   const Companies({super.key});
@@ -32,11 +26,11 @@ class Companies extends StatelessWidget {
               Obx(() => controller.companyList.isNotEmpty
                   ? Text(
                       strings.companies_list,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 24),
                     )
-                  : SizedBox()),
-              Spacer(),
+                  : const SizedBox()),
+              const Spacer(),
               IconButton(
                 onPressed: () {},
                 icon: Align(
@@ -50,7 +44,7 @@ class Companies extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Obx(() => controller.companyList.isNotEmpty
@@ -82,7 +76,7 @@ class Companies extends StatelessWidget {
                                   style: AppTextStyles.b2.copyWith(
                                       fontSize: 18, color: AppColors.primary),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Row(
@@ -107,7 +101,8 @@ class Companies extends StatelessWidget {
                                                         color:
                                                             AppColors.primary,
                                                         fontSize: 10)),
-                                            TextSpan(text: " ]          "),
+                                            const TextSpan(
+                                                text: " ]          "),
                                           ],
                                           style: AppTextStyles.b2.copyWith(
                                               fontSize: 10,
@@ -123,7 +118,7 @@ class Companies extends StatelessWidget {
                                               style: AppTextStyles.b2.copyWith(
                                                   color: AppColors.primary,
                                                   fontSize: 10)),
-                                          TextSpan(text: " ]"),
+                                          const TextSpan(text: " ]"),
                                         ],
                                             style: AppTextStyles.b2.copyWith(
                                                 fontSize: 10,
@@ -139,7 +134,7 @@ class Companies extends StatelessWidget {
                 )
               : Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 80,
                     ),
                     SvgPicture.asset(
@@ -147,7 +142,7 @@ class Companies extends StatelessWidget {
                       height: 160.48,
                       width: 173.85,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
                     Text(
@@ -169,13 +164,22 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
   const EmployerDashboardView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+    var pages = [
+      const Companies(),
+      MyAccount(
+        isEmployer: true,
+        controller: controller,
+      )
+    ];
+
     return Scaffold(
       body: SafeArea(child: Obx(() => pages[controller.selectedIndex.value])),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
             selectedItemColor: AppColors.primary,
             currentIndex: controller.selectedIndex.value,
-            selectedLabelStyle: TextStyle(
+            selectedLabelStyle: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
             onTap: (i) {
               controller.selectedIndex(i);
@@ -216,7 +220,7 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
         onPressed: () {
           Get.toNamed(Routes.CREATE_COMPANY);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

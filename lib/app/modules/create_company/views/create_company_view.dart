@@ -25,7 +25,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
               style:
                   Theme.of(context).textTheme.headline6!.copyWith(fontSize: 24),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -38,17 +38,17 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Staff code",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -74,13 +74,13 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   width: 1,
                   color: Colors.grey.shade300,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Auto generated",
                       style: TextStyle(fontSize: 12),
@@ -96,7 +96,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 )
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -121,13 +121,13 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   width: 1,
                   color: Colors.grey.shade300,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Auto generated",
                       style: TextStyle(fontSize: 12),
@@ -143,14 +143,14 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 )
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Salary calculation day",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -176,13 +176,13 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   width: 1,
                   color: Colors.grey.shade300,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Auto generated",
                       style: TextStyle(fontSize: 12),
@@ -198,7 +198,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 )
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -223,13 +223,13 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   width: 1,
                   color: Colors.grey.shade300,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Auto generated",
                       style: TextStyle(fontSize: 12),
@@ -245,14 +245,14 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 )
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Business Leave Days",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             ...List.generate(
@@ -271,7 +271,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                             DateFormat("EEEE").format(DateTime.now().subtract(
                                 Duration(days: DateTime.now().weekday - i))),
                             style: AppTextStyles.normal),
-                        Spacer(),
+                        const Spacer(),
                         if (i == 0 || i == 6)
                           Checkbox(
                               activeColor: AppColors.primary,
@@ -279,14 +279,14 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                               onChanged: (v) {})
                       ],
                     ))),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Add government leave days",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 14,
             ),
             InkWell(
@@ -307,18 +307,18 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                         borderSide: BorderSide(color: Colors.grey.shade400)),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey.shade300)),
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey))),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Add special leave day",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 14,
             ),
             InkWell(
@@ -338,18 +338,18 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                         borderSide: BorderSide(color: Colors.grey.shade400)),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey.shade300)),
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey))),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Office hours",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -399,14 +399,14 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 ),
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(
               "Access network",
               style: AppTextStyles.l1.copyWith(color: AppColors.primary),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -432,7 +432,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   width: 1,
                   color: Colors.grey.shade300,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
@@ -447,7 +447,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 )
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -472,7 +472,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   width: 1,
                   color: Colors.grey.shade300,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Column(
@@ -487,7 +487,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 )
               ]),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             CustomButton(
@@ -497,7 +497,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   Get.back();
                 },
                 label: "Add"),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
           ],

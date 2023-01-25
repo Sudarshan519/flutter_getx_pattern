@@ -19,6 +19,7 @@ class LanguageView extends GetView<LanguageController> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SizedBox(
@@ -53,17 +54,16 @@ class LanguageView extends GetView<LanguageController> {
                         height: 257.r,
                         width: 257.r,
                         child: Stack(
-                          alignment: Alignment.center,    
+                          alignment: Alignment.center,
                           children: [
-                      //       Container(
-                      //            height: 240,
-                      //  width:240,
-                      //         child: ClockWidget()),
+                            //       Container(
+                            //            height: 240,
+                            //  width:240,
+                            //         child: ClockWidget()),
                             Image.asset(
                               "assets/Ellipse 13.png",
                               height: 240.r,
                               width: 240.r,
-                              
                             ),
                             Image.asset(
                               AppImages.logo,
@@ -82,13 +82,14 @@ class LanguageView extends GetView<LanguageController> {
                       Text(
                         strings.choose_language,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       CustomButton(
                           onPressed: () {
+                            
                             appSettings.changeLang();
                             Get.offNamed(Routes.WELCOME);
                           },
@@ -98,7 +99,8 @@ class LanguageView extends GetView<LanguageController> {
                       ),
                       Text(
                         strings.or,
-                        style: TextStyle(color: Colors.black, fontSize: 13),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 13),
                       ),
                       const SizedBox(
                         height: 12,
@@ -128,28 +130,28 @@ class ClockWidget extends StatefulWidget {
 }
 
 class _ClockWidgetState extends State<ClockWidget> {
-  var now=DateTime.now();
+  var now = DateTime.now();
   late Timer timer;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
- timer=   Timer.periodic(1.seconds, (timer) {now=DateTime.now();
-    setState(() {
-      
-    });
+    timer = Timer.periodic(1.seconds, (timer) {
+      now = DateTime.now();
+      setState(() {});
     });
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     timer.cancel();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Transform.rotate(
-                          angle: -pi / 2, child:   Clock(now:now ));
+    return Transform.rotate(angle: -pi / 2, child: Clock(now: now));
   }
 }
 

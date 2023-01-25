@@ -44,30 +44,30 @@ class Attendance extends StatelessWidget {
               AttendanceItem(
                   label: strings.attendee,
                   value: "20",
-                  color: Color.fromRGBO(0, 128, 0, .1),
-                  borderColor: Color.fromRGBO(0, 128, 0, .05)),
+                  color: const Color.fromRGBO(0, 128, 0, .1),
+                  borderColor: const Color.fromRGBO(0, 128, 0, .05)),
               AttendanceItem(
                   label: strings.absent,
                   value: "20",
-                  color: Color.fromRGBO(255, 80, 80, 0.1),
-                  borderColor: Color.fromRGBO(255, 80, 80, 0.05)),
+                  color: const Color.fromRGBO(255, 80, 80, 0.1),
+                  borderColor: const Color.fromRGBO(255, 80, 80, 0.05)),
               AttendanceItem(
                 label: strings.late,
                 value: "20",
-                color: Color.fromRGBO(128, 128, 128, 0.1),
-                borderColor: Color.fromRGBO(128, 128, 128, 0.05),
+                color: const Color.fromRGBO(128, 128, 128, 0.1),
+                borderColor: const Color.fromRGBO(128, 128, 128, 0.05),
               ),
               AttendanceItem(
                 onPressed: () {
                   Get.bottomSheet(
-                    OverAllReports(),
+                    const OverAllReports(),
                     isScrollControlled: true,
                   );
                 },
                 label: strings.reports,
                 value: "20",
-                color: Color.fromRGBO(0, 0, 255, 0.1),
-                borderColor: Color.fromRGBO(0, 0, 255, 0.1),
+                color: const Color.fromRGBO(0, 0, 255, 0.1),
+                borderColor: const Color.fromRGBO(0, 0, 255, 0.1),
               )
             ],
           ),
@@ -165,7 +165,7 @@ class Attendance extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                         onTap: () {
                           Get.bottomSheet(
-                            IndividualReport(),
+                            const IndividualReport(),
                             isScrollControlled: true,
                           );
                         },
@@ -185,12 +185,12 @@ class Attendance extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(employeeList[i].name!),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
-                                      "RT00${i}",
-                                      style: TextStyle(color: Colors.grey),
+                                      "RT00$i",
+                                      style: const TextStyle(color: Colors.grey),
                                     ),
                                   ],
                                 ),
@@ -208,11 +208,11 @@ class Attendance extends StatelessWidget {
                                         .split(" ")
                                         .first
                                         .toUpperCase(),
-                                    style: TextStyle(fontSize: 7),
+                                    style: const TextStyle(fontSize: 7),
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               SizedBox(

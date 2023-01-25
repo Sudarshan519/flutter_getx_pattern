@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
-import 'package:hajir/app/modules/login/views/login_view.dart'; 
+import 'package:hajir/app/modules/login/views/login_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/mobile_opt_controller.dart';
 
@@ -16,6 +16,9 @@ class MobileOptView extends GetView<MobileOptController> {
   const MobileOptView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // controller.onClose();
+    // controller.dispose();
+    // controller.onInit();
     return Scaffold(
         body: SingleChildScrollView(
       padding: REdgeInsets.symmetric(horizontal: 16),

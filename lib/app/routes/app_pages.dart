@@ -18,6 +18,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/inbox/bindings/inbox_binding.dart';
 import '../modules/inbox/views/inbox_view.dart';
+import '../modules/initial/bindings/initial_binding.dart';
+import '../modules/initial/views/initial_view.dart';
 import '../modules/language/bindings/language_binding.dart';
 import '../modules/language/views/language_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -35,7 +37,8 @@ class AppPages {
   AppPages._();
 
   static const INITIAL = Routes.LANGUAGE;
-
+  static const DASHBOARD = Routes.DASHBOARD;
+  static const WELCOME = Routes.WELCOME;
   static final routes = [
     GetPage(
       name: _Paths.HOME,
@@ -106,6 +109,11 @@ class AppPages {
       name: _Paths.MISSING_ATTENDANCE,
       page: () => const MissingAttendanceView(),
       binding: MissingAttendanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.INITIAL,
+      page: () => const InitialView(),
+      binding: InitialBinding(),
     ),
   ];
 }

@@ -76,11 +76,11 @@ class _MovingCardWidgetState extends State<MovingCardWidget>
             ..setEntry(3, 2, .001)
             ..rotateX(verticalDrag / 180 * pi),
           child: isFront
-              ? Front()
+              ? const Front()
               : Transform(
                   transform: Matrix4.identity()..rotateX(pi),
                   alignment: Alignment.center,
-                  child: Back(),
+                  child: const Back(),
                 )),
     );
   }
@@ -106,7 +106,7 @@ class Back extends StatelessWidget {
       width: 250,
       decoration: BoxDecoration(
           color: Colors.black,
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
               colors: [Colors.red, Colors.yellow, Colors.grey],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter),
@@ -127,7 +127,7 @@ class Front extends StatelessWidget {
       width: 250,
       decoration: BoxDecoration(
           color: Colors.red,
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
               colors: [Colors.blue, Colors.green, Colors.grey],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter),
@@ -187,7 +187,7 @@ class _ArcPaintState extends State<ArcPaint> {
       ),
       child: Center(
         child:
-            Text(faceName!.substring(0, 1), style: TextStyle(fontSize: 80.0)),
+            Text(faceName!.substring(0, 1), style: const TextStyle(fontSize: 80.0)),
       ),
     );
   }
@@ -197,17 +197,17 @@ class _ArcPaintState extends State<ArcPaint> {
       onTap: () => setState(() => _showFrontSide = !_showFrontSide),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 200,
             width: 200,
             child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 600),
+              duration: const Duration(milliseconds: 600),
               transitionBuilder: __transitionBuilder,
               layoutBuilder: (widget, list) =>
                   Stack(children: [widget!, ...list]),
-              child: _showFrontSide ? _buildFront() : _buildRear(),
               switchInCurve: Curves.easeOutBack,
               switchOutCurve: Curves.easeOutBack.flipped,
+              child: _showFrontSide ? _buildFront() : _buildRear(),
             ),
           ),
         ],
@@ -228,8 +228,8 @@ class _ArcPaintState extends State<ArcPaint> {
             isUnder ? min(rotateAnim.value, pi / 2) : rotateAnim.value;
         return Transform(
           transform: Matrix4.rotationY(value)..setEntry(3, 0, tilt),
-          child: widget,
           alignment: Alignment.center,
+          child: widget,
         );
       },
     );
@@ -286,7 +286,7 @@ class _ArcPaintState extends State<ArcPaint> {
 
   Widget _buildFront() {
     return __buildLayout(
-      key: ValueKey(true),
+      key: const ValueKey(true),
       backgroundColor: Colors.blue,
       faceName: "F",
     );
@@ -294,7 +294,7 @@ class _ArcPaintState extends State<ArcPaint> {
 
   Widget _buildRear() {
     return __buildLayout(
-      key: ValueKey(false),
+      key: const ValueKey(false),
       backgroundColor: Colors.blue.shade700,
       faceName: "R",
     );
@@ -317,9 +317,9 @@ class CirclePainter extends CustomPainter {
     // 1
     final center = Offset(bdr.right, bdr.top + (bdr.height / 2.0));
     // 2
-    final height = 5.0;
+    const height = 5.0;
     // 3
-    final width = 10;
+    const width = 10;
     // 4
     return Rect.fromCenter(
         center: center, width: width.toDouble(), height: height);
@@ -334,15 +334,15 @@ class CirclePainter extends CustomPainter {
     num pinWidth = 0;
     final width = size.width - symmetricalMargin - padding - pinWidth;
     // 3
-    final height = 10.0;
+    const height = 10.0;
     // 4
     final top = (size.height / 2) - (height / 2);
     // 5
-    final radius = Radius.circular(height / 2);
+    const radius = Radius.circular(height / 2);
     // 6
     final bounds = Rect.fromLTWH(margin + 100, top + 100, width / 2, 10);
     // 7
-    return RRect.fromRectAndRadius(bounds, Radius.circular(4));
+    return RRect.fromRectAndRadius(bounds, const Radius.circular(4));
   }
 //  for (double i = 0; i < 360; i += 6) {
   // if (i % 30 == 0) {
@@ -464,6 +464,7 @@ class CirclePainter extends CustomPainter {
 }
 
 class MyPainter extends CustomPainter {
+  @override
   void paint(Canvas canvas, Size size) {
     double centerPoint = size.height / 2;
 
@@ -478,7 +479,7 @@ class MyPainter extends CustomPainter {
       ..strokeWidth = strokeWidth;
 
     paint.shader = SweepGradient(
-      colors: [Colors.black, Colors.pink],
+      colors: const [Colors.black, Colors.pink],
       tileMode: TileMode.repeated,
       startAngle: _degreeToRad(270),
       endAngle: _degreeToRad(270 + 360.0),
@@ -633,9 +634,9 @@ class ArcPainter extends CustomPainter {
         size.height * 0.5000000);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffEDEEF1).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = const Color(0xffEDEEF1).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
     // Path path_0 = Path();
     // path_0.moveTo(size.width * 0.9777778, size.height * 0.5000007);
     // path_0.cubicTo(

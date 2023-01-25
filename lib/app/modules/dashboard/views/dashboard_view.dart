@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -9,13 +10,19 @@ import 'package:hajir/app/modules/dashboard/views/my_account.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/dashboard_controller.dart';
 
-var tabs = [const Home(), const ApplyLeave(), const MyAccount()];
-
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var tabs = [
+      const Home(),
+      const ApplyLeave(),
+      MyAccount(
+        controller: controller,
+      )
+    ];
+    ScreenUtil.init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -23,11 +30,16 @@ class DashboardView extends GetView<DashboardController> {
       bottomNavigationBar: Obx(() => BottomNavigationBar(
               onTap: (i) {
                 if (i == 1) {
-                  Get.bottomSheet(
-                      Material(color: Colors.white, child: ApplyLeave()),
-                      isScrollControlled: true);
-                } else
+                  controller.isEmployed
+                      ? Get.bottomSheet(
+                          const Material(
+                              color: Colors.white, child: ApplyLeave()),
+                          isScrollControlled: true)
+                      : Get.rawSnackbar(
+                          message: "No employment details found.");
+                } else {
                   controller.selectedIndex = i;
+                }
               },
               unselectedItemColor: Colors.grey,
               currentIndex: controller.selectedIndex,

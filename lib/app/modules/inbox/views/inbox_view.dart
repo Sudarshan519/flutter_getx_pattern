@@ -1,17 +1,11 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
-import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/inbox/views/inbox_detail.dart';
-import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
-import 'package:hajir/main_paint.dart';
-import 'package:hajir/translations/app_locale.dart';
 
 import '../controllers/inbox_controller.dart';
 
@@ -27,14 +21,14 @@ class InboxView extends GetView<InboxController> {
         children: [
           Row(
             children: [
-              BackButton(),
+              const BackButton(),
               Text(
                 strings.inbox,
                 style: AppTextStyles.b1.copyWith(fontSize: 24.sp),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Expanded(
@@ -63,7 +57,7 @@ class InboxView extends GetView<InboxController> {
                                   height: 64,
                                   width: 64,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 Expanded(
@@ -75,7 +69,7 @@ class InboxView extends GetView<InboxController> {
                                         "Nitesh Shrestha",
                                         style: AppTextStyles.b1,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 8,
                                       ),
                                       Expanded(
@@ -86,7 +80,7 @@ class InboxView extends GetView<InboxController> {
                                               style: TextStyle(
                                                   color: Colors.grey.shade600),
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Text(
                                               "31 Dec, 2022",
                                               style: AppTextStyles.body,

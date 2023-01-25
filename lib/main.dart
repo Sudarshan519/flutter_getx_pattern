@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
-import 'package:hajir/app/initial_bindings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hajir/app/initial_bindings.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app/routes/app_pages.dart';
@@ -26,7 +26,13 @@ void main() async {
       ],
       locale: AppSettings(Get.find()).getLocale(),
       supportedLocales: const [Locale("en", "US"), Locale('ne', "NE")],
-      initialRoute: AppPages.INITIAL,
+      initialRoute: appSettings.selectedlanguage == ''
+          ? AppPages.INITIAL
+          : appSettings.token == ''
+              ? Routes.WELCOME
+              : appSettings.employer
+                  ? Routes.EMPLOYER_DASHBOARD
+                  : AppPages.DASHBOARD,
       initialBinding: InitialBindings(),
       getPages: AppPages.routes,
     ),

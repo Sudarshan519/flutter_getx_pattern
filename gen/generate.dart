@@ -7,8 +7,8 @@ void main() {
 
 //Reading a tsv - Tab separated value files, to create dynamic json like .arb language files
 _run() async {
-  final exportPath = 'lib/core/localization/l10n';
-  final tsvFilesLocation = 'gen/tsv_files';
+  const exportPath = 'lib/core/localization/l10n';
+  const tsvFilesLocation = 'gen/tsv_files';
 
   const separator = '	'; // this is a tab, not space
 
@@ -33,9 +33,9 @@ _run() async {
 
   Map<_LangInfo, Map<String, dynamic>> outputObject = {};
 
-  langs.forEach((l) {
+  for (var l in langs) {
     outputObject[l] = {};
-  });
+  }
 
   //Looping through all files in the directory
   Future.forEach(allFiles, (FileSystemEntity element) async {
@@ -47,8 +47,9 @@ _run() async {
       var lang = mapEntry.key;
       for (var i = 0; i < lines.length; i++) {
         if (i == 0) continue; //skipping table header title
-        if (!lines[i].contains(separator))
-          continue; //skipping lines who dont have tab sperated values
+        if (!lines[i].contains(separator)) {
+          continue;
+        } //skipping lines who dont have tab sperated values
 
         var column = lines[i].split(separator);
 

@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -18,7 +16,7 @@ class EmployeeList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 17,
           ),
           // Container(
@@ -28,9 +26,9 @@ class EmployeeList extends StatelessWidget {
           // ),
           Text(
             strings.employee_list,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text(
@@ -40,7 +38,7 @@ class EmployeeList extends StatelessWidget {
                 fontSize: 16,
                 color: Colors.grey.shade600),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Expanded(
@@ -101,7 +99,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                   height: 40,
                   width: 40,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Column(
@@ -109,7 +107,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.controller.candidates[widget.index].name!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                         )),
                     const SizedBox(
@@ -117,11 +115,11 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                     ),
                     Text(
                       "RT00${widget.index + 1}",
-                      style: TextStyle(color: Colors.grey, fontSize: 11),
+                      style: const TextStyle(color: Colors.grey, fontSize: 11),
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 IconButton(
                     onPressed: () {},
                     icon: SvgPicture.asset("assets/Phone.svg"))
@@ -129,7 +127,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
               if (isExpanded) ...[
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 64,
                     ),
                     Text(
@@ -139,7 +137,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,10 +150,10 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                                 backgroundColor: Colors.grey.shade200,
                                 child:
                                     SvgPicture.asset("assets/Vector(2).svg")),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
-                            Text("Send Invitation"),
+                            const Text("Send Invitation"),
                           ],
                         ),
                       ),
@@ -167,8 +165,8 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                         onTap: () {},
                         child: Row(
                           children: [
-                            Text("Remove"),
-                            SizedBox(
+                            const Text("Remove"),
+                            const SizedBox(
                               width: 8,
                             ),
                             CircleAvatar(

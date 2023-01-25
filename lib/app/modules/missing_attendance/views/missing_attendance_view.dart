@@ -50,8 +50,8 @@ class MissingAttendanceView extends GetView<MissingAttendanceController> {
                         strings.overtime,
                         style: AppTextStyles.b2,
                       ),
-                      Spacer(),
-                      Container(
+                      const Spacer(),
+                      SizedBox(
                         height: 56,
                         child: Row(
                           children: [
@@ -64,10 +64,10 @@ class MissingAttendanceView extends GetView<MissingAttendanceController> {
                                     color: Colors.grey.shade200,
                                     border:
                                         Border.all(color: Colors.grey.shade300),
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(4),
                                         bottomLeft: Radius.circular(4))),
-                                child: Icon(Icons.remove),
+                                child: const Icon(Icons.remove),
                               ),
                             ),
                             Container(
@@ -83,7 +83,7 @@ class MissingAttendanceView extends GetView<MissingAttendanceController> {
                               ),
                             ),
                             InkWell(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                   topRight: Radius.circular(4),
                                   bottomRight: Radius.circular(4)),
                               onTap: () {},
@@ -94,10 +94,10 @@ class MissingAttendanceView extends GetView<MissingAttendanceController> {
                                     border:
                                         Border.all(color: Colors.grey.shade300),
                                     color: Colors.grey.shade200,
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                         topRight: Radius.circular(4),
                                         bottomRight: Radius.circular(4))),
-                                child: Icon(Icons.add),
+                                child: const Icon(Icons.add),
                               ),
                             ),
                           ],
@@ -105,7 +105,7 @@ class MissingAttendanceView extends GetView<MissingAttendanceController> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(

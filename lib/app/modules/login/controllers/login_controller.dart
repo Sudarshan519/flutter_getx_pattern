@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/login/models/carousel_item.dart';
+import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -12,7 +12,7 @@ class LoginController extends GetxController {
   get selectedItem => _selectedItem.value;
   set selectedItem(value) => _selectedItem.value = value;
   var isEmployer = false.obs;
-
+  var loading = false.obs;
   final formKey = GlobalKey<FormState>();
   final TextEditingController phone = TextEditingController();
 
@@ -36,57 +36,74 @@ class LoginController extends GetxController {
     isEmployer(Get.arguments);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void increment() => _selectedItem.value++;
 
   void registerPhone() async {
-    try {
-      showLoading();
-      await attendanceApi.register(phone.text);
+    // if (loading.isFalse)
+    {
+      try {
+        showLoading();
+        if (isEmployer.isTrue) {
+          log('employer login');
+          log(phone.text);
+          var result = await attendanceApi.registerEmployer(phone.text);
 
-      Get.back();
+          Get.back();
 
-      Get.toNamed(Routes.MOBILE_OPT, arguments: [isEmployer.value, phone]);
-    } on BadRequestException catch (e) {
-      Get.back();
-      // if (kDebugMode) {
-      //   Get.toNamed(Routes.MOBILE_OPT,
-      //       arguments: [isEmployer.value, phone.text]);
-      // } else {
-      Get.rawSnackbar(
-        backgroundColor: Colors.red.shade800,
-        title: e.message,
-        message: e.details.toString(),
-      );
-      // }
-    } on ServerException catch (e) {
-      Get.back();
-      Get.rawSnackbar(
-        title: e.statusCode,
-        message: e.message.toString(),
-      );
-    } catch (e) {
-      Get.back();
-      switch (e) {
-        case BadRequestException:
-          e as BadRequestException;
-          Get.rawSnackbar(message: e.details);
-          break;
-        case ServerException:
-          e as BadRequestException;
-          Get.rawSnackbar(message: e.message);
+          Get.toNamed(Routes.MOBILE_OPT,
+              arguments: [isEmployer.value, phone.text]);
+          Get.log(result.body['data']['otp']);
+          Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
+          loading(false);
+        } else {
+          log('candidate login');
+          loading(true);
+          var result = await attendanceApi.register(phone.text);
 
-          break;
-        default:
+          Get.back();
+          loading(false);
+          Get.toNamed(Routes.MOBILE_OPT,
+              arguments: [isEmployer.value, phone.text]);
+          Get.log(result.body['data']['otp']);
+          Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
+        }
+      } on BadRequestException catch (e) {
+        loading(false);
+        Get.back();
+        if (e.details.contains('Phone No')) {
+          var login = true;
+
+          Get.toNamed(Routes.MOBILE_OPT,
+              arguments: [isEmployer.value, phone.text, login]);
+        } else {
+          Get.rawSnackbar(
+            backgroundColor: Colors.red.shade800,
+            title: e.message,
+            message: e.details.toString(),
+          );
+        }
+      } on ServerException catch (e) {
+        loading(false);
+        Get.back();
+        Get.rawSnackbar(
+          title: e.statusCode,
+          message: e.message.toString(),
+        );
+      } catch (e) {
+        loading(false);
+        Get.back();
+        switch (e) {
+          case BadRequestException:
+            e as BadRequestException;
+            Get.rawSnackbar(message: e.details);
+            break;
+          case ServerException:
+            e as BadRequestException;
+            Get.rawSnackbar(message: e.message);
+
+            break;
+          default:
+        }
       }
     }
   }
@@ -96,6 +113,6 @@ void showLoading() {
   Get.dialog(AlertDialog(
     content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [Center(child: CircularProgressIndicator())]),
+        children: const [Center(child: CircularProgressIndicator())]),
   ));
 }

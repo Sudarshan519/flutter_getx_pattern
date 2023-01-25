@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class LineChart extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -35,16 +34,16 @@ class _LineChartState extends State<LineChart> {
               primaryXAxis: CategoryAxis(
                 axisBorderType: AxisBorderType.withoutTopAndBottom,
                 isVisible: true,
-                axisLine: AxisLine(width: 0, color: Colors.red),
-                majorGridLines: MajorGridLines(width: 0),
-                majorTickLines: MajorTickLines(width: 0),
+                axisLine: const AxisLine(width: 0, color: Colors.red),
+                majorGridLines: const MajorGridLines(width: 0),
+                majorTickLines: const MajorTickLines(width: 0),
                 borderWidth: 0,
               ),
               primaryYAxis: CategoryAxis(
                   interval: 10,
-                  axisLine: AxisLine(width: 0, color: Colors.red),
+                  axisLine: const AxisLine(width: 0, color: Colors.red),
                   // majorGridLines: MajorGridLines(width: 0),
-                  majorTickLines: MajorTickLines(width: 0)),
+                  majorTickLines: const MajorTickLines(width: 0)),
 
               // Chart title
               // title: ChartTitle(text: 'Half yearly sales analysis'),
@@ -59,7 +58,7 @@ class _LineChartState extends State<LineChart> {
                     yValueMapper: (_SalesData sales, _) => sales.sales,
                     name: 'Sales',
                     // Enable data label
-                    dataLabelSettings: DataLabelSettings(isVisible: true))
+                    dataLabelSettings: const DataLabelSettings(isVisible: true))
               ]),
         ),
         // Expanded(

@@ -18,7 +18,7 @@ class AddApprover extends StatelessWidget {
             child: Column(
           children: [
             TitleWidget(title: strings.add_approver),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -32,10 +32,10 @@ class AddApprover extends StatelessWidget {
                   CustomDropDownField(
                     title: strings.select_company,
                     hint: "",
-                    items: ['A', 'B'],
+                    items: const ['A', 'B'],
                   ),
                   CustomButton(onPressed: () {}, label: strings.add),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

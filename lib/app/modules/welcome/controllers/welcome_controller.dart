@@ -11,20 +11,8 @@ class WelcomeController extends GetxController {
     strings.login_with_candidate,
     strings.live_attendance
   ];
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => count.value++;
 }

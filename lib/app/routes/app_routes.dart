@@ -17,6 +17,7 @@ abstract class Routes {
   static const INBOX = _Paths.INBOX;
   static const ENROLL_ATTENDEE = _Paths.ENROLL_ATTENDEE;
   static const MISSING_ATTENDANCE = _Paths.MISSING_ATTENDANCE;
+  static const INITIAL = _Paths.INITIAL;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const INBOX = '/inbox';
   static const ENROLL_ATTENDEE = '/enroll-attendee';
   static const MISSING_ATTENDANCE = '/missing-attendance';
+  static const INITIAL = '/initial';
 }

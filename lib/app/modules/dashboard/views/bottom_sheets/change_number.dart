@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hajir/app/modules/add_employee/views/add_employee_view.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
@@ -16,7 +14,7 @@ class ChangeNumber extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TitleWidget(title: strings.settings),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -34,7 +32,7 @@ class ChangeNumber extends StatelessWidget {
                   hint: strings.confirm_changed_number,
                 ),
                 CustomButton(onPressed: () {}, label: strings.update),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
               ],

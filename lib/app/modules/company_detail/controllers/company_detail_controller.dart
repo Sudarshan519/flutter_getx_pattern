@@ -9,7 +9,7 @@ class CompanyDetailController extends GetxController {
   var candidates = <EmployeeModel>[].obs;
   var loading = false.obs;
   var myPlan = "Free(Forever)".obs;
-  var _selected = 0.obs;
+  final _selected = 0.obs;
   int get selected => _selected.value;
   set selected(int value) => _selected(value);
   var selectedWeek = 0.obs;
@@ -26,15 +26,7 @@ class CompanyDetailController extends GetxController {
     loading(false);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => selectedItem.value++;
 
@@ -54,13 +46,13 @@ class EmployeeModel {
   EmployeeModel({this.id, this.name});
 
   EmployeeModel.fromJson(Map<String, dynamic> json) {
-    this.id = json['id'];
-    this.name = json['name'];
+    id = json['id'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
     return data;
   }
 }

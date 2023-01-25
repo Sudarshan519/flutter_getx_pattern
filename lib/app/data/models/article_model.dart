@@ -22,12 +22,19 @@ class ArticleModel extends Article {
             publishedAt: publishedAt,
             content: content);
 
+  @override
   String? author;
+  @override
   String? title;
+  @override
   String? description;
+  @override
   String? url;
+  @override
   String? urlToImage;
+  @override
   DateTime? publishedAt;
+  @override
   String? content;
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) =>

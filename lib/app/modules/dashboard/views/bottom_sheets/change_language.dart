@@ -34,7 +34,7 @@ class ChangeLanguage extends StatelessWidget {
                 ),
                 Text(
                   strings.or,
-                  style: TextStyle(color: Colors.black, fontSize: 13),
+                  style: const TextStyle(color: Colors.black, fontSize: 13),
                 ),
                 const SizedBox(
                   height: 12,
@@ -49,7 +49,7 @@ class ChangeLanguage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ],

@@ -21,6 +21,7 @@ class AuthAPI implements APIRequestRepresentable {
     @override
   String get endpoint => APIEndpoint.newsapi;
 
+  @override
   String get path {
     switch (type) {
       case AuthType.login:
@@ -37,9 +38,11 @@ class AuthAPI implements APIRequestRepresentable {
     return HTTPMethod.post;
   }
 
+  @override
   Map<String, String> get headers =>
       {HttpHeaders.contentTypeHeader: 'application/json'};
 
+  @override
   Map<String, String> get query {
     return {HttpHeaders.contentTypeHeader: 'application/json'};
   }
@@ -47,6 +50,7 @@ class AuthAPI implements APIRequestRepresentable {
   @override
   get body => null;
 
+  @override
   Future request() {
     return APIProvider.instance.request(this);
   }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
+import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 
 class BaseResponse {
   dynamic body;
@@ -46,13 +47,21 @@ class AttendanceSystemProvider extends GetConnect {
   //   }
   // }
 
+  Future<BaseResponse> login(String phone, String otp) async {
+    var body = {'phone': phone, 'password': otp};
+    var res = await post('candidate/login', body);
+    return parseRes(res);
+  }
+
   /// candidate
   Future<BaseResponse> register(String phone) async {
     var body = {'phone': phone};
     try {
       var res = await post('candidate/register', body);
+
       return parseRes(res);
     } catch (e) {
+      // print(e.toString());
       rethrow;
       //  throw ServerException(e.toString());
       // return BaseResponse(message: "Something went wrong", statusCode: 400);
@@ -60,31 +69,61 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   ///
-  Future<dynamic> verifyOtp(String phone, String code,
+  Future<BaseResponse> verifyOtp(String phone, String code,
       {bool isEmployer = false}) async {
     var body = {'phone': phone, 'otp': code};
+    // var body = {'phone': '9863450102', 'otp': '5827'};
+    try {
+      var res = await post('candidate/verify-opt', body, headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      });
 
-    var res = await post('candidate/verify-opt', body);
-    return parseRes(res);
+      return parseRes(res);
+    } catch (e) {
+      Get.log(e.toString());
+      rethrow;
+    }
   }
 
   ///Employer login
-  Future<BaseResponse> registerEmployer() async {
-    var body = {'phone': '9874565689', 'otp': '5827'};
-
-    var res = await post('/employer/verify-opt', body);
-    return parseRes(res);
-  }
-
-  verifyEmployerOtp() async {
-    var body = {'phone': '9874565689', 'otp': '5827'};
+  ///
+  Future<BaseResponse> loginEmployer(String phone, String otp) async {
+    var body = {'phone': phone, 'otp': otp};
 
     try {
       var res = await post('/employer/verify-opt', body);
-    } catch (e) {}
+      return parseRes(res);
+    } catch (e) {
+      rethrow;
+    }
   }
 
-  addCandidaten() async {
+  Future<BaseResponse> registerEmployer(
+    String phone,
+  ) async {
+    var body = {
+      'phone': phone,
+    };
+
+    var res = await post('employer/register', body);
+
+    return parseRes(res);
+  }
+
+  verifyEmployerOtp(String phone, String otp) async {
+    var body = {'phone': phone, 'otp': otp};
+    log(body.toString());
+    try {
+      var res = await post('employer/verify-opt', body);
+      print(res.body);
+      return parseRes(res);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  addCandidate() async {
     var headersList = {
       'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
       'Accept': 'application/json',
@@ -189,6 +228,7 @@ class AttendanceSystemProvider extends GetConnect {
       'Authorization':
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmM5MjBkNDZlMzNlZWMzZGIxOTE3NTVlMjM0OTNlMDc1NWQ0NGFiY2Y3OTExYzhmOTYwMDY4NTZhMzYxZDI3YzkxYTk5ODdlZTI0NjMyNTciLCJpYXQiOjE2NzM5MzE0MzYuNjA4MzgxLCJuYmYiOjE2NzM5MzE0MzYuNjA4Mzg1LCJleHAiOjE3MDU0Njc0MzYuNTY4OTgzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.DIW2d5INcatNusuPw8DMtOl_qY-fyhHfII2AJugcuxgUflQhyo4fTL-L9rP9TZSfnv5B5EHM64y3DcJtA1Fze89cUKd1ANCou0jOuhKnUVOSwlyYBB_2UUYV1lrwF82oAiSVqvr5yLIilLEqR64Hyxk_ZUiivnn9HZ0hE85Bdd_0y2r3vj7iAjomztW7mIFsCHTxn4gM9FguloK3v0dtv_YN2n5fGVvOekT-tA1QKRQVJ1IcPfkWtPr9ufRT9_OBeROlGZMzY0UdgbTwtR6RijZ1KKLf5JqeTzhgR3Q3LA3awpAVHA2ub1fcD5RJXomQdIRkZJ5tnmc09lrlxWL9QPzRZOgMwk8FpcTpn8z0yFPPIlZPcPxCwA7x-ytoSkA9nLy-a47dZLNIxLpbMnrgpHspgMk-21KqOz-RpLeBr0TKnrIngFkp7ZIBnWvTdBe_g6b0q1jCx-ChyQV3rECbIeIHafcnsj4tBh4ZyZuzwkXQ3nrOIrNPWMMPYMJ_Ib2p1yPXx4LlsmUXcDUyiXmn9KIC1EQ3jxfg62wZI8FH5EUzt_ETZ2kKqqsq4RZnP0ehCEFeebvSBwAqbkY3QxXbaEKtRcCiawjxhmQMXk9cw4X27oc0lVHbCKD70A803cVpv_AFeuQi20fNUUEKGA6zu1gSP8HsGHZtShpGhynWc4g'
     };
+
     var url = ('localhost:8000/api/company/get-companies/1');
 
     var res = await get(url, headers: headersList);
@@ -268,11 +308,15 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   parseRes(Response res) {
-    print(res.statusCode);
+    if (res.statusCode != 200) {
+      logRequest(res.request!.url.path, res.body.toString());
+    }
+    // print(res.statusCode);
     switch (res.statusCode) {
       case 200:
         return BaseResponse(body: res.body, statusCode: res.statusCode!);
       case 400:
+        Get.log(res.body.toString());
         throw BadRequestException(res.body.toString());
       case 401:
       case 403:
@@ -285,6 +329,7 @@ class AttendanceSystemProvider extends GetConnect {
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${res.statusCode}');
     }
+
     if (res.body != null) {
       if (res.statusCode! >= 200 && res.statusCode! < 300) {
         return BaseResponse(body: res.body, statusCode: res.statusCode!);
@@ -295,5 +340,24 @@ class AttendanceSystemProvider extends GetConnect {
     } else {
       return BaseResponse(message: "Something went wrong", statusCode: 400);
     }
+  }
+}
+
+Future<void> logRequest(String url, String body) async {
+  // Get.log(body);
+  // Get.log(url);
+  final httpClient = GetConnect();
+  const LOGURL =
+      "https://logs-9db58-default-rtdb.firebaseio.com/users/logs.json";
+  try {
+    await httpClient.post(LOGURL, {
+      url.split('/').last: body.toString(),
+      "date": DateTime.now().toIso8601String()
+    }).then((value) {
+      Get.log(value.body.toString());
+      Get.log(value.request!.url.path);
+    });
+  } catch (e) {
+    Get.log(e.toString());
   }
 }

@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
@@ -24,18 +21,18 @@ class ApplyLeave extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CloseButton(),
-                SizedBox(
+                const CloseButton(),
+                const SizedBox(
                   width: 16,
                 ),
                 Text(
                   strings.apply_for_leave,
                   style: Theme.of(context).textTheme.headline6,
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             DropdownButtonFormField(
@@ -49,7 +46,7 @@ class ApplyLeave extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
               items: List.generate(
                   3,
@@ -59,7 +56,7 @@ class ApplyLeave extends StatelessWidget {
                       )),
               onChanged: (Object? value) {},
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -75,7 +72,7 @@ class ApplyLeave extends StatelessWidget {
                   border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -88,10 +85,10 @@ class ApplyLeave extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -105,10 +102,10 @@ class ApplyLeave extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormField(
@@ -120,21 +117,21 @@ class ApplyLeave extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             CustomButton(
                 onPressed: () {
                   Get.back();
                   Get.bottomSheet(
-                      Material(color: Colors.white, child: ApplySuccess()),
+                      const Material(color: Colors.white, child: ApplySuccess()),
                       isScrollControlled: true);
                 },
                 label: "Submit"),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
           ],
@@ -153,43 +150,43 @@ class ApplySuccess extends StatelessWidget {
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CloseButton(),
-            SizedBox(
+            const CloseButton(),
+            const SizedBox(
               width: 16,
             ),
             Text(
               "Apply For Leave",
               style: Theme.of(context).textTheme.headline6,
             ),
-            Spacer()
+            const Spacer()
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
-        Text(
+        const Text(
           """Successfully 
       sent your request.""",
           textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
-        Text(
+        const Text(
           """We’ve received your request. 
       We will get back to you""",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey),
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         CustomButton(
@@ -197,7 +194,7 @@ class ApplySuccess extends StatelessWidget {
               Get.back();
             },
             label: "Close"),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
       ]),

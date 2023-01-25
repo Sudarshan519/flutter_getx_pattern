@@ -26,7 +26,7 @@ class PaymentOptions extends StatelessWidget {
         child: AppBottomSheet(
             child: Column(children: [
           TitleWidget(title: strings.payment_options),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           ...paymentOptions.map((e) => Padding(
@@ -53,7 +53,7 @@ class PaymentOptions extends StatelessWidget {
             child: CustomButton(
                 onPressed: () {
                   Get.back();
-                  Get.dialog(AlertDialog(
+                  Get.dialog(const AlertDialog(
                     content: AlertSuccess(),
                   ));
                 },
@@ -81,7 +81,7 @@ class AlertSuccess extends StatelessWidget {
             color: Colors.green,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Text(
@@ -89,7 +89,7 @@ class AlertSuccess extends StatelessWidget {
           style: AppTextStyles.b2.copyWith(color: Colors.green),
           textAlign: TextAlign.center,
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Text(
@@ -97,7 +97,7 @@ class AlertSuccess extends StatelessWidget {
           style: AppTextStyles.medium,
           textAlign: TextAlign.center,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         CustomButton(

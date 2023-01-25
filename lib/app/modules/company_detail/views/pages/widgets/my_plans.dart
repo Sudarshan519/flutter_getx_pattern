@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
-import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/payment_options.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
@@ -32,7 +29,7 @@ class MyPlans extends StatelessWidget {
                 PlanItem(
                   label: "Free(Forever)",
                   controller: controller,
-                  items: [
+                  items: const [
                     "Live attendance",
                     "Salary calculation",
                     "Setup private network",
@@ -51,7 +48,7 @@ class MyPlans extends StatelessWidget {
                   label: "Premium",
                   isPremium: true,
                   controller: controller,
-                  items: [
+                  items: const [
                     'Everything from free plan +',
                     'Add unlimited employee',
                     'Add unlimited company'
@@ -60,7 +57,7 @@ class MyPlans extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ]),
@@ -110,7 +107,7 @@ class PlanItem extends StatelessWidget {
                           label,
                           style: AppTextStyles.b1,
                         ),
-                        Divider(),
+                        const Divider(),
                         Wrap(
                           children: List.generate(
                               items.length,
@@ -133,7 +130,7 @@ class PlanItem extends StatelessWidget {
                                                 color: Colors.green.shade800,
                                               )),
                                         ),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         Text(
                                           items[index],
                                           style: AppTextStyles.body
@@ -143,12 +140,12 @@ class PlanItem extends StatelessWidget {
                                     ),
                                   )),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         if (isPremium)
                           CustomButton(
                               onPressed: () {
                                 Get.back();
-                                Get.bottomSheet(PaymentOptions(),
+                                Get.bottomSheet(const PaymentOptions(),
                                     isScrollControlled: true);
                               },
                               label: strings.upgrade_to_premium)

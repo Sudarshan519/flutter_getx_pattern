@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_constants.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
-import 'package:hajir/app/modules/login/models/carousel_item.dart';
-import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 import '../controllers/login_controller.dart';
@@ -99,6 +97,8 @@ class LoginView extends GetView<LoginController> {
                 validator: (v) {
                   if (!GetUtils.isPhoneNumber(v!)) {
                     return 'Enter a valid phone';
+                  } else {
+                    return null;
                   }
                 },
                 decoration: InputDecoration(

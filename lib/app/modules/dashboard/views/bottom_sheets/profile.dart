@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
-import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_number.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
+import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
-
+  const Profile({super.key, this.controller});
+  final controller;
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -16,6 +16,14 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    final controller = widget.controller;
+
+    //     // appSettings.employer
+    //     //     ? Get.find<EmployerDashboardController>()
+    //     //     :
+    //     Get.isRegistered<DashboardController>()
+    //         ? Get.find<DashboardController>()
+    //         : Get.find<EmployerDashboardController>();
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16),
       child: AppBottomSheet(
@@ -71,10 +79,10 @@ class _ProfileState extends State<Profile> {
                         enabledBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.grey.shade300)),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey))),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   InkWell(
@@ -101,33 +109,48 @@ class _ProfileState extends State<Profile> {
                     height: 20,
                   ),
                   InkWell(
-                    onTap: () {
-                      var date = showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2020),
-                          lastDate: DateTime(2030));
+                    onTap: () async {
+                      try {
+                        var date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2030));
+                        log(date.toString());
+                        if (date == null) {
+                          controller.dob = '';
+                        } else {
+                          controller.dob = date.toString().substring(0, 10);
+                        }
+                      } catch (e) {
+                        controller.dob = '';
+                      }
                     },
-                    child: TextFormField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                          hintText: strings.dob,
-                          hintStyle: AppTextStyles.l1,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade400)),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300)),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey))),
-                    ),
+                    child: Obx(() => TextFormField(
+                          controller: TextEditingController()
+                            ..text = controller.dob,
+                          // initialValue: controller.dob == ''
+                          //     ? strings.dob
+                          //     : controller.dob,
+                          enabled: false,
+                          decoration: InputDecoration(
+                              hintText: strings.dob,
+                              hintStyle: AppTextStyles.l1,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300)),
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey))),
+                        )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   CustomButton(onPressed: () {}, label: strings.update),
-                  SizedBox(
+                  const SizedBox(
                     height: 32,
                   ),
                 ],
@@ -147,13 +170,13 @@ class TitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Flexible(child: CloseButton()),
-        Spacer(),
+        const Flexible(child: CloseButton()),
+        const Spacer(),
         Text(
           title,
           style: Theme.of(context).textTheme.headline6,
         ),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }

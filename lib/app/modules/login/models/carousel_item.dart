@@ -1,4 +1,3 @@
-import 'package:hajir/core/localization/l10n/strings.dart';
 
 class LoginItem {
   String icon;

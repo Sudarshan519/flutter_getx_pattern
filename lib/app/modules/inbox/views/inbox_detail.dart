@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
@@ -28,14 +26,14 @@ class InboxDetail extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             "Nitesh Shrestha",
             style: AppTextStyles.b1,
           ),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Text(
@@ -44,7 +42,7 @@ class InboxDetail extends StatelessWidget {
             // style: TextStyle(
             //     color: Colors.grey.shade600,),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
@@ -56,56 +54,56 @@ Nitesh""",
             textAlign: TextAlign.start,
             style: AppTextStyles.body,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.leave,
             style: AppTextStyles.body,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
             strings.paid_leave,
             style: AppTextStyles.b1,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.type,
             style: AppTextStyles.body,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
             strings.half_day,
             style: AppTextStyles.b1,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.duration,
             style: AppTextStyles.body,
           ),
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           Text(
             "2 Jan 23 - 7 Jan 23",
             style: AppTextStyles.b1.copyWith(color: Colors.grey),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             strings.attached,
             style: AppTextStyles.body,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -120,11 +118,11 @@ Nitesh""",
                       ),
                     )),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           CustomButton(onPressed: () {}, label: "Approve"),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           CustomButton(
@@ -132,7 +130,7 @@ Nitesh""",
             label: strings.cancel,
             color: Colors.red,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           CustomButton(
@@ -141,7 +139,7 @@ Nitesh""",
                 Get.back();
               },
               label: strings.back_to_home),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ]),

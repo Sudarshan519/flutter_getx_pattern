@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -8,7 +6,6 @@ import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/add_employee/views/add_employee_view.dart';
 import 'package:hajir/app/modules/candidate_login/views/widgets/custom_paint/circular_progress_paint.dart';
-import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
 import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
@@ -58,7 +55,7 @@ class MonthlyReports extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
                   padding: EdgeInsets.all(6.r),
                   decoration: BoxDecoration(
@@ -75,7 +72,7 @@ class MonthlyReports extends StatelessWidget {
                     height: 16,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Container(
@@ -112,7 +109,7 @@ class MonthlyReports extends StatelessWidget {
                             controller.selectedReport.value == 5 ? true : false,
                         label: strings.daily),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -124,7 +121,7 @@ class MonthlyReports extends StatelessWidget {
                             controller.selectedReport.value == 0 ? true : false,
                         label: strings.weekly),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -136,7 +133,7 @@ class MonthlyReports extends StatelessWidget {
                         },
                         label: strings.monthly),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -163,7 +160,7 @@ class MonthlyReports extends StatelessWidget {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle, color: Colors.green.shade800),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -178,10 +175,10 @@ class MonthlyReports extends StatelessWidget {
                   Container(
                     height: 8,
                     width: 8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: Colors.grey),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -196,10 +193,10 @@ class MonthlyReports extends StatelessWidget {
                   Container(
                     height: 8,
                     width: 8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: Colors.red),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -278,7 +275,7 @@ class MonthlyReports extends StatelessWidget {
                       : Column(
                           children: [
                             controller.selectedReport.value == 5
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : SizedBox(
                                     height: 30,
                                     child: SingleChildScrollView(
@@ -343,7 +340,7 @@ class MonthlyReports extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             SizedBox(
@@ -394,19 +391,19 @@ class MonthlyReports extends StatelessWidget {
             Obx(() => controller.selectedReport.value == 5
                 ? Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "09:08:12 AM",
                             style: TextStyle(color: Colors.grey),
                           ),
                           SvgPicture.asset(
                               "assets/material-symbols_arrow-insert-rounded.svg"),
-                          Spacer(),
-                          Text(
+                          const Spacer(),
+                          const Text(
                             "09:08:12 PM",
                             style: TextStyle(color: Colors.grey),
                           ),
@@ -414,7 +411,7 @@ class MonthlyReports extends StatelessWidget {
                               "assets/material-symbols_arrow-insert-rounded(1).svg"),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
@@ -427,9 +424,9 @@ class MonthlyReports extends StatelessWidget {
                               children: [
                                 Text(
                                   strings.breaks,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: const TextStyle(color: Colors.grey),
                                 ),
-                                Text(
+                                const Text(
                                   "00:46:02",
                                   style: TextStyle(
                                       color: Colors.red,
@@ -464,7 +461,7 @@ class MonthlyReports extends StatelessWidget {
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.green.shade800),
                                             ),
-                                            Text(
+                                            const Text(
                                               "12:42:05",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -486,8 +483,8 @@ class MonthlyReports extends StatelessWidget {
                                             height: 24,
                                             width: 30.5,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
+                                          const Padding(
+                                            padding: EdgeInsets.only(
                                                 left: 6.0),
                                             child: Text(
                                               "70 %",
@@ -503,17 +500,17 @@ class MonthlyReports extends StatelessWidget {
                               ),
                             ),
                           ]),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            strings.total_earning + " ",
+                            "${strings.total_earning} ",
                             style: TextStyle(color: Colors.blueGrey.shade600),
                           ),
-                          Text(
+                          const Text(
                             "8300 /-",
                             style: TextStyle(
                                 color: Colors.red, fontWeight: FontWeight.w600),
@@ -522,12 +519,12 @@ class MonthlyReports extends StatelessWidget {
                       ),
                     ],
                   )
-                : SizedBox()),
-            SizedBox(
+                : const SizedBox()),
+            const SizedBox(
               height: 20,
             ),
             Obx(() => controller.selectedReport.value == 5
-                ? SizedBox()
+                ? const SizedBox()
                 // : controller.selectedReport.value == 2
                 //     ? Column(
                 //         children: [
@@ -548,7 +545,7 @@ class MonthlyReports extends StatelessWidget {
                             style: AppTextStyles().large.copyWith(
                                 fontSize: 14, color: AppColors.primary),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             strings.amount,
                             style: AppTextStyles().large.copyWith(
@@ -556,8 +553,8 @@ class MonthlyReports extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Divider(thickness: 1),
-                      SizedBox(
+                      const Divider(thickness: 1),
+                      const SizedBox(
                         height: 5,
                       ),
                       Obx(() => controller.selectedReport == 2
@@ -574,13 +571,13 @@ class MonthlyReports extends StatelessWidget {
                                         value: 6000),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
-                                Divider(
+                                const Divider(
                                   thickness: 1,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -591,7 +588,7 @@ class MonthlyReports extends StatelessWidget {
                                           fontSize: 14,
                                           color: AppColors.primary),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                       "2,40,000/-",
                                       style: AppTextStyles().large.copyWith(
@@ -600,13 +597,13 @@ class MonthlyReports extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
-                                Divider(
+                                const Divider(
                                   thickness: 1,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                               ],
@@ -615,51 +612,51 @@ class MonthlyReports extends StatelessWidget {
                               children: [
                                 DescriptionItem(
                                     label: strings.salary, value: 6000),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 DescriptionItem(
                                     label: strings.overtime, value: 6000),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 DescriptionItem(
                                     label: strings.bonus, value: 6000),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 DescriptionItem(
                                     label: strings.allowance, value: 6000),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Obx(() => controller.selectedReport.value == 1
                                     ? Column(
                                         children: [
-                                          Divider(
+                                          const Divider(
                                             thickness: 1,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           DescriptionItem(
                                               label: strings.tax, value: 6000),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           DescriptionItem(
                                               label: strings.penalty,
                                               value: 6000),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                         ],
                                       )
-                                    : SizedBox()),
-                                Divider(
+                                    : const SizedBox()),
+                                const Divider(
                                   thickness: 1,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -670,7 +667,7 @@ class MonthlyReports extends StatelessWidget {
                                           fontSize: 14,
                                           color: AppColors.primary),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                       " 21500",
                                       style: AppTextStyles().large.copyWith(
@@ -679,13 +676,13 @@ class MonthlyReports extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
-                                Divider(
+                                const Divider(
                                   thickness: 1,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Obx(() => controller.selectedReport.value == 1
@@ -704,28 +701,28 @@ class MonthlyReports extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          Divider(
+                                          const Divider(
                                             thickness: 1,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           DescriptionItem(
                                               label: strings.sick_leave,
                                               value: 6000),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           DescriptionItem(
                                               label: strings.extra_leave,
                                               value: 6000),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
-                                          Divider(
+                                          const Divider(
                                             thickness: 1,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           Row(
@@ -739,7 +736,7 @@ class MonthlyReports extends StatelessWidget {
                                                         color:
                                                             AppColors.primary),
                                               ),
-                                              Spacer(),
+                                              const Spacer(),
                                               Text(
                                                 "17 days",
                                                 style: AppTextStyles()
@@ -753,7 +750,7 @@ class MonthlyReports extends StatelessWidget {
                                           ),
                                         ],
                                       )
-                                    : SizedBox()),
+                                    : const SizedBox()),
                               ],
                             ))
                     ],
@@ -761,10 +758,10 @@ class MonthlyReports extends StatelessWidget {
 
             Obx(() => controller.selectedReport.value == 1 ||
                     controller.selectedReport.value == 2
-                ? SizedBox()
+                ? const SizedBox()
                 : Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       CustomFormField(
@@ -774,11 +771,11 @@ class MonthlyReports extends StatelessWidget {
                       ),
                     ],
                   )),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             CustomButton(onPressed: () {}, label: strings.add),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
           ]),

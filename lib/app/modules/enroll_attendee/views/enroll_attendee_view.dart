@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/attendance.dart';
-import 'package:hajir/app/modules/company_detail/views/pages/widgets/overall_reports.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
-import 'package:hajir/main_paint.dart';
 
 import '../controllers/enroll_attendee_controller.dart';
 
@@ -100,18 +98,18 @@ class EnrollAttendeeView extends GetView<EnrollAttendeeController> {
                 AttendanceItem(
                     label: strings.attendee,
                     value: "20",
-                    color: Color.fromRGBO(0, 128, 0, .1),
-                    borderColor: Color.fromRGBO(0, 128, 0, .05)),
+                    color: const Color.fromRGBO(0, 128, 0, .1),
+                    borderColor: const Color.fromRGBO(0, 128, 0, .05)),
                 AttendanceItem(
                     label: strings.absent,
                     value: "20",
-                    color: Color.fromRGBO(255, 80, 80, 0.1),
-                    borderColor: Color.fromRGBO(255, 80, 80, 0.05)),
+                    color: const Color.fromRGBO(255, 80, 80, 0.1),
+                    borderColor: const Color.fromRGBO(255, 80, 80, 0.05)),
                 AttendanceItem(
                   label: strings.late,
                   value: "20",
-                  color: Color.fromRGBO(128, 128, 128, 0.1),
-                  borderColor: Color.fromRGBO(128, 128, 128, 0.05),
+                  color: const Color.fromRGBO(128, 128, 128, 0.1),
+                  borderColor: const Color.fromRGBO(128, 128, 128, 0.05),
                 ),
                 AttendanceItem(
                   // onPressed: () {
@@ -122,12 +120,12 @@ class EnrollAttendeeView extends GetView<EnrollAttendeeController> {
                   // },
                   label: strings.pending,
                   value: "20",
-                  color: Color.fromRGBO(0, 0, 255, 0.1),
-                  borderColor: Color.fromRGBO(0, 0, 255, 0.1),
+                  color: const Color.fromRGBO(0, 0, 255, 0.1),
+                  borderColor: const Color.fromRGBO(0, 0, 255, 0.1),
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
             Expanded(
@@ -155,7 +153,7 @@ class EnrollAttendeeView extends GetView<EnrollAttendeeController> {
                                         "Nitesh Shrestha",
                                         style: AppTextStyles.b1,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 6,
                                       ),
                                       Text(
@@ -165,7 +163,7 @@ class EnrollAttendeeView extends GetView<EnrollAttendeeController> {
                                     ],
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Container(
                                   alignment: Alignment.center,
                                     padding: const EdgeInsets.symmetric(
@@ -180,7 +178,7 @@ class EnrollAttendeeView extends GetView<EnrollAttendeeController> {
                                       "9:00 AM",
                                       style: AppTextStyles.b2,
                                     )),
-                                SizedBox(
+                                const SizedBox(
                                   width: 18,
                                 ),
                                 InkWell(
@@ -197,11 +195,11 @@ class EnrollAttendeeView extends GetView<EnrollAttendeeController> {
                                     height: 22,
                                     child: Text(
                                      strings.accept,
-                                      style: TextStyle(color: Colors.white),
+                                      style: const TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 18,
                                 ),
                               ],

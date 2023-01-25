@@ -14,13 +14,14 @@ class WelcomeView extends GetView<WelcomeController> {
   const WelcomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return Scaffold(
         body: SingleChildScrollView(
       // padding: REdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           SizedBox(
-            height: 50.h,
+            height: 80.h,
           ),
           Text(
             strings.welcome,
@@ -50,7 +51,7 @@ class WelcomeView extends GetView<WelcomeController> {
           SizedBox(
             height: 80.r,
           ),
-          WelcomeSlider(),
+          const WelcomeSlider(),
           SizedBox(
             height: 80.r,
           ),
@@ -59,7 +60,7 @@ class WelcomeView extends GetView<WelcomeController> {
             style:
                 TextStyle(color: AppColors.black.withOpacity(.5), fontSize: 14),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           SizedBox(
@@ -80,7 +81,7 @@ class WelcomeView extends GetView<WelcomeController> {
                             topLeft: Radius.circular(6),
                             bottomLeft: Radius.circular(6)),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(6),
                               bottomLeft: Radius.circular(6)),
                           child: Container(
@@ -89,7 +90,7 @@ class WelcomeView extends GetView<WelcomeController> {
                               color: AppColors.red,
                               child: Text(
                                 strings.candidate,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.white),
@@ -103,7 +104,7 @@ class WelcomeView extends GetView<WelcomeController> {
                         Get.toNamed(Routes.LOGIN, arguments: true);
                       },
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(6),
                             bottomRight: Radius.circular(6)),
                         child: Container(
@@ -112,7 +113,7 @@ class WelcomeView extends GetView<WelcomeController> {
                             height: 48,
                             child: Text(
                               strings.employer,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white),
@@ -126,10 +127,10 @@ class WelcomeView extends GetView<WelcomeController> {
                         height: 48,
                         width: 48,
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: Colors.white),
                         child: Text(strings.or,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
                             )))),
@@ -175,8 +176,8 @@ class WelcomeSlider extends StatelessWidget {
                         ...List.generate(
                             3,
                             (index) => AnimatedContainer(
-                                  height: 12.h,
-                                  width: 12.h,
+                                  height: 8.h,
+                                  width: 8.h,
                                   margin: REdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,

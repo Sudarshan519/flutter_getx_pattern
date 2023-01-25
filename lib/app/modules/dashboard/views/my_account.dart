@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/add_approver.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/monthly_report.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/my_plans.dart';
+import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 class MyAccount extends StatelessWidget {
-  const MyAccount({super.key, this.isEmployer = false});
+  const MyAccount(
+      {super.key, this.isEmployer = false, required this.controller});
   final bool isEmployer;
+  final controller;
   @override
   Widget build(BuildContext context) {
+    // late GetxController<T?> controller;
+    // if (appSettings.employer) {
+    //   controller = Get.find<EmployerDashboardController>();
+    // } else {
+    //   controller = Get.isRegistered<DashboardController>()
+    //       ? Get.find<DashboardController>()
+    //       : Get.find<EmployerDashboardController>();
+    // }
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -30,7 +41,8 @@ class MyAccount extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Text(
                 strings.my_account,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
             ),
             // const SizedBox(
@@ -40,6 +52,10 @@ class MyAccount extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Row(
                 children: [
+                  // !controller.isEmployed
+                  //     ? const CircleAvatar(
+                  //         radius: 32, child: Icon(Icons.person))
+                  //     :
                   Image.asset(
                     "assets/Avatar Profile.png",
                     height: 64,
@@ -50,18 +66,23 @@ class MyAccount extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        "Nitesh Shrestha",
-                        style: TextStyle(
+                        // !controller.isEmployed &&
+                        appSettings.name == ''
+                            ? "+977 ${appSettings.phone}"
+                            : appSettings.name,
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Text(
-                        "niteshoncode@gmail.com",
-                        style: TextStyle(
+                        controller.isEmployed
+                            ? "niteshoncode@gmail.com"
+                            : "xxxx@xxx.com",
+                        style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w400),
                       ),
                     ],
@@ -74,7 +95,8 @@ class MyAccount extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Get.bottomSheet(const Profile(), isScrollControlled: true);
+                Get.bottomSheet(Profile(controller: controller),
+                    isScrollControlled: true);
               },
               trailing: const Icon(
                 Icons.arrow_forward_ios,
@@ -87,19 +109,22 @@ class MyAccount extends StatelessWidget {
               ),
             ),
             if (!isEmployer)
-              ListTile(
-                onTap: () {
-                  Get.bottomSheet(const Reports(), isScrollControlled: true);
-                },
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                ),
-                title: Text(
-                  strings.reports,
-                  style: AppTextStyles.normal,
-                ),
-              )
+              if (controller.isEmployed)
+                ListTile(
+                  onTap: () {
+                    Get.bottomSheet(const Reports(), isScrollControlled: true);
+                  },
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 20,
+                  ),
+                  title: Text(
+                    strings.reports,
+                    style: AppTextStyles.normal,
+                  ),
+                )
+              else
+                const SizedBox()
             else ...[
               ListTile(
                 onTap: () {
@@ -133,7 +158,7 @@ class MyAccount extends StatelessWidget {
                   Get.bottomSheet(const AddApprover(),
                       isScrollControlled: true);
                 },
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
                 ),
@@ -146,7 +171,7 @@ class MyAccount extends StatelessWidget {
                 onTap: () {
                   Get.bottomSheet(const MyPlans(), isScrollControlled: true);
                 },
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
                 ),
@@ -161,7 +186,7 @@ class MyAccount extends StatelessWidget {
                   // Get.bottomSheet(const AddApprover(),
                   //     isScrollControlled: true);
                 },
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
                 ),
@@ -174,7 +199,7 @@ class MyAccount extends StatelessWidget {
                 onTap: () {
                   Get.toNamed(Routes.MISSING_ATTENDANCE);
                 },
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 20,
                 ),
@@ -188,7 +213,7 @@ class MyAccount extends StatelessWidget {
               onTap: () {
                 // Get.bottomSheet(const AddApprover(), isScrollControlled: true);
               },
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.arrow_forward_ios,
                 size: 20,
               ),
@@ -202,7 +227,7 @@ class MyAccount extends StatelessWidget {
                 Get.bottomSheet(const ChangeLanguage(),
                     isScrollControlled: true);
               },
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.arrow_forward_ios,
                 size: 20,
               ),
@@ -213,15 +238,16 @@ class MyAccount extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Get.dialog(LogoutDialog());
+                Get.dialog(const LogoutDialog());
               },
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.arrow_forward_ios,
                 size: 20,
               ),
               title: Text(
                 strings.logout,
-                style: AppTextStyles.normal.copyWith(color: AppColors.red),
+                style: AppTextStyles.normal,
+                // style: AppTextStyles.normal.copyWith(color: AppColors.red),
               ),
             ),
             const SizedBox(
@@ -244,10 +270,10 @@ class LogoutDialog extends StatelessWidget {
     return AlertDialog(
       content: Column(mainAxisSize: MainAxisSize.min, children: [
         Text(
-         strings.logout_dialog,
+          strings.logout_dialog,
           style: AppTextStyles.b1,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         SizedBox(
@@ -261,13 +287,13 @@ class LogoutDialog extends StatelessWidget {
                     onPressed: () => Get.back(),
                     label: strings.cancel),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
                 child: CustomButton(
                     color: Colors.red.shade700,
-                    onPressed: () => Get.offAllNamed(Routes.WELCOME),
+                    onPressed: () => logout(),
                     label: strings.logout),
               ),
             ],
@@ -275,5 +301,10 @@ class LogoutDialog extends StatelessWidget {
         )
       ]),
     );
+  }
+
+  logout() {
+    Get.find<DashboardController>().logout();
+    Get.offAllNamed(Routes.WELCOME);
   }
 }

@@ -166,15 +166,15 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    CandidateIncomeItem(),
-                                    CandidateIncomeItem(),
-                                    CandidateIncomeItem(),
-                                    SizedBox(
+                                    const CandidateIncomeItem(),
+                                    const CandidateIncomeItem(),
+                                    const CandidateIncomeItem(),
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Dot(),
-                                    CandidateIncomeItem(),
-                                    SizedBox(
+                                    const CandidateIncomeItem(),
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Column(
@@ -184,10 +184,10 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                             value: controller.d1.value == 0
                                                 ? 9
                                                 : controller.d1.value - 1)),
-                                        Spacer(),
+                                        const Spacer(),
                                         Obx(() => CandidateIncomeItem(
                                             value: controller.d1.value)),
-                                        Spacer(),
+                                        const Spacer(),
                                         Obx(
                                           () => CandidateIncomeItem(
                                               gradientBottom: true,
@@ -208,7 +208,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                       : controller.isLoggedOut
                           ? Column(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 60,
                                 ),
                                 Row(
@@ -226,7 +226,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                     // ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 12,
                                 ),
                                 Text(
@@ -234,7 +234,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                   style: AppTextStyles.b1
                                       .copyWith(color: AppColors.primary),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 40,
                                 ),
                                 Text(
@@ -243,17 +243,17 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                       fontWeight: FontWeight.w600,
                                       color: Colors.green),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
                                 Text(
                                   strings.have_a_good_time,
                                   style: TextStyle(color: Colors.grey.shade700),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
-                                Text(
+                                const Text(
                                   "😊",
                                   style: TextStyle(fontSize: 32),
                                 ),
@@ -404,7 +404,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                           child: Container(
                             height: 8,
                             width: 8,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Colors.red, shape: BoxShape.circle),
                           ),
                         ),
@@ -737,7 +737,7 @@ class CandidateIncomeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: 9,
       ),
       height: 46,
@@ -749,21 +749,21 @@ class CandidateIncomeItem extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 if (gradientTop) ...[
-                  Color.fromRGBO(255, 255, 255, 1),
-                  Color.fromRGBO(41, 100, 255, 1),
+                  const Color.fromRGBO(255, 255, 255, 1),
+                  const Color.fromRGBO(41, 100, 255, 1),
                 ] else
                   ...[],
-                Color.fromRGBO(41, 100, 255, 1),
+                const Color.fromRGBO(41, 100, 255, 1),
                 gradientBottom
-                    ? Color.fromRGBO(255, 255, 255, 1)
-                    : Color.fromRGBO(34, 64, 139, 1)
+                    ? const Color.fromRGBO(255, 255, 255, 1)
+                    : const Color.fromRGBO(34, 64, 139, 1)
               ])),
       child: Stack(alignment: Alignment.center, children: [
         Positioned(
             top: 0,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(6.57143),
                     topRight: Radius.circular(6.57143),
                   ),
@@ -773,8 +773,8 @@ class CandidateIncomeItem extends StatelessWidget {
                       colors: gradientTop
                           ? [Colors.white, Colors.white24]
                           : [
-                              Color.fromRGBO(34, 64, 139, 1),
-                              Color.fromRGBO(41, 100, 255, 1),
+                              const Color.fromRGBO(34, 64, 139, 1),
+                              const Color.fromRGBO(41, 100, 255, 1),
                             ])),
               height: 26,
               width: 34,
@@ -825,7 +825,7 @@ class _TimeWidgetState extends State<TimeWidget> {
       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.w700,
           color: Colors.grey.shade200,
-          shadows: [Shadow(color: Colors.black, offset: Offset(1, 1))]),
+          shadows: [const Shadow(color: Colors.black, offset: Offset(1, 1))]),
       textAlign: TextAlign.center,
     );
   }

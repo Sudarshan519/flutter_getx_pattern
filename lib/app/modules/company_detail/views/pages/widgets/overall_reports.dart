@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -23,7 +20,7 @@ class OverAllReports extends StatelessWidget {
       child: AppBottomSheet(
         child: Column(children: [
           TitleWidget(title: strings.overall_reports),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Obx(
@@ -41,7 +38,7 @@ class OverAllReports extends StatelessWidget {
                             controller.selectedReport.value == 5 ? true : false,
                         label: strings.daily),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -53,7 +50,7 @@ class OverAllReports extends StatelessWidget {
                             controller.selectedReport.value == 0 ? true : false,
                         label: strings.weekly),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -65,7 +62,7 @@ class OverAllReports extends StatelessWidget {
                         },
                         label: strings.monthly),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -87,22 +84,22 @@ class OverAllReports extends StatelessWidget {
           ReportItem(
             title: strings.attendee,
             value: "20",
-            color: Color.fromRGBO(0, 128, 0, .1),
+            color: const Color.fromRGBO(0, 128, 0, .1),
           ),
           ReportItem(
             title: strings.absent,
             value: "20",
-            color: Color.fromRGBO(255, 80, 80, 0.1),
+            color: const Color.fromRGBO(255, 80, 80, 0.1),
           ),
           ReportItem(
             title: strings.late,
             value: "20",
-            color: Color.fromRGBO(128, 128, 128, 0.1),
+            color: const Color.fromRGBO(128, 128, 128, 0.1),
           ),
           ReportItem(
             title: strings.early_punch_out,
             value: "20",
-            color: Color.fromRGBO(0, 0, 255, 0.1),
+            color: const Color.fromRGBO(0, 0, 255, 0.1),
           ),
           const SizedBox(
             height: 50,
@@ -122,14 +119,14 @@ class OverAllReports extends StatelessWidget {
               )),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Text(
             strings.attendance_records,
             style: AppTextStyles.title,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -140,7 +137,7 @@ class OverAllReports extends StatelessWidget {
                   CircleAvatar(
                       backgroundColor: Colors.grey.shade200,
                       child: SvgPicture.asset("assets/Vector(2).svg")),
-                  SizedBox(
+                  const SizedBox(
                     width: 8,
                   ),
                   Text(strings.send_invitation),
@@ -155,7 +152,7 @@ class OverAllReports extends StatelessWidget {
               ),
             )
           ]),
-          SizedBox(
+          const SizedBox(
             height: 20,
           )
         ]),
@@ -192,8 +189,8 @@ class ReportItem extends StatelessWidget {
               value,
               style: AppTextStyles.b1.copyWith(color: Colors.red),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: VerticalDivider(),
             ),
             Text(

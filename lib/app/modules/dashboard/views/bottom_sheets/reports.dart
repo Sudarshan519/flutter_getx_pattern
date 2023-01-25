@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
-import 'package:hajir/app/modules/candidate_login/views/widgets/custom_paint/circular_progress_paint.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
@@ -77,7 +76,7 @@ class Reports extends StatelessWidget {
                             "Nitesh Shrestha",
                             style: AppTextStyles.normal,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Text(
@@ -86,7 +85,7 @@ class Reports extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         padding: EdgeInsets.all(6.r),
                         decoration: BoxDecoration(
@@ -103,7 +102,7 @@ class Reports extends StatelessWidget {
                           height: 16,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Container(
@@ -141,7 +140,7 @@ class Reports extends StatelessWidget {
                                   : false,
                               label: strings.weekly),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Expanded(
@@ -154,7 +153,7 @@ class Reports extends StatelessWidget {
                               },
                               label: strings.monthly),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
                         Expanded(
@@ -185,7 +184,7 @@ class Reports extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   color: Colors.green.shade800),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
@@ -200,10 +199,10 @@ class Reports extends StatelessWidget {
                             Container(
                               height: 8,
                               width: 8,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.grey),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
@@ -218,10 +217,10 @@ class Reports extends StatelessWidget {
                             Container(
                               height: 8,
                               width: 8,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.red),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Text(
@@ -367,7 +366,7 @@ class Reports extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 15,
                                   ),
                                   SizedBox(
@@ -414,7 +413,7 @@ class Reports extends StatelessWidget {
                                 ],
                               ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -425,7 +424,7 @@ class Reports extends StatelessWidget {
                             .large
                             .copyWith(fontSize: 14, color: AppColors.primary),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         "Amount",
                         style: AppTextStyles()
@@ -434,8 +433,8 @@ class Reports extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Divider(thickness: 1),
-                  SizedBox(
+                  const Divider(thickness: 1),
+                  const SizedBox(
                     height: 5,
                   ),
                   Obx(() => controller.selectedReport == 2
@@ -452,13 +451,13 @@ class Reports extends StatelessWidget {
                                     value: 6000),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 1,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -468,7 +467,7 @@ class Reports extends StatelessWidget {
                                   style: AppTextStyles().large.copyWith(
                                       fontSize: 14, color: AppColors.primary),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   "2,40,000/-",
                                   style: AppTextStyles().large.copyWith(
@@ -476,13 +475,13 @@ class Reports extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 1,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                           ],
@@ -490,49 +489,49 @@ class Reports extends StatelessWidget {
                       : Column(
                           children: [
                             DescriptionItem(label: strings.salary, value: 6000),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             DescriptionItem(
                                 label: strings.overtime, value: 6000),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             DescriptionItem(label: strings.bonus, value: 6000),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             DescriptionItem(
                                 label: strings.allowance, value: 6000),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Obx(() => controller.selectedReport.value == 1
                                 ? Column(
                                     children: [
-                                      Divider(
+                                      const Divider(
                                         thickness: 1,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
                                           label: strings.tax, value: 6000),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
                                           label: strings.penalty, value: 6000),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                     ],
                                   )
-                                : SizedBox()),
-                            Divider(
+                                : const SizedBox()),
+                            const Divider(
                               thickness: 1,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -542,7 +541,7 @@ class Reports extends StatelessWidget {
                                   style: AppTextStyles().large.copyWith(
                                       fontSize: 14, color: AppColors.primary),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   " 21500",
                                   style: AppTextStyles().large.copyWith(
@@ -550,13 +549,13 @@ class Reports extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
-                            Divider(
+                            const Divider(
                               thickness: 1,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Obx(() => controller.selectedReport.value == 1
@@ -574,28 +573,28 @@ class Reports extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      Divider(
+                                      const Divider(
                                         thickness: 1,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
                                           label: strings.sick_leave,
                                           value: 6000),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
                                           label: strings.extra_leave,
                                           value: 6000),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
-                                      Divider(
+                                      const Divider(
                                         thickness: 1,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -608,7 +607,7 @@ class Reports extends StatelessWidget {
                                                     fontSize: 14,
                                                     color: AppColors.primary),
                                           ),
-                                          Spacer(),
+                                          const Spacer(),
                                           Text(
                                             "17 days",
                                             style: AppTextStyles()
@@ -621,13 +620,13 @@ class Reports extends StatelessWidget {
                                       ),
                                     ],
                                   )
-                                : SizedBox()),
+                                : const SizedBox()),
                           ],
                         )),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                 ],
@@ -653,7 +652,7 @@ class DescriptionItem extends StatelessWidget {
           label,
           style: AppTextStyles.medium,
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           value.toString(),
           style: AppTextStyles.medium,
@@ -701,7 +700,7 @@ class WeekDay extends StatelessWidget {
                         ? Colors.red
                         : Colors.green),
           ),
-          SizedBox(
+          const SizedBox(
             height: 6,
           ),
           Text(
@@ -734,7 +733,7 @@ class WeekButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style:
-          OutlinedButton.styleFrom(side: BorderSide(color: Colors.transparent)),
+          OutlinedButton.styleFrom(side: const BorderSide(color: Colors.transparent)),
       onPressed: onPressed,
       child: Text(
         label,
@@ -773,7 +772,7 @@ class ReportsButton extends StatelessWidget {
                     fontSize: 10,
                     color: active
                         ? Colors.white
-                        : Color.fromRGBO(0, 0, 0, 0).withOpacity(.4)),
+                        : const Color.fromRGBO(0, 0, 0, 0).withOpacity(.4)),
               ))),
     );
   }

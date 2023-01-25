@@ -9,7 +9,9 @@ class PagingModel extends Paging {
     required this.articles,
   }) : super(articles: articles, totalResults: totalResults);
 
+  @override
   final int totalResults;
+  @override
   final List<ArticleModel> articles;
 
   @override

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:hajir/app/config/app_colors.dart';
 
 class ClockPainter extends CustomPainter {
   final dateTime;

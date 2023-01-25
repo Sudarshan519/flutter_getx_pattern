@@ -10,17 +10,20 @@ import 'pages/attendance.dart';
 import 'pages/employee.dart';
 import 'pages/home.dart';
 
-var pages = [
-  EmployerHome(),
-  Attendance(),
-  EmployeeList(),
-  const MyAccount(isEmployer: true)
-];
-
 class CompanyDetailView extends GetView<CompanyDetailController> {
   const CompanyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var pages = [
+      const EmployerHome(),
+      const Attendance(),
+      const EmployeeList(),
+      MyAccount(
+        isEmployer: true,
+        controller: controller,
+      )
+    ];
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -31,7 +34,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 80,
                       ),
                       Center(
@@ -41,7 +44,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                           width: 147.48,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       Center(
@@ -165,14 +168,14 @@ class BottomNavItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Spacer(),
+            const Spacer(),
             icon,
-            Spacer(),
+            const Spacer(),
             Text(
               label,
               style: TextStyle(color: color),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),

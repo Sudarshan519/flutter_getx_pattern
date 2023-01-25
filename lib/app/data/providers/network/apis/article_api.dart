@@ -40,9 +40,11 @@ class  ArticleAPI implements APIRequestRepresentable {
     return HTTPMethod.get;
   }
 
+  @override
   Map<String, String> get headers =>
       {"X-Api-Key": "d809d6a547734a67af23365ce5bc8c02"};
 
+  @override
   Map<String, String> get query {
     switch (type) {
       case ArticleType.fetchHeadline:
