@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 void main() {
   _run();
 }
@@ -27,7 +29,9 @@ _run() async {
       await Directory(tsvFilesLocation).list().toList();
 
   if (allFiles.isEmpty) {
-    print('No exported tsv file found in $tsvFilesLocation');
+    if (kDebugMode) {
+      print('No exported tsv file found in $tsvFilesLocation');
+    }
     return;
   }
 
@@ -65,7 +69,9 @@ _run() async {
           }
           outputObject[lang]?[key] = val;
         } catch (e) {
-          print(e);
+          if (kDebugMode) {
+            print(e);
+          }
         }
       }
     }

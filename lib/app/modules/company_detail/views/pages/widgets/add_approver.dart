@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/modules/add_employee/views/add_employee_view.dart';
-import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -11,7 +11,7 @@ class AddApprover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CompanyDetailController controller = Get.find();
+    final EmployerDashboardController controller = Get.find();
     return SingleChildScrollView(
         padding: const EdgeInsets.only(top: 16),
         child: AppBottomSheet(
@@ -30,10 +30,11 @@ class AddApprover extends StatelessWidget {
                     title: strings.add_approver,
                   ),
                   CustomDropDownField(
-                    title: strings.select_company,
-                    hint: "",
-                    items: const ['A', 'B'],
-                  ),
+                      title: strings.select_company,
+                      hint: strings.select_company,
+                      items: controller.companyList
+                          .map((e) => e.name ?? "")
+                          .toList()),
                   CustomButton(onPressed: () {}, label: strings.add),
                   const SizedBox(
                     height: 20,

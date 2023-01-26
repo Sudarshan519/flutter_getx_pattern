@@ -17,144 +17,167 @@ class Companies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EmployerDashboardController controller = Get.find();
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Obx(() => controller.companyList.isNotEmpty
-                  ? Text(
-                      strings.companies_list,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 24),
-                    )
-                  : const SizedBox()),
-              const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: Align(
-                  alignment: Alignment.centerRight,
-                  child: SvgPicture.asset(
-                    "assets/notification.svg",
-                    height: 24,
-                    width: 24,
+    return RefreshIndicator(
+      onRefresh: () async {
+        controller.getCompanies();
+      },
+      child: Padding(
+        // physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Row(
+              children: [
+                Obx(() => controller.companyList.isNotEmpty
+                    ? Text(
+                        strings.companies_list,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 24),
+                      )
+                    : const SizedBox()),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: Align(
+                    alignment: Alignment.centerRight,
+                    child: SvgPicture.asset(
+                      "assets/notification.svg",
+                      height: 24,
+                      width: 24,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Obx(() => controller.companyList.isNotEmpty
-              ? Column(
-                  children: List.generate(
-                    controller.companyList.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8),
-                        onTap: () {
-                          Get.toNamed(Routes.COMPANY_DETAIL,
-                              arguments: controller.companyList[index]);
-                        },
-                        child: Container(
-                          height: 83,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 16),
-                          // margin: const EdgeInsets.only(bottom: 10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  controller.companyList[index].name ?? "NA",
-                                  style: AppTextStyles.b2.copyWith(
-                                      fontSize: 18, color: AppColors.primary),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "${strings.employee} [  ",
-                                              style: AppTextStyles.b2.copyWith(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey.shade600),
-                                            ),
-                                            TextSpan(
-                                                text: "24",
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => controller.companyList.isNotEmpty
+                ? Expanded(
+                    child: ListView.builder(
+                      itemCount: controller.companyList.length,
+                      itemBuilder: (_, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () {
+                            Get.toNamed(Routes.COMPANY_DETAIL,
+                                arguments: controller.companyList[index],
+                                parameters: {
+                                  'company_id': controller.companyList[index].id
+                                      .toString()
+                                });
+                          },
+                          child: Container(
+                            height: 83,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16),
+                            // margin: const EdgeInsets.only(bottom: 10),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    controller.companyList[index].name!
+                                            .capitalize ??
+                                        "NA",
+                                    style: AppTextStyles.b2.copyWith(
+                                        fontSize: 18, color: AppColors.primary),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "${strings.employee} [  ",
                                                 style: AppTextStyles.b2
                                                     .copyWith(
+                                                        fontSize: 10,
                                                         fontWeight:
-                                                            FontWeight.w600,
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .grey.shade600),
+                                              ),
+                                              TextSpan(
+                                                  text: "x",
+                                                  style: AppTextStyles.b2
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              AppColors.primary,
+                                                          fontSize: 10)),
+                                              const TextSpan(
+                                                  text: " ]          "),
+                                            ],
+                                            style: AppTextStyles.b2.copyWith(
+                                                fontSize: 10,
+                                                color: Colors.grey)),
+                                      ),
+                                      RichText(
+                                          text: TextSpan(
+                                              children: [
+                                            TextSpan(
+                                                text:
+                                                    "${strings.approver} [  "),
+                                            TextSpan(
+                                                text: "x",
+                                                style: AppTextStyles.b2
+                                                    .copyWith(
                                                         color:
                                                             AppColors.primary,
                                                         fontSize: 10)),
-                                            const TextSpan(
-                                                text: " ]          "),
+                                            const TextSpan(text: " ]"),
                                           ],
-                                          style: AppTextStyles.b2.copyWith(
-                                              fontSize: 10,
-                                              color: Colors.grey)),
-                                    ),
-                                    RichText(
-                                        text: TextSpan(
-                                            children: [
-                                          TextSpan(
-                                              text: "${strings.approver} [  "),
-                                          TextSpan(
-                                              text: "24",
                                               style: AppTextStyles.b2.copyWith(
-                                                  color: AppColors.primary,
-                                                  fontSize: 10)),
-                                          const TextSpan(text: " ]"),
-                                        ],
-                                            style: AppTextStyles.b2.copyWith(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey.shade600))),
-                                  ],
-                                )
-                              ]),
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w500,
+                                                  color:
+                                                      Colors.grey.shade600))),
+                                    ],
+                                  )
+                                ]),
+                          ),
                         ),
                       ),
+                      // ),
                     ),
-                  ),
-                )
-              : Column(
-                  children: [
-                    const SizedBox(
-                      height: 80,
-                    ),
-                    SvgPicture.asset(
-                      "assets/Group 115(1).svg",
-                      height: 160.48,
-                      width: 173.85,
-                    ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Text(
-                      strings.not_created_company,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: AppColors.primary),
-                    ),
-                  ],
-                ))
-        ],
+                  )
+                : controller.loading.isTrue
+                    ? const CircularProgressIndicator()
+                    : Column(
+                        children: [
+                          const SizedBox(
+                            height: 80,
+                          ),
+                          SvgPicture.asset(
+                            "assets/Group 115(1).svg",
+                            height: 160.48,
+                            width: 173.85,
+                          ),
+                          const SizedBox(
+                            height: 35,
+                          ),
+                          Text(
+                            strings.not_created_company,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(color: AppColors.primary),
+                          ),
+                        ],
+                      ))
+          ],
+        ),
       ),
     );
   }
@@ -218,7 +241,9 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
         onPressed: () {
-          Get.toNamed(Routes.CREATE_COMPANY);
+          Get.toNamed(
+            Routes.CREATE_COMPANY,
+          );
         },
         child: const Icon(Icons.add),
       ),

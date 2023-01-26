@@ -30,7 +30,7 @@ void main() async {
           ? AppPages.INITIAL
           : appSettings.token == ''
               ? Routes.WELCOME
-              : appSettings.employer
+              : appSettings.type == 'employer' //appSettings.employer
                   ? Routes.EMPLOYER_DASHBOARD
                   : AppPages.DASHBOARD,
       initialBinding: InitialBindings(),
@@ -47,10 +47,10 @@ appInit() async {
   ]);
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   AppSettings appSettings = AppSettings(sharedPreferences);
+  Get.lazyPut<AppSettings>(() => appSettings, fenix: true);
   final AttendanceSystemProvider attendanceApi = AttendanceSystemProvider();
   Get.lazyPut(() => attendanceApi, fenix: true);
   Get.lazyPut<SharedPreferences>(() => sharedPreferences);
 
-  Get.lazyPut<AppSettings>(() => appSettings);
   await ScreenUtil.ensureScreenSize();
 }

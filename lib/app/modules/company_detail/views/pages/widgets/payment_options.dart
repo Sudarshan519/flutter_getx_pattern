@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/my_plans.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
@@ -21,6 +22,7 @@ class PaymentOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final EmployerDashboardController controller = Get.find();
     return SingleChildScrollView(
         padding: const EdgeInsets.only(top: 16),
         child: AppBottomSheet(
@@ -29,23 +31,32 @@ class PaymentOptions extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          ...paymentOptions.map((e) => Padding(
-                padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
-                child: Container(
-                  height: 58.h,
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade200),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: paymentOptions.indexOf(e) == 0
-                      ? CustomGreenShadow(
-                          child: Text(e),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Text(e),
-                        ),
+          ...paymentOptions.map((e) => InkWell(
+                onTap: () {
+                  controller
+                      .selected_payments_options(paymentOptions.indexOf(e));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
+                  child: Obx(
+                    () => Container(
+                      height: 58.h,
+                      width: double.infinity,
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade200),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: paymentOptions.indexOf(e) ==
+                              controller.selected_payments_options.value
+                          ? CustomGreenShadow(
+                              child: Text(e),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(e),
+                            ),
+                    ),
+                  ),
                 ),
               )),
           Padding(

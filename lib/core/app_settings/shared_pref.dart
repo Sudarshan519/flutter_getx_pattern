@@ -27,8 +27,10 @@ class AppSettings {
   bool get employer => _sharedPref.getBool('type') ?? false;
   String get selectedlanguage =>
       _sharedPref.getString('selected_language') ?? '';
+  String get type => _sharedPref.getString('type') ?? 'candidate';
 
   ///setters
+  set type(String tp) => _sharedPref.setString('type', tp);
   set name(String ename) => _sharedPref.setString('name', ename);
   set email(String eEmail) => _sharedPref.setString('eEmail', eEmail);
   set phone(String ephone) => _sharedPref.setString('phone', ephone);

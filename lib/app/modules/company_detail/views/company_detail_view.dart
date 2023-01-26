@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/modules/dashboard/views/my_account.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/company_detail_controller.dart';
@@ -99,9 +100,11 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
             FloatingActionButton(
               backgroundColor: AppColors.primary,
               onPressed: () async {
-                var isAdded = (await Get.toNamed(Routes.ADD_EMPLOYEE) ?? false);
+                var isAdded = (await Get.toNamed(Routes.ADD_EMPLOYEE,
+                        arguments: controller.params['company_id']) ??
+                    false);
                 if (isAdded) {
-                  controller.addEmployee();
+                  controller.getEmployee();
                 }
               },
               child: const Icon(Icons.add),
@@ -120,7 +123,11 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                 ),
                 label: strings.employee),
             BottomNavItem(
-                onTap: () => controller.selectedItem(3),
+                onTap: () {
+                  Get.back();
+                  final EmployerDashboardController edController = Get.find();
+                  edController.selectedIndex(1);
+                }, //controller.selectedItem(3),
                 color: controller.selectedItem.value == 3
                     ? AppColors.primary
                     : Colors.grey,

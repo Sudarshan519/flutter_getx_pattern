@@ -64,6 +64,7 @@ class MobileOptController extends GetxController {
           log(phone);
           appSettings.saveUser(UserModel.fromJson(result.body['data']['user']));
           appSettings.token = result.body['data']['token'];
+          appSettings.type = 'employer';
           Get.back();
           Get.toNamed(Routes.EMPLOYER_DASHBOARD);
           // appSettings.refresh = tokens['refresh'];
@@ -76,6 +77,7 @@ class MobileOptController extends GetxController {
           log(phone);
           appSettings.saveUser(UserModel.fromJson(result.body['data']['user']));
           appSettings.token = result.body['data']['token'];
+          appSettings.type = 'employee';
           Get.back();
           Get.toNamed(Routes.DASHBOARD);
           // appSettings.refresh = tokens['refresh'];

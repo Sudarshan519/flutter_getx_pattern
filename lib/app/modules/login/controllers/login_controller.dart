@@ -39,8 +39,7 @@ class LoginController extends GetxController {
   void increment() => _selectedItem.value++;
 
   void registerPhone() async {
-    // if (loading.isFalse)
-    {
+    if (loading.isFalse) {
       try {
         showLoading();
         if (isEmployer.isTrue) {

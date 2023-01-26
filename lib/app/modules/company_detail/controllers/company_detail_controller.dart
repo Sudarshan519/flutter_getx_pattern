@@ -17,20 +17,20 @@ class CompanyDetailController extends GetxController {
   var selectedYear = 0.obs;
   var selectedMonth = 0.obs;
   var selectedReport = 0.obs;
+  var params = {}.obs;
   @override
   void onInit() {
     super.onInit();
-    addEmployee();
+    getEmployee();
     loading(true);
     company(Get.arguments);
+    params(Get.parameters);
     loading(false);
   }
 
-
-
   void increment() => selectedItem.value++;
 
-  void addEmployee() {
+  void getEmployee() {
     loading(true);
     Future.delayed(2.seconds, () {
       candidates(employeeList);
