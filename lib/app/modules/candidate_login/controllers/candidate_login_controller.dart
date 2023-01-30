@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hajir/app/data/providers/attendance_provider.dart';
+import 'package:hajir/app/data/providers/network/api_provider.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:local_auth/local_auth.dart';
 
 enum AuthStatus { Uninitialized, Authenticated, Unauthenticated }
@@ -38,6 +41,7 @@ class CandidateLoginController extends GetxController {
   var d1 = 1.obs;
   var d2 = 0.obs;
   //
+  final attendaceApi = Get.find<AttendanceSystemProvider>();
 
   startorStopBreak() {
     if (percentage.value > 10) {
@@ -97,14 +101,28 @@ class CandidateLoginController extends GetxController {
                 localizedReason: "Employee Identity Verification",
                 options: const AuthenticationOptions(biometricOnly: false));
             if (isAuthenticated) {
-              authStatus = AuthStatus.Authenticated;
-              timer.cancel();
-              _isloggedIn(true);
-              timerInit(true);
-              timer = Timer.periodic(1.seconds, (timer) {
-                now(DateTime.now());
-                if (!isLoggedOut && isloggedIn) updatePercentage();
-              });
+              try {
+                print(appSettings.companyId);
+                var result =
+                    await attendaceApi.storeAttendance(appSettings.companyId);
+                print(result.body);
+                appSettings.attendanceId = result.body['data']['id'];
+                authStatus = AuthStatus.Authenticated;
+                timer.cancel();
+                _isloggedIn(true);
+                timerInit(true);
+                timer = Timer.periodic(1.seconds, (timer) {
+                  now(DateTime.now());
+                  if (!isLoggedOut && isloggedIn) updatePercentage();
+                });
+              } on BadRequestException catch (e) {
+                Get.rawSnackbar(
+                    title: e.message, message: e.details.toString());
+              } on UnauthorisedException catch (e) {
+                Get.rawSnackbar(title: e.message, message: e.details);
+              } catch (e) {
+                Get.rawSnackbar(message: 'Something went wrong.');
+              }
             } else {
               authStatus = AuthStatus.Unauthenticated;
               Get.rawSnackbar(message: "Authentication Failed");
@@ -150,8 +168,6 @@ class CandidateLoginController extends GetxController {
       if (!isLoggedOut && isloggedIn) updatePercentage();
     });
   }
-
-
 
   @override
   void dispose() {

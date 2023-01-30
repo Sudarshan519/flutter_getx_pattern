@@ -54,10 +54,31 @@ class AttendanceSystemProvider extends GetConnect {
   //           'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
   //   }
   // }
+  Future<BaseResponse> candidateInvitations() async {
+    var url = 'candidate/invitation/all';
+    var res = await get(url, headers: headersList);
+    return parseRes(res);
+  }
+
+  Future<BaseResponse> acceptInvitation(String invitationId) async {
+    var body = {'status': 'Approved'};
+    var res = await post('candidate/invitation-update/$invitationId', body,
+        headers: headersList);
+    return parseRes(res);
+  }
+
+  Future<BaseResponse> storeAttendance(String companyId) async {
+    var url = 'candidate/attendance-store/$companyId';
+    var res = await post(url, {}, headers: headersList);
+    return parseRes(res);
+  }
 
   Future<BaseResponse> login(String phone, String otp) async {
     var body = {'phone': phone, 'password': otp};
-    var res = await post('candidate/login', body);
+    var res = await post('candidate/login', body, headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    });
     return parseRes(res);
   }
 
@@ -65,7 +86,8 @@ class AttendanceSystemProvider extends GetConnect {
   Future<BaseResponse> register(String phone) async {
     var body = {'phone': phone};
     try {
-      var res = await post('candidate/register', body);
+      var res = await post('candidate/register', body,
+          headers: {'accept': 'application/json'});
 
       return parseRes(res);
     } catch (e) {
@@ -79,18 +101,24 @@ class AttendanceSystemProvider extends GetConnect {
   ///
   Future<BaseResponse> verifyOtp(String phone, String code) async {
     var body = {'phone': phone, 'otp': code};
-    try {
-      var res = await post('candidate/verify-opt', body, headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      });
+    // try {
+    var res = await post('candidate/verify-opt', body, headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    });
 
-      return parseRes(res);
-    } catch (e) {
-      Get.log(e.toString());
-      rethrow;
-    }
+    return parseRes(res);
+    // } catch (e) {
+    //   Get.log(e.toString());
+    //   rethrow;
+    // }
   }
+
+  // Future<BaseResponse> invitations() async {
+  //   var url = "/candidate/invitation/all";
+  //   var res = await get(url, headers: headersList);
+  //   return parseRes(res);
+  // }
 
   ///Employer login
   ///
@@ -112,7 +140,7 @@ class AttendanceSystemProvider extends GetConnect {
       'phone': phone,
     };
 
-    var res = await post('employer/register', body);
+    var res = await post('employer/register', body, headers: headersList);
 
     return parseRes(res);
   }
@@ -129,68 +157,69 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   addCandidate(var body, String id) async {
-    try {
-      // var body = {
-      //   "name": "teach",
-      //   "address": "nepal",
-      //   "contact": "9865456587",
-      //   "email": "teach@gmail.com",
-      //   "office_hour_start": "8:00",
-      //   "office_hour_end": "18:00",
-      //   "salary_type": "monthly",
-      //   "duty_time": "8:00",
-      //   "code": "RT2209",
-      //   "dob": "2004-12-18",
-      //   "salary_amount": "20000",
-      //   "joining_date": "2018-02-03",
-      //   "over_time": "1.5"
-      // };
+    // try {
+    // var body = {
+    //   "name": "teach",
+    //   "address": "nepal",
+    //   "contact": "9865456587",
+    //   "email": "teach@gmail.com",
+    //   "office_hour_start": "8:00",
+    //   "office_hour_end": "18:00",
+    //   "salary_type": "monthly",
+    //   "duty_time": "8:00",
+    //   "code": "RT2209",
+    //   "dob": "2004-12-18",
+    //   "salary_amount": "20000",
+    //   "joining_date": "2018-02-03",
+    //   "over_time": "1.5"
+    // };
 
-      var res = await post('candidate/store/$id', body, headers: headersList);
-      print(res.body);
-      return parseRes(res);
-      if (res.statusCode! >= 200 && res.statusCode! < 300) {}
-    } catch (e) {
-      rethrow;
-    }
+    var res = await post('candidate/store/$id', body, headers: headersList);
+    // print(res.body);
+    return parseRes(res);
+    //   if (res.statusCode! >= 200 && res.statusCode! < 300) {}
+    // } catch (e) {
+    //   rethrow;
+    // }
   }
 
   getCandidates() async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA5MDY1YjAyMjk1YzAwYmY1NTE4MjAyOWQzZTY2ZmU2NTM5Mjk5YjlmMzljMmFiYzllMjM5NmRiNTEwOGNjZDAzMTQ4NzdlMDUwZTljZWQiLCJpYXQiOjE2NzM5NDU0MTEuMjU3OTA4LCJuYmYiOjE2NzM5NDU0MTEuMjU3OTExLCJleHAiOjE3MDU0ODE0MTEuMjUyODIsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.e7f9iwjTyjj34U51p1ggpmM72NNdQgi7nkid_58f0VB1HSo9Xpy2vnQhkP2kr-k2kKAFrznmSCGyNWJQZr8lwyVAxy4J84NNME_roJqLXoQ7p0U4iTYhV4OunuIPT4_nm8wEWAfzDhK_fDlXVJVbMnLxRLYFxvFYPu-oh1URNnSFFm3bzZwdVvXHYa-TZJsugxPd7M30dclgwt1jTddMMNKu_b8zUQUk8n1aLBMravF9ZbwOA2FzZ0RenfPrXbVIQrpnzWEmIDv72qnwuVFBYDyqgTeOj7ZgEKt6EDB1A48vMyIhYzIl5wnthEWkilEe4uamNvVat7Q_XtluxMzvkvTVj2SaxIHds3-DqJ9ZVMQgT2qUxa-J8vRb7D-9peQnYS5upcMLTNbHTAM4bF6k5hOKRNCdtqiHQFpIDwuXVCu9Jh_YK7Lg0Ig5rXt9_1aIOsGKm4lQqFBP0jsl3LsdAgtiedMhQ6uXF0gLwCBuLVU2G_jVSUrOABN0w80Pby75myMQh7pY2Siic1G2ZHtRWjA2OrRY7Jn3P1sP1W7_zv1mtCFygIW5rmPlLFxkdNFpnYcncOChFXsLxk6yfrMCiW7svdu-Ae463XephD7OxrFyHYY8qvbw62BlbZHKkNXMqBDhLlTTVogFC1Npz36hAhPU2IRCOgyI0HkZuHg7CNE'
-    };
-    try {
-      var res = await get('localhost:8000/api/candidate/get-candidates/1',
-          headers: headersList);
-    } catch (e) {}
+    // var headersList = {
+    //   'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+    //   'Accept': 'application/json',
+    //   'Content-Type': 'application/json',
+    //   'Authorization':
+    //       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA5MDY1YjAyMjk1YzAwYmY1NTE4MjAyOWQzZTY2ZmU2NTM5Mjk5YjlmMzljMmFiYzllMjM5NmRiNTEwOGNjZDAzMTQ4NzdlMDUwZTljZWQiLCJpYXQiOjE2NzM5NDU0MTEuMjU3OTA4LCJuYmYiOjE2NzM5NDU0MTEuMjU3OTExLCJleHAiOjE3MDU0ODE0MTEuMjUyODIsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.e7f9iwjTyjj34U51p1ggpmM72NNdQgi7nkid_58f0VB1HSo9Xpy2vnQhkP2kr-k2kKAFrznmSCGyNWJQZr8lwyVAxy4J84NNME_roJqLXoQ7p0U4iTYhV4OunuIPT4_nm8wEWAfzDhK_fDlXVJVbMnLxRLYFxvFYPu-oh1URNnSFFm3bzZwdVvXHYa-TZJsugxPd7M30dclgwt1jTddMMNKu_b8zUQUk8n1aLBMravF9ZbwOA2FzZ0RenfPrXbVIQrpnzWEmIDv72qnwuVFBYDyqgTeOj7ZgEKt6EDB1A48vMyIhYzIl5wnthEWkilEe4uamNvVat7Q_XtluxMzvkvTVj2SaxIHds3-DqJ9ZVMQgT2qUxa-J8vRb7D-9peQnYS5upcMLTNbHTAM4bF6k5hOKRNCdtqiHQFpIDwuXVCu9Jh_YK7Lg0Ig5rXt9_1aIOsGKm4lQqFBP0jsl3LsdAgtiedMhQ6uXF0gLwCBuLVU2G_jVSUrOABN0w80Pby75myMQh7pY2Siic1G2ZHtRWjA2OrRY7Jn3P1sP1W7_zv1mtCFygIW5rmPlLFxkdNFpnYcncOChFXsLxk6yfrMCiW7svdu-Ae463XephD7OxrFyHYY8qvbw62BlbZHKkNXMqBDhLlTTVogFC1Npz36hAhPU2IRCOgyI0HkZuHg7CNE'
+    // };
+    // try {
+    var res = await get('localhost:8000/api/candidate/get-candidates/1',
+        headers: headersList);
+    // } catch (e) {}
+    return parseRes(res);
   }
 
   addCompany(dynamic body) async {
     var url = 'employer/company/store';
 
-    try {
-      var res = await post(url, body, headers: headersList);
-      log(res.bodyString!);
-      return parseRes(res);
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    var res = await post(url, body, headers: headersList);
+    log(res.bodyString!);
+    return parseRes(res);
+    // } catch (e) {
+    //   rethrow;
+    // }
   }
 
   Future<BaseResponse> getEmployerCompanies() async {
     var url = ('employer/company/all');
 
-    try {
-      var res = await get(url, headers: headersList);
+    // try {
+    var res = await get(url, headers: headersList);
 
-      return parseRes(res);
-    } catch (e) {
-      rethrow;
-    }
+    return parseRes(res);
+    // } catch (e) {
+    //   rethrow;
+    // }
     // if (res.statusCode! >= 200 && res.statusCode! < 300) {
     // } else {}
   }
@@ -198,12 +227,12 @@ class AttendanceSystemProvider extends GetConnect {
   getCompanyById() async {
     var url = ('company/get-companies/1');
 
-    try {
-      var res = await get(url, headers: headersList);
-      parseRes(res);
-    } catch (e) {
-      rethrow;
-    }
+    // try {
+    var res = await get(url, headers: headersList);
+    return parseRes(res);
+    // } catch (e) {
+    //   rethrow;
+    // }
     // if (res.statusCode! >= 200 && res.statusCode! < 300) {
     // } else {}
   }
@@ -277,22 +306,69 @@ class AttendanceSystemProvider extends GetConnect {
       } else {}
     } catch (e) {}
   }
+
+  Future<BaseResponse> getAllInvitationList(String id) async {
+    var url = ('employer/$id/invitation/all-candidates');
+
+    // try {
+    var res = await get(url, headers: headersList);
+    return parseRes(res);
+    // } catch (e) {
+    // rethrow;
+    // }
+  }
+
+  Future<BaseResponse> getallCandidates(String companyId) async {
+    var url = 'employer/$companyId/invitation/all-candidates';
+    var res = await get(url, headers: headersList);
+    return parseRes(res);
+  }
+
+  Future<BaseResponse> deleteInvitation(
+      String companyId, String invitationId) async {
+    var url = 'employer/$companyId/invitation/delete/$invitationId';
+    var res = await get(url, headers: headersList);
+
+    return parseRes(res);
+  }
+
+  Future<BaseResponse> sendInvitation(
+      String companyId, String candidateId, var status) async {
+    // var body = {'status': 'Not-Approved', 'candidate_id': '3'};
+    var body = {
+      'status': status,
+      'candidate_id': candidateId,
+      // 'status': status
+    };
+    var url = 'employer/$companyId /invitation/store';
+    var result = await post(url, body, headers: headersList);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> updateProfile(var body) async {
+    print(body);
+    var result =
+        await post('candidate/profile-update', body, headers: headersList);
+    print(result.body);
+    return parseRes(result);
+  }
 }
 
 parseRes(Response res) {
   // if (res.statusCode != 200) {
   //   logRequest(res.request!.url.path, res.body.toString());
   // }
-  // print(res.statusCode);
+  log(res.bodyString.toString());
   switch (res.statusCode) {
     case 200:
       return BaseResponse(body: res.body, statusCode: res.statusCode!);
     case 400:
-      Get.log(res.body.toString());
+    case 422:
       throw BadRequestException(res.body.toString());
     case 401:
     case 403:
       throw UnauthorisedException(res.body.toString());
+
     case 404:
       throw BadRequestException('Not found');
     case 500:

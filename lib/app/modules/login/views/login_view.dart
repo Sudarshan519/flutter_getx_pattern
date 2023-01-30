@@ -16,6 +16,7 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -91,7 +92,7 @@ class LoginView extends GetView<LoginController> {
               height: 40.h,
             ),
             Form(
-              key: controller.formKey,
+              key: formKey,
               child: TextFormField(
                 controller: controller.phone,
                 validator: (v) {
@@ -144,7 +145,7 @@ class LoginView extends GetView<LoginController> {
             ),
             CustomButton(
                 onPressed: () {
-                  if (controller.formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     controller.registerPhone();
                   }
                 },

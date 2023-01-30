@@ -32,4 +32,6 @@ class AttendanceApi implements APIRequestRepresentable {
   @override
   // TODO: implement url
   String get url => throw UnimplementedError();
+
+  getAllInvitationList() {}
 }

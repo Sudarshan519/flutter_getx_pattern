@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class EmployeeList extends StatelessWidget {
   const EmployeeList({super.key});
@@ -41,11 +43,16 @@ class EmployeeList extends StatelessWidget {
           const SizedBox(
             height: 40,
           ),
+
           Expanded(
-            child: ListView.builder(
-              itemCount: controller.candidates.length,
-              itemBuilder: ((context, index) =>
-                  EmployeeWidget(controller: controller, index: index)),
+            child: Obx(
+              () => controller.loading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: controller.invitationlist.length,
+                      itemBuilder: ((context, index) =>
+                          EmployeeWidget(controller: controller, index: index)),
+                    ),
             ),
           ),
         ],
@@ -94,11 +101,15 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Image.asset(
-                  "assets/Mask group(1).png",
-                  height: 40,
-                  width: 40,
+                const Icon(
+                  CupertinoIcons.profile_circled,
+                  color: Colors.grey,
                 ),
+                // Image.asset(
+                //   "assets/Mask group(1).png",
+                //   height: 40,
+                //   width: 40,
+                // ),
                 const SizedBox(
                   width: 20,
                 ),
@@ -106,7 +117,10 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.controller.candidates[widget.index].name!,
+                    Text(
+                        widget.controller.invitationlist[widget.index]
+                                ['phone'] ??
+                            '',
                         style: const TextStyle(
                           fontSize: 15,
                         )),
@@ -114,27 +128,33 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                       height: 3,
                     ),
                     Text(
-                      "RT00${widget.index + 1}",
+                      widget.controller.invitationlist[widget.index]
+                              ['candidatedetails']['code'] ??
+                          '',
+                      // "RT00${widget.index + 1}",
                       style: const TextStyle(color: Colors.grey, fontSize: 11),
                     ),
                   ],
                 ),
                 const Spacer(),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      launchUrlString(widget
+                          .controller.invitationlist[widget.index]['phone']);
+                    },
                     icon: SvgPicture.asset("assets/Phone.svg"))
               ]),
               if (isExpanded) ...[
                 Row(
-                  children: [
-                    const SizedBox(
-                      width: 64,
-                    ),
-                    Text(
-                      "Co Founder",
-                      style:
-                          TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                    ),
+                  children: const [
+                    // SizedBox(
+                    //   width: 64,
+                    // ),
+                    // Text(
+                    //   "Co Founder",
+                    //   style:
+                    //       TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                    // ),
                   ],
                 ),
                 const Divider(),
@@ -143,7 +163,17 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        borderRadius: BorderRadius.circular(4),
+                        onTap: () {
+                          var candidateId = (widget
+                              .controller
+                              .invitationlist[widget.index]['candidatedetails']
+                                  ['id']
+                              .toString());
+                          if (widget.controller.loading.isFalse) {
+                            widget.controller.sendInvitation(candidateId);
+                          }
+                        },
                         child: Row(
                           children: [
                             CircleAvatar(
@@ -162,7 +192,15 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                           icon: SvgPicture.asset(
                               "assets/material-symbols_qr-code-2.svg")),
                       InkWell(
-                        onTap: () {},
+                        borderRadius: BorderRadius.circular(4),
+                        onTap: () {
+                          var candidateId = (widget
+                              .controller
+                              .invitationlist[widget.index]['candidatedetails']
+                                  ['id']
+                              .toString());
+                          widget.controller.removeEmployee(candidateId);
+                        },
                         child: Row(
                           children: [
                             const Text("Remove"),

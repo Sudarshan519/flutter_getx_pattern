@@ -16,15 +16,28 @@ class AppSettings {
   AppSettings(this._sharedPref);
 
   String get token => _sharedPref.getString('token') ?? '';
+
+  bool get isEmployed => _sharedPref.getBool('isEmployed') ?? false;
+  String get companyId => _sharedPref.getString('companyId') ?? '';
+
+  String get attendanceId => _sharedPref.getString('attendanceId') ?? '';
+  set attendanceId(attendanceId) =>
+      _sharedPref.setString('attendanceId', attendanceId);
+
+  String get date => _sharedPref.getString('date') ?? '';
+  set date(String today) => _sharedPref.setString('date', today);
+  set companyId(String companyId) =>
+      _sharedPref.setString('companyId', companyId);
+  set isEmployed(bool employed) => _sharedPref.setBool('isEmployed', employed);
   set token(String tkn) => _sharedPref.setString('token', tkn);
 
   String get refresh => _sharedPref.getString('refresh') ?? '';
   set refresh(String rtoken) => _sharedPref.setString('refresh', rtoken);
 
   String get name => _sharedPref.getString('name') ?? '';
-  String get email => _sharedPref.getString('email') ?? '';
+  String get email => _sharedPref.getString('eEmail') ?? '';
   String get phone => _sharedPref.getString('phone') ?? '';
-  bool get employer => _sharedPref.getBool('type') ?? false;
+  bool get employer => _sharedPref.getBool('emp') ?? false;
   String get selectedlanguage =>
       _sharedPref.getString('selected_language') ?? '';
   String get type => _sharedPref.getString('type') ?? 'candidate';

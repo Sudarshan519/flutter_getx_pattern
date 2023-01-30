@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
@@ -13,7 +14,7 @@ class LoginController extends GetxController {
   set selectedItem(value) => _selectedItem.value = value;
   var isEmployer = false.obs;
   var loading = false.obs;
-  final formKey = GlobalKey<FormState>();
+
   final TextEditingController phone = TextEditingController();
 
   final AttendanceSystemProvider attendanceApi = Get.find();
@@ -39,9 +40,14 @@ class LoginController extends GetxController {
   void increment() => _selectedItem.value++;
 
   void registerPhone() async {
-    if (loading.isFalse) {
+    if (kDebugMode) {
+      Get.toNamed(Routes.MOBILE_OPT, arguments: [isEmployer.value, phone.text]);
+    } else if (loading.isFalse) {
       try {
         showLoading();
+        if (Get.isSnackbarOpen) {
+          await Get.closeCurrentSnackbar();
+        }
         if (isEmployer.isTrue) {
           log('employer login');
           log(phone.text);

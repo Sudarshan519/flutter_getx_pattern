@@ -3,6 +3,8 @@ import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
+import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 
 class EmployerDashboardController extends GetxController {
   //TODO: Implement EmployerDashboardController
@@ -27,6 +29,7 @@ class EmployerDashboardController extends GetxController {
   final _dob = ''.obs;
   set dob(String db) => _dob(db);
   String get dob => _dob.value;
+
   getCompanies() async {
     companyList.clear();
     loading(true);
@@ -60,4 +63,9 @@ class EmployerDashboardController extends GetxController {
   }
 
   void increment() => selectedIndex.value++;
+
+  void logout() {
+    appSettings.logout();
+    Get.toNamed(Routes.WELCOME);
+  }
 }

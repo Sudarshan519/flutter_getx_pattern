@@ -5,7 +5,6 @@ import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/add_approver.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/monthly_report.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/my_plans.dart';
-import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_language.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
@@ -80,7 +79,7 @@ class MyAccount extends StatelessWidget {
                       ),
                       Text(
                         controller.isEmployed
-                            ? "niteshoncode@gmail.com"
+                            ? appSettings.email
                             : "xxxx@xxx.com",
                         style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w400),
@@ -238,7 +237,7 @@ class MyAccount extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Get.dialog(const LogoutDialog());
+                Get.dialog(LogoutDialog(controller: controller));
               },
               trailing: const Icon(
                 Icons.arrow_forward_ios,
@@ -261,10 +260,8 @@ class MyAccount extends StatelessWidget {
 }
 
 class LogoutDialog extends StatelessWidget {
-  const LogoutDialog({
-    Key? key,
-  }) : super(key: key);
-
+  const LogoutDialog({Key? key, required this.controller}) : super(key: key);
+  final controller;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -293,7 +290,7 @@ class LogoutDialog extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                     color: Colors.red.shade700,
-                    onPressed: () => logout(),
+                    onPressed: () => logout(controller),
                     label: strings.logout),
               ),
             ],
@@ -303,8 +300,13 @@ class LogoutDialog extends StatelessWidget {
     );
   }
 
-  logout() {
-    Get.find<DashboardController>().logout();
-    Get.offAllNamed(Routes.WELCOME);
+  logout(controller) {
+    controller.logout();
+    // if (appSettings.type == 'candidate') {
+    //   Get.find<DashboardController>().logout();
+    // } else {
+    //   Get.find<EmployerDashboardController>().logout();
+    //   // Get.offAllNamed(Routes.WELCOME);
+    // }
   }
 }

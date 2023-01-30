@@ -671,19 +671,24 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                         controller.hasOvertimerRatio(v!);
                       }),
                 ),
-                Container(
-                    width: 191,
-                    height: 46,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(4)),
-                    child: TextFormField(
-                      controller: controller.overTime,
-                      decoration: const InputDecoration(
-                          hintText: "eg.1,1.5,2",
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                          border: InputBorder.none),
-                    )),
+                Obx(
+                  () => !controller.hasOvertimerRatio.value
+                      ? const SizedBox()
+                      : Container(
+                          width: 191,
+                          height: 46,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(4)),
+                          child: TextFormField(
+                            controller: controller.overTime,
+                            decoration: const InputDecoration(
+                                hintText: "eg.1,1.5,2",
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 8),
+                                border: InputBorder.none),
+                          )),
+                ),
               ],
             ),
             const SizedBox(

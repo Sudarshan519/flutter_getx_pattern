@@ -15,6 +15,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
   const CompanyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // controller.getallCandidates();
     var pages = [
       const EmployerHome(),
       const Attendance(),
@@ -31,34 +32,36 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
         child: SizedBox(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Obx((() => controller.candidates.isEmpty
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 80,
-                      ),
-                      Center(
-                        child: SvgPicture.asset(
-                          "assets/Group 156.svg",
-                          height: 175.65,
-                          width: 147.48,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Center(
-                        child: Text(
-                          strings.candidate_not_created,
-                          textAlign: TextAlign.center,
-                          style:
-                              TextStyle(fontSize: 19, color: AppColors.primary),
-                        ),
-                      ),
-                    ],
-                  )
-                : Obx(() => pages[controller.selectedItem.value]))),
+            child: Obx((() => controller.loading.isTrue
+                ? const Center(child: CircularProgressIndicator())
+                : controller.invitationlist.isEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 80,
+                          ),
+                          Center(
+                            child: SvgPicture.asset(
+                              "assets/Group 156.svg",
+                              height: 175.65,
+                              width: 147.48,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Center(
+                            child: Text(
+                              strings.candidate_not_created,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 19, color: AppColors.primary),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Obx(() => pages[controller.selectedItem.value]))),
           ),
         ),
       ),
