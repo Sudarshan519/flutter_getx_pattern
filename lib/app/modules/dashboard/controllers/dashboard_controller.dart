@@ -11,7 +11,9 @@ class DashboardController extends GetxController {
   final count = 0.obs;
   final _isEmployed = false.obs;
   bool get isEmployed => _isEmployed.value;
-
+  final _selectedCompany = ''.obs;
+  String get companySelected => _selectedCompany.value;
+  set companySelected(String id) => _selectedCompany(id);
   set isEmployed(bool userEmploymentStatus) =>
       _isEmployed(userEmploymentStatus);
   final _selectedIndex = 0.obs;
@@ -31,7 +33,7 @@ class DashboardController extends GetxController {
   set dob(String db) => _dob(db);
   String get dob => _dob.value;
   var invitationlist = [].obs;
-  var loading = true.obs;
+  var loading = false.obs;
   var user = UserModel().obs;
   updateProfile(String fname, String email, String phone) {
     try {
@@ -72,11 +74,22 @@ class DashboardController extends GetxController {
   getInvitations() async {
     try {
       loading(true);
+      if (Get.isSnackbarOpen) {
+        await Get.closeCurrentSnackbar();
+      }
       var res = await attendanceApi.candidateInvitations();
 
       invitationlist(res.body['data']['candidateInvitations']);
 
       loading(false);
+      // var invitation = invitationlist
+      //     .firstWhereOrNull((element) => element['status'] == 'Approved');
+      // if (invitation != null) {
+      //   isEmployed = true;
+      //   appSettings.isEmployed = true;
+      //   appSettings.companyId = invitation['company']['id'].toString();
+      //   // print(invitation);
+      // }
     } on BadRequestException catch (e) {
       loading(false);
       // Get.back();
@@ -95,6 +108,9 @@ class DashboardController extends GetxController {
   acceptInvitation(String invitationId, String companyId) async {
     try {
       loading(true);
+      if (Get.isSnackbarOpen) {
+        await Get.closeCurrentSnackbar();
+      }
       var res = await attendanceApi.candidateInvitations();
       isEmployed = true;
       appSettings.isEmployed = true;
@@ -122,14 +138,14 @@ class DashboardController extends GetxController {
     super.onInit();
     appSettings.employer = false;
     user(appSettings.getuser());
-    print(user.value.toString());
     // appSettings.isEmployed = false;
-    _isEmployed(appSettings.isEmployed);
+    isEmployed = appSettings.isEmployed;
 
     var now = DateTime.now();
     selectedYear(now.year);
     selectedMonth(now.month);
     if (!appSettings.isEmployed) {
+      // print(appSettings.token);
       getInvitations();
     }
   }
@@ -137,6 +153,7 @@ class DashboardController extends GetxController {
   logout() async {
     appSettings.logout();
     Get.toNamed(Routes.LANGUAGE);
+    Get.delete<DashboardController>();
   }
 
   void increment() => count.value++;

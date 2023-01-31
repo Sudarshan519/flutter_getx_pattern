@@ -16,6 +16,13 @@ class MobileOptView extends GetView<MobileOptController> {
   const MobileOptView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // var p1 = TextEditingController().text =
+    //     controller.code.value.split(RegExp(r"[0-9]"))[0];
+    // var p2 = TextEditingController().text = controller.code.value.split('')[1];
+    // var p4 = TextEditingController().text = controller.code.value.split('')[2];
+    // var p3 =
+    //     TextEditingController().text = controller.code.value.split('').last;
+    // print(controller.code.value.split('')[0]);
     // controller.onClose();
     // controller.dispose();
     // controller.onInit();
@@ -78,9 +85,11 @@ class MobileOptView extends GetView<MobileOptController> {
             height: 50,
           ),
           OtpTextField(
+            // handleControllers: (controllers) => [p1, p2, p3, p4],
             borderWidth: 1,
             fieldWidth: 48,
             numberOfFields: 4,
+            // filled: true,
             borderColor: Colors.grey.shade300,
             //set to true to show as box or false to show as dash
             showFieldAsBox: true,

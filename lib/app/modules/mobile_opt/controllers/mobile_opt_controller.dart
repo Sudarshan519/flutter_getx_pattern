@@ -25,6 +25,7 @@ class MobileOptController extends GetxController {
     args(Get.arguments);
     phone = args[1];
     employer = args[0];
+    // code('8087');
     initTimer();
   }
 
@@ -33,10 +34,11 @@ class MobileOptController extends GetxController {
       if (elapsedTime <= 0) {
         timer.cancel();
         //resend code
-        resendCode();
+        // resendCode();
         elapsedTime(time);
         initTimer();
       } else {
+        // print(timer.tick);
         elapsedTime(time - timer.tick);
       }
     });
@@ -56,32 +58,33 @@ class MobileOptController extends GetxController {
       try {
         loading(true);
         showLoading();
-        Get.log(args[1]);
-        Get.log(code.value);
         if (employer) {
           var result = await attendanceSystemProvider.verifyEmployerOtp(
               phone, code.value);
-          log(phone);
+          timer.cancel();
+
           appSettings.saveUser(UserModel.fromJson(result.body['data']['user']));
           appSettings.token = result.body['data']['token'];
           appSettings.type = 'employer';
           Get.back();
           Get.toNamed(Routes.EMPLOYER_DASHBOARD);
-          // appSettings.refresh = tokens['refresh'];
+          Get.delete<MobileOptController>();
           Get.log(result.body.toString());
           Get.rawSnackbar(message: result.body['message'].toString());
           loading(false);
         } else {
           var result =
               await attendanceSystemProvider.verifyOtp(phone, code.value);
-          log(phone);
+          print(result.body);
+          appSettings.candidateId =
+              result.body['data']['user']['id'].toString();
+          timer.cancel();
           appSettings.saveUser(UserModel.fromJson(result.body['data']['user']));
           appSettings.token = result.body['data']['token'];
           appSettings.type = 'employee';
+          await Future.delayed(1.seconds);
           Get.back();
           Get.toNamed(Routes.DASHBOARD);
-          // appSettings.refresh = tokens['refresh'];
-          Get.log(result.body.toString());
           Get.rawSnackbar(message: result.body['message'].toString());
           loading(false);
         }

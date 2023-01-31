@@ -28,7 +28,7 @@ class CandidateLoginController extends GetxController {
   var percentage = 0.0.obs;
   var breakStartedPercentage = 5.0.obs;
   var breakEndPercentage = 5.0.obs;
-  var loggedInTime = 4.0.obs;
+  var loggedInTime = 0.0.obs;
   final _authStatus = AuthStatus.Unauthenticated.obs;
   AuthStatus get authStatus => _authStatus.value;
   set authStatus(AuthStatus status) => _authStatus(status);
@@ -38,20 +38,28 @@ class CandidateLoginController extends GetxController {
   set isloggedIn(bool userloginStatus) => _isloggedIn(userloginStatus);
   final _isloggedOut = false.obs;
   bool get isLoggedOut => _isloggedOut.value;
-  var d1 = 1.obs;
+  set isLoggedOut(bool v) => _isloggedOut(v);
+  var d1 = 0.obs;
   var d2 = 0.obs;
+  var d3 = 0.obs;
+  var d4 = 0.obs;
+  var d5 = 0.obs;
+  var d6 = 0.obs;
+  var earning = 0.00.obs;
   //
   final attendaceApi = Get.find<AttendanceSystemProvider>();
-
+  var totalHours = 8 * 60 * 60;
   startorStopBreak() {
     if (percentage.value > 10) {
       if (BreakStatus.NotStarted == breakStarted.value) {
+        startBreakSubmit();
         breakStarted(BreakStatus.Started);
         breakStartedPercentage(percentage.value);
         if (kDebugMode) {
           print(breakStartedPercentage.value);
         }
       } else if (breakStarted.value == BreakStatus.Started) {
+        stopBrakSubmit();
         breakStarted(BreakStatus.Ended);
         breakEndPercentage(percentage.value);
         if (kDebugMode) {
@@ -70,17 +78,57 @@ class CandidateLoginController extends GetxController {
     } else if (loggedInTime > 60 && breakStarted.value == BreakStatus.Started) {
       startorStopBreak();
     } else {
-      loggedInTime(loggedInTime.value + 1);
+      loggedInTime(loggedInTime.value + 1 / (8 * 60 * 60));
     }
     percentage(loggedInTime.value);
     // print(loggedInTime.value);
-    if (now.value.second % 5 == 0) {
+    if (true
+        //now.value.second % 5 == 0
+        ) {
       if (d1 < 9) {
-        d1(d1.value + 1);
+        var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
+        // print(value.toPrecision(2));
+        var values = (value.toStringAsFixed(2));
+        d1.value = int.parse(values.toString().split('')[3]);
+        // d1(1000/(8*60*60))
+        // d1(d1.value + 1);
+        // d1.value++;
       } else {
         d1(0);
-        d2.value++;
+        if (d2 < 9) {
+          var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
+          // print(value.toPrecision(2));
+          var values = (value.toStringAsFixed(2));
+          d1.value = int.parse(values.toString().split('')[3]);
+          d2.value++;
+        } else {
+          var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
+          // print(value.toPrecision(2));
+          var values = (value.toStringAsFixed(2));
+          d1.value = int.parse(values.toString().split('')[3]);
+          earning(double.parse(values.toString().split('.')[0]));
+
+          // earning(percentage / 97 * 1000);
+          // print(earning.value);
+          d2(0);
+        }
       }
+
+      // if (d3 < 9) {
+      //   d3.value++;
+      // } else {
+      //   d4++;
+      //   d3(0);
+      // }
+      // if (d5 < 9) {
+      //   d5.value++;
+      // } else {
+      //   d6++;
+      //   d5(0);
+      // }
+      // if (d6 < 9) {
+      //   d6.value++;
+      // } else {}
     }
   }
 
@@ -101,28 +149,17 @@ class CandidateLoginController extends GetxController {
                 localizedReason: "Employee Identity Verification",
                 options: const AuthenticationOptions(biometricOnly: false));
             if (isAuthenticated) {
-              try {
-                print(appSettings.companyId);
-                var result =
-                    await attendaceApi.storeAttendance(appSettings.companyId);
-                print(result.body);
-                appSettings.attendanceId = result.body['data']['id'];
-                authStatus = AuthStatus.Authenticated;
-                timer.cancel();
-                _isloggedIn(true);
-                timerInit(true);
-                timer = Timer.periodic(1.seconds, (timer) {
-                  now(DateTime.now());
-                  if (!isLoggedOut && isloggedIn) updatePercentage();
-                });
-              } on BadRequestException catch (e) {
-                Get.rawSnackbar(
-                    title: e.message, message: e.details.toString());
-              } on UnauthorisedException catch (e) {
-                Get.rawSnackbar(title: e.message, message: e.details);
-              } catch (e) {
-                Get.rawSnackbar(message: 'Something went wrong.');
-              }
+              updateLogin();
+              //TODO:// todo comment
+              // authStatus = AuthStatus.Authenticated;
+              // timer.cancel();
+              // _isloggedIn(true);
+              // timerInit(true);
+              // timer = Timer.periodic(1.milliseconds, (timer) {
+              //   now(DateTime.now());
+              //   if (!isLoggedOut && isloggedIn) updatePercentage();
+              // });
+
             } else {
               authStatus = AuthStatus.Unauthenticated;
               Get.rawSnackbar(message: "Authentication Failed");
@@ -134,7 +171,7 @@ class CandidateLoginController extends GetxController {
           if (kDebugMode) {
             authStatus = AuthStatus.Authenticated;
             timerInit(true);
-            timer = Timer.periodic(1.seconds, (timer) {
+            timer = Timer.periodic(100.milliseconds, (timer) {
               now(DateTime.now());
               updatePercentage();
             });
@@ -144,14 +181,18 @@ class CandidateLoginController extends GetxController {
     } catch (e) {}
   }
 
-  logout() {
+  logout() async {
+    apilogout();
     authStatus = AuthStatus.Unauthenticated;
-    // loggedInTime(0);
-    // breakStarted(BreakStatus.NotStarted);
+    loggedInTime(0);
+    // earning(0);
+    breakStarted(BreakStatus.NotStarted);
     _isloggedIn(false);
     _isloggedOut(true);
     timer.cancel();
     timerInit(true);
+    d1(0);
+    d2(0);
     timer = Timer.periodic(1.seconds, (timer) {
       now(DateTime.now());
       if (!isLoggedOut && isloggedIn) updatePercentage();
@@ -176,4 +217,71 @@ class CandidateLoginController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  void updateLogin() async {
+    try {
+      var hour = DateTime.now().hour;
+      var minute = DateTime.now().minute;
+      var time =
+          "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
+      var result = await attendaceApi.storeAttendance(
+          appSettings.companyId, time, appSettings.candidateId);
+      Get.rawSnackbar(message: 'Login Successful.${result.body}');
+      appSettings.attendanceId =
+          result.body['data']['attendance_id'].toString();
+      appSettings.date = now.value.toIso8601String().substring(0, 10);
+      authStatus = AuthStatus.Authenticated;
+      timer.cancel();
+      _isloggedIn(true);
+      timerInit(true);
+
+      timer = Timer.periodic(1.seconds, (timer) {
+        now(DateTime.now());
+        if (!isLoggedOut && isloggedIn) updatePercentage();
+      });
+    } on BadRequestException catch (e) {
+      Get.rawSnackbar(title: e.message, message: e.details.toString());
+    } on UnauthorisedException catch (e) {
+      Get.rawSnackbar(title: e.message, message: e.details);
+    } catch (e) {
+      Get.rawSnackbar(message: 'Something went wrong.');
+    }
+  }
+
+  void apilogout() async {
+    try {
+      var body = {'earning': earning.value};
+      var attendanceId = appSettings.attendanceId;
+      var companyId = appSettings.companyId;
+      var result = await attendaceApi.logout(body, companyId, attendanceId);
+      Get.rawSnackbar(message: 'Logout Successful.${result.body}');
+    } catch (e) {
+      Get.rawSnackbar(message: e.toString());
+    }
+  }
+
+  void startBreakSubmit() async {
+    var attendanceId = appSettings.attendanceId;
+    try {
+      var res = await attendaceApi.breakStore({}, attendanceId);
+      appSettings.breakId = res.body['data']['break_id'].toString();
+      print(appSettings.breakId);
+      print(res.body.toString());
+      Get.rawSnackbar(message: 'Break Submitted.${res.body} ');
+    } catch (e) {
+      Get.rawSnackbar(message: 'Break Submit Failed. ');
+    }
+  }
+
+  void stopBrakSubmit() async {
+    var breakId = appSettings.breakId;
+    print(breakId);
+    try {
+      var res = await attendaceApi.breakUpdate({}, breakId);
+
+      Get.rawSnackbar(message: 'Break Submitted. ');
+    } catch (e) {
+      Get.rawSnackbar(message: 'Break Submit Failed. ');
+    }
+  }
 }

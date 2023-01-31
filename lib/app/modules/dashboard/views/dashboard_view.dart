@@ -15,6 +15,7 @@ class DashboardView extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     var tabs = [
       const Home(),
       const ApplyLeave(),
@@ -22,14 +23,20 @@ class DashboardView extends GetView<DashboardController> {
         controller: controller,
       )
     ];
-    ScreenUtil.init(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Obx(() => tabs[controller.selectedIndex]),
       bottomNavigationBar: Obx(() => BottomNavigationBar(
               onTap: (i) {
-                if (i == 1) {
+                //controller.companySelected != '' &&
+                if (i == 0) {
+                  controller.companySelected = '';
+                  controller.selectedIndex = i;
+                }
+                // && controller.companySelected != ''
+                if (controller.companySelected != '') if (i == 1) {
                   controller.isEmployed
                       ? Get.bottomSheet(
                           const Material(
@@ -60,6 +67,7 @@ class DashboardView extends GetView<DashboardController> {
                       width: 19.98,
                     ),
                     label: strings.home),
+                // if (controller.companySelected != '')
                 BottomNavigationBarItem(
                     activeIcon: SvgPicture.asset(
                       "assets/leave.svg",

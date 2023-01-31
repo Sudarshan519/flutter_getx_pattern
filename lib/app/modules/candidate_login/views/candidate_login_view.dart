@@ -20,6 +20,9 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
   @override
   Widget build(BuildContext context) {
     final DashboardController dashboardController = Get.find();
+    // controller.startBreakSubmit();
+    // controller.stopBrakSubmit();
+    // controller.apilogout();
     return SizedBox(
       height: 812,
       child: Stack(children: [
@@ -104,7 +107,14 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24))),
                           onPressed: () {
-                            controller.login();
+                            if (!controller.isLoggedOut) {
+                              controller.login();
+                            } else {
+                              controller.earning(0);
+                              controller.isLoggedOut = false;
+                              final DashboardController dC = Get.find();
+                              dC.companySelected = '';
+                            }
                           },
                           child: Text(
                             controller.isLoggedOut
@@ -163,43 +173,94 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             ),
                             SizedBox(
                               height: 154,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const CandidateIncomeItem(),
-                                    const CandidateIncomeItem(),
-                                    const CandidateIncomeItem(),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Dot(),
-                                    const CandidateIncomeItem(),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Obx(() => CandidateIncomeItem(
-                                            gradientTop: true,
-                                            value: controller.d1.value == 0
-                                                ? 9
-                                                : controller.d1.value - 1)),
-                                        const Spacer(),
-                                        Obx(() => CandidateIncomeItem(
-                                            value: controller.d1.value)),
-                                        const Spacer(),
-                                        Obx(
-                                          () => CandidateIncomeItem(
-                                              gradientBottom: true,
-                                              value: (controller.d1.value +
-                                                          1) ==
-                                                      10
-                                                  ? 0
-                                                  : (controller.d1.value + 1)),
+                              child: Obx(
+                                () => Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      // Text(123.toString().padLeft(10, '0')),
+                                      // Text(controller.earning.value
+                                      //     .toInt()
+                                      //     .toString()
+                                      //     .padLeft(4, '0')
+                                      //     .toString()
+                                      //     .split('')[3]),
+                                      CandidateIncomeItem(
+                                        value: int.parse(
+                                          (controller.earning.value
+                                              .toInt()
+                                              .toString()
+                                              .padLeft(4, '0')
+                                              .toString()
+                                              .split('')[0]),
                                         ),
-                                      ],
-                                    )
-                                  ]),
+                                      ),
+                                      CandidateIncomeItem(
+                                        value: int.parse(
+                                          (controller.earning.value
+                                              .toInt()
+                                              .toString()
+                                              .padLeft(4, '0')
+                                              .toString()
+                                              .split('')[1]),
+                                        ),
+                                      ),
+                                      CandidateIncomeItem(
+                                        value: int.parse(
+                                          (controller.earning.value
+                                              .toInt()
+                                              .toString()
+                                              .padLeft(4, '0')
+                                              .toString()
+                                              .split('')[2]),
+                                        ),
+                                      ),
+                                      CandidateIncomeItem(
+                                        value: int.parse(
+                                          (controller.earning.value
+                                              .toInt()
+                                              .toString()
+                                              .padLeft(4, '0')
+                                              .toString()
+                                              .split('')[3]),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Dot(),
+                                      Obx(
+                                        () => CandidateIncomeItem(
+                                          value: controller.d2.value,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Column(
+                                        children: [
+                                          Obx(() => CandidateIncomeItem(
+                                              gradientTop: true,
+                                              value: controller.d1.value == 0
+                                                  ? 9
+                                                  : controller.d1.value - 1)),
+                                          const Spacer(),
+                                          Obx(() => CandidateIncomeItem(
+                                              value: controller.d1.value)),
+                                          const Spacer(),
+                                          Obx(
+                                            () => CandidateIncomeItem(
+                                                gradientBottom: true,
+                                                value:
+                                                    (controller.d1.value + 1) ==
+                                                            10
+                                                        ? 0
+                                                        : (controller.d1.value +
+                                                            1)),
+                                          ),
+                                        ],
+                                      )
+                                    ]),
+                              ),
                             )
                           ],
                         )
@@ -229,10 +290,12 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                 const SizedBox(
                                   height: 12,
                                 ),
-                                Text(
-                                  "8,230/-",
-                                  style: AppTextStyles.b1
-                                      .copyWith(color: AppColors.primary),
+                                Obx(
+                                  () => Text(
+                                    "${controller.earning.value}/-",
+                                    style: AppTextStyles.b1
+                                        .copyWith(color: AppColors.primary),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 40,

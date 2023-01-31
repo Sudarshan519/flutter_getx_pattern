@@ -55,7 +55,25 @@ class AttendanceSystemProvider extends GetConnect {
   //   }
   // }
   Future<BaseResponse> candidateInvitations() async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
     var url = 'candidate/invitation/all';
+    var res = await get(url, headers: headersList);
+    return parseRes(res);
+  }
+
+  Future<BaseResponse> candidateCompanies() async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
+    var url = 'candidate/get-companies';
     var res = await get(url, headers: headersList);
     return parseRes(res);
   }
@@ -67,9 +85,18 @@ class AttendanceSystemProvider extends GetConnect {
     return parseRes(res);
   }
 
-  Future<BaseResponse> storeAttendance(String companyId) async {
+  Future<BaseResponse> storeAttendance(
+      String companyId, String time, String candidateId) async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
     var url = 'candidate/attendance-store/$companyId';
-    var res = await post(url, {}, headers: headersList);
+    var body = {'attendance_time': time, 'candidate_id': candidateId};
+    print(body);
+    var res = await post(url, body, headers: headersList);
     return parseRes(res);
   }
 
@@ -352,13 +379,35 @@ class AttendanceSystemProvider extends GetConnect {
     print(result.body);
     return parseRes(result);
   }
+
+  Future<BaseResponse> logout(
+      Map<String, double> body, String companyId, String attendanceId) async {
+    var result = await post(
+        'candidate/attendance-update/$companyId/$attendanceId', body,
+        headers: headersList);
+    print(result.body);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> breakStore(var body, var attendanceId) async {
+    var url = 'candidate/attendance-break-store/$attendanceId';
+    var result = await post(url, body, headers: headersList);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> breakUpdate(var body, var breakId) async {
+    var url = 'candidate/attendance-break-update/$breakId';
+    var result = await post(url, body, headers: headersList);
+    return parseRes(result);
+  }
 }
 
 parseRes(Response res) {
   // if (res.statusCode != 200) {
   //   logRequest(res.request!.url.path, res.body.toString());
   // }
-  log(res.bodyString.toString());
+  // log(res.bodyString.toString());
+  log(res.request!.headers.toString());
   switch (res.statusCode) {
     case 200:
       return BaseResponse(body: res.body, statusCode: res.statusCode!);

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hajir/app/modules/candidate_login/controllers/candidate_login_controller.dart';
+import 'package:hajir/app/modules/candidatecompanies/controllers/candidatecompanies_controller.dart';
 
 import '../controllers/dashboard_controller.dart';
 
@@ -11,6 +12,9 @@ class DashboardBinding extends Bindings {
     );
     Get.lazyPut<CandidateLoginController>(
       () => CandidateLoginController(),
+    );
+    Get.lazyPut<CandidatecompaniesController>(
+      () => CandidatecompaniesController(),
     );
   }
 }

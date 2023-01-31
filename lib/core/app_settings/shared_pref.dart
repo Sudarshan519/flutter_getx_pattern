@@ -21,6 +21,12 @@ class AppSettings {
   String get companyId => _sharedPref.getString('companyId') ?? '';
 
   String get attendanceId => _sharedPref.getString('attendanceId') ?? '';
+
+  String get breakId => _sharedPref.getString('breakId') ?? '';
+
+  String get candidateId => _sharedPref.getString('candidate_id') ?? '';
+  set candidateId(String id) => _sharedPref.setString('candidate_id', id);
+  set breakId(String brk) => _sharedPref.setString('breakId', brk);
   set attendanceId(attendanceId) =>
       _sharedPref.setString('attendanceId', attendanceId);
 
@@ -78,6 +84,7 @@ class AppSettings {
   }
 
   void logout() {
+    isEmployed = false;
     token = '';
     refresh = '';
   }

@@ -15,7 +15,8 @@ class LoginController extends GetxController {
   var isEmployer = false.obs;
   var loading = false.obs;
 
-  final TextEditingController phone = TextEditingController();
+  final TextEditingController phone = TextEditingController()
+    ..text = '9841463556';
 
   final AttendanceSystemProvider attendanceApi = Get.find();
   var candidateItems = <LoginItem>[
@@ -42,7 +43,9 @@ class LoginController extends GetxController {
   void registerPhone() async {
     if (kDebugMode) {
       Get.toNamed(Routes.MOBILE_OPT, arguments: [isEmployer.value, phone.text]);
-    } else if (loading.isFalse) {
+    } else 
+    
+    if (loading.isFalse) {
       try {
         showLoading();
         if (Get.isSnackbarOpen) {

@@ -4,6 +4,8 @@ import '../modules/add_employee/bindings/add_employee_binding.dart';
 import '../modules/add_employee/views/add_employee_view.dart';
 import '../modules/candidate_login/bindings/candidate_login_binding.dart';
 import '../modules/candidate_login/views/candidate_login_view.dart';
+import '../modules/candidatecompanies/bindings/candidatecompanies_binding.dart';
+import '../modules/candidatecompanies/views/candidatecompanies_view.dart';
 import '../modules/company_detail/bindings/company_detail_binding.dart';
 import '../modules/company_detail/views/company_detail_view.dart';
 import '../modules/create_company/bindings/create_company_binding.dart';
@@ -114,6 +116,11 @@ class AppPages {
       name: _Paths.INITIAL,
       page: () => const InitialView(),
       binding: InitialBinding(),
+    ),
+    GetPage(
+      name: _Paths.CANDIDATECOMPANIES,
+      page: () => const CandidatecompaniesView(),
+      binding: CandidatecompaniesBinding(),
     ),
   ];
 }
