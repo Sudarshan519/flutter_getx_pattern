@@ -10,12 +10,9 @@ class ApplyLeave extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomSheet(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-        ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 18),
+      child: AppBottomSheet(
         child: Column(
           children: [
             Row(
@@ -64,7 +61,8 @@ class ApplyLeave extends StatelessWidget {
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   hintText: strings.leave_type,
-                  hintStyle: AppTextStyles.l1.copyWith(fontWeight: FontWeight.normal),
+                  hintStyle:
+                      AppTextStyles.l1.copyWith(fontWeight: FontWeight.normal),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400)),
                   enabledBorder: OutlineInputBorder(
@@ -127,7 +125,8 @@ class ApplyLeave extends StatelessWidget {
                 onPressed: () {
                   Get.back();
                   Get.bottomSheet(
-                      const Material(color: Colors.white, child: ApplySuccess()),
+                      const Material(
+                          color: Colors.white, child: ApplySuccess()),
                       isScrollControlled: true);
                 },
                 label: "Submit"),

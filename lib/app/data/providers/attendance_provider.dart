@@ -239,6 +239,12 @@ class AttendanceSystemProvider extends GetConnect {
 
   Future<BaseResponse> getEmployerCompanies() async {
     var url = ('employer/company/all');
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
 
     // try {
     var res = await get(url, headers: headersList);
@@ -373,6 +379,12 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   Future<BaseResponse> updateProfile(var body) async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
     print(body);
     var result =
         await post('candidate/profile-update', body, headers: headersList);
@@ -382,6 +394,12 @@ class AttendanceSystemProvider extends GetConnect {
 
   Future<BaseResponse> logout(
       Map<String, double> body, String companyId, String attendanceId) async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
     var result = await post(
         'candidate/attendance-update/$companyId/$attendanceId', body,
         headers: headersList);
@@ -390,12 +408,24 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   Future<BaseResponse> breakStore(var body, var attendanceId) async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
     var url = 'candidate/attendance-break-store/$attendanceId';
     var result = await post(url, body, headers: headersList);
     return parseRes(result);
   }
 
   Future<BaseResponse> breakUpdate(var body, var breakId) async {
+    var headersList = {
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${appSettings.token}'
+    };
     var url = 'candidate/attendance-break-update/$breakId';
     var result = await post(url, body, headers: headersList);
     return parseRes(result);
@@ -407,7 +437,7 @@ parseRes(Response res) {
   //   logRequest(res.request!.url.path, res.body.toString());
   // }
   // log(res.bodyString.toString());
-  log(res.request!.headers.toString());
+  // log(res.request!.headers.toString());
   switch (res.statusCode) {
     case 200:
       return BaseResponse(body: res.body, statusCode: res.statusCode!);

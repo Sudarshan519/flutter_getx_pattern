@@ -58,6 +58,9 @@ class MobileOptController extends GetxController {
       try {
         loading(true);
         showLoading();
+        if (Get.isSnackbarOpen) {
+          await Get.closeCurrentSnackbar();
+        }
         if (employer) {
           var result = await attendanceSystemProvider.verifyEmployerOtp(
               phone, code.value);
@@ -67,7 +70,7 @@ class MobileOptController extends GetxController {
           appSettings.token = result.body['data']['token'];
           appSettings.type = 'employer';
           Get.back();
-          Get.toNamed(Routes.EMPLOYER_DASHBOARD);
+          Get.offAllNamed(Routes.EMPLOYER_DASHBOARD);
           Get.delete<MobileOptController>();
           Get.log(result.body.toString());
           Get.rawSnackbar(message: result.body['message'].toString());
@@ -75,7 +78,7 @@ class MobileOptController extends GetxController {
         } else {
           var result =
               await attendanceSystemProvider.verifyOtp(phone, code.value);
-          print(result.body);
+
           appSettings.candidateId =
               result.body['data']['user']['id'].toString();
           timer.cancel();
@@ -84,7 +87,7 @@ class MobileOptController extends GetxController {
           appSettings.type = 'employee';
           await Future.delayed(1.seconds);
           Get.back();
-          Get.toNamed(Routes.DASHBOARD);
+          Get.offAllNamed(Routes.DASHBOARD);
           Get.rawSnackbar(message: result.body['message'].toString());
           loading(false);
         }

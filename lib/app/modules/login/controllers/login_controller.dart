@@ -15,8 +15,7 @@ class LoginController extends GetxController {
   var isEmployer = false.obs;
   var loading = false.obs;
 
-  final TextEditingController phone = TextEditingController()
-    ..text = '9841463556';
+  final TextEditingController phone = TextEditingController();
 
   final AttendanceSystemProvider attendanceApi = Get.find();
   var candidateItems = <LoginItem>[
@@ -36,6 +35,7 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     isEmployer(Get.arguments);
+    phone.text = isEmployer.value ? '9823457889' : '9841463556';
   }
 
   void increment() => _selectedItem.value++;
@@ -43,9 +43,8 @@ class LoginController extends GetxController {
   void registerPhone() async {
     if (kDebugMode) {
       Get.toNamed(Routes.MOBILE_OPT, arguments: [isEmployer.value, phone.text]);
-    } else 
-    
-    if (loading.isFalse) {
+    } else
+     if (loading.isFalse) {
       try {
         showLoading();
         if (Get.isSnackbarOpen) {

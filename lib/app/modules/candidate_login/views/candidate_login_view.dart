@@ -184,6 +184,11 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                                       //     .padLeft(4, '0')
                                       //     .toString()
                                       //     .split('')[3]),
+                                      // Text(controller.earning.value
+                                      //     .toInt()
+                                      //     .toString()
+                                      //     .padLeft(4, '0')
+                                      //     .toString()),
                                       CandidateIncomeItem(
                                         value: int.parse(
                                           (controller.earning.value
@@ -585,6 +590,8 @@ class PercentageWidget extends StatelessWidget {
                                           isBreak: true),
                                     )),
                               ),
+
+                            /// Afte break
                             Container(
                               height: 155,
                               width: 155,

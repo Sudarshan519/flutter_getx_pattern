@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hajir/app/data/models/user.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
@@ -29,6 +30,40 @@ class EmployerDashboardController extends GetxController {
   final _dob = ''.obs;
   set dob(String db) => _dob(db);
   String get dob => _dob.value;
+  var user = UserModel().obs;
+  var loadingFailed = false.obs;
+  updateProfile(String fname, String email, String phone) {
+    try {
+      var result = attendanceApi.updateProfile({
+        'firstname': fname,
+        'lastname': fname.split(' ').last,
+        'email': email,
+        'dob': dob.replaceAll('-', '/')
+      });
+      appSettings.name = fname;
+      appSettings.email = email;
+      user.value.email = email;
+      user.value.name = fname;
+      Get.back();
+      Get.rawSnackbar(message: 'Update Successful.');
+      // appSettings.dob=dob;
+    } on UnauthorisedException catch (e) {
+      loading(false);
+
+      Get.rawSnackbar(title: e.message, message: e.details);
+    } on BadRequestException catch (e) {
+      loading(false);
+      // Get.back();
+
+      Get.rawSnackbar(title: e.message, message: e.details);
+    } catch (e) {
+      loading(false);
+
+      // Get.back();
+
+      Get.rawSnackbar(message: "Something Went Wrong".toString());
+    }
+  }
 
   getCompanies() async {
     companyList.clear();
@@ -47,12 +82,12 @@ class EmployerDashboardController extends GetxController {
     } catch (e) {
       log(e.toString());
       loading(false);
-
+      loadingFailed(true);
       Get.back();
 
       Get.rawSnackbar(message: "Something Went Wrong".toString());
     }
-    loading(true);
+    loading(false);
     // companyList(companies);
   }
 

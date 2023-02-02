@@ -139,8 +139,8 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                 const Spacer(),
                 IconButton(
                     onPressed: () async {
-                      launchUrlString(widget
-                          .controller.invitationlist[widget.index]['phone']);
+                      launchUrlString(
+                          'tel:${widget.controller.invitationlist[widget.index]['phone']}');
                     },
                     icon: SvgPicture.asset("assets/Phone.svg"))
               ]),

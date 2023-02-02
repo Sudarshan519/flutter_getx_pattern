@@ -310,3 +310,45 @@ class LogoutDialog extends StatelessWidget {
     // }
   }
 }
+
+class ExitDialog extends StatelessWidget {
+  const ExitDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text(
+          "Are you sure you want to quit app ? ",
+          style: AppTextStyles.b1,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: 320.w,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: CustomButton(
+                    color: Colors.grey,
+                    onPressed: () => Get.back(result: false),
+                    label: strings.cancel),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: CustomButton(
+                    color: Colors.red.shade700,
+                    onPressed: () => Get.back(result: true),
+                    label: 'Exit'),
+              ),
+            ],
+          ),
+        )
+      ]),
+    );
+  }
+}

@@ -70,7 +70,8 @@ class CandidateLoginController extends GetxController {
   }
 
   updatePercentage() {
-    if (loggedInTime.value > 100) {
+    if (loggedInTime.value >= 100) {
+      percentage(100);
       logout();
     } else if (loggedInTime > 50 &&
         breakStarted.value == BreakStatus.NotStarted) {
@@ -78,40 +79,43 @@ class CandidateLoginController extends GetxController {
     } else if (loggedInTime > 60 && breakStarted.value == BreakStatus.Started) {
       startorStopBreak();
     } else {
-      loggedInTime(loggedInTime.value + 1 / (8 * 60 * 60));
+      loggedInTime(loggedInTime.value + 1 / (8));
     }
     percentage(loggedInTime.value);
-    // print(loggedInTime.value);
-    if (true
-        //now.value.second % 5 == 0
-        ) {
-      if (d1 < 9) {
-        var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
-        // print(value.toPrecision(2));
-        var values = (value.toStringAsFixed(2));
-        d1.value = int.parse(values.toString().split('')[3]);
-        // d1(1000/(8*60*60))
-        // d1(d1.value + 1);
-        // d1.value++;
-      } else {
-        d1(0);
-        if (d2 < 9) {
-          var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
-          // print(value.toPrecision(2));
-          var values = (value.toStringAsFixed(2));
-          d1.value = int.parse(values.toString().split('')[3]);
-          d2.value++;
-        } else {
-          var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
-          // print(value.toPrecision(2));
-          var values = (value.toStringAsFixed(2));
-          d1.value = int.parse(values.toString().split('')[3]);
-          earning(double.parse(values.toString().split('.')[0]));
 
-          // earning(percentage / 97 * 1000);
-          // print(earning.value);
-          d2(0);
-        }
+    if (true) {
+      print(percentage);
+      var value = (1000 * percentage.value / 100);
+
+      var values = (value.toPrecision(2));
+      var decimal = (values.toString().split('.').last);
+
+      d1.value = int.parse(decimal.split('').last);
+      d2.value = int.parse(decimal.split('').first);
+      // d2.value = int.parse(decimal.substring(1, 1));
+      earning.value = double.parse(values.toString());
+      // print(earning.value);+
+      // print(loggedInTime);
+      if (d1 < 9) {
+      } else {
+        //   d1(0);
+        //   if (d2 < 9) {
+        //     var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
+
+        //     var values = (value.toStringAsFixed(2));
+        //     print(values.split('.')[0]);
+        //     d1.value = int.parse(values.toString().split('')[3]);
+        //     // d2.value++;
+        //   } else {
+        //     var value = (1000 / (8 * 60 * 60) * loggedInTime.value);
+        //     var values = (value.toStringAsFixed(2));
+        //     d2.value = int.parse(values.toString().split('')[2]);
+        //     earning(double.parse(values));
+
+        //     // earning(percentage / 97 * 1000);
+        //     // print(earning.value);
+        //     d2(0);
+        //   }
       }
 
       // if (d3 < 9) {
@@ -134,7 +138,10 @@ class CandidateLoginController extends GetxController {
 
   // login
   login() async {
-    breakStarted(BreakStatus.NotStarted);
+    // TODO://COMMENT THIS LINE
+    // earning(0.0);
+    // loggedInTime(0);
+    // breakStarted(BreakStatus.NotStarted);
     _isloggedOut(false);
     final localAuth = LocalAuthentication();
     var isSupported = false;
@@ -159,7 +166,6 @@ class CandidateLoginController extends GetxController {
               //   now(DateTime.now());
               //   if (!isLoggedOut && isloggedIn) updatePercentage();
               // });
-
             } else {
               authStatus = AuthStatus.Unauthenticated;
               Get.rawSnackbar(message: "Authentication Failed");
@@ -171,7 +177,7 @@ class CandidateLoginController extends GetxController {
           if (kDebugMode) {
             authStatus = AuthStatus.Authenticated;
             timerInit(true);
-            timer = Timer.periodic(100.milliseconds, (timer) {
+            timer = Timer.periodic(1.milliseconds, (timer) {
               now(DateTime.now());
               updatePercentage();
             });
@@ -184,9 +190,10 @@ class CandidateLoginController extends GetxController {
   logout() async {
     apilogout();
     authStatus = AuthStatus.Unauthenticated;
-    loggedInTime(0);
+    // loggedInTime(0);
+    // print(loggedInTime);
     // earning(0);
-    breakStarted(BreakStatus.NotStarted);
+    // breakStarted(BreakStatus.NotStarted);
     _isloggedIn(false);
     _isloggedOut(true);
     timer.cancel();
@@ -265,21 +272,20 @@ class CandidateLoginController extends GetxController {
     try {
       var res = await attendaceApi.breakStore({}, attendanceId);
       appSettings.breakId = res.body['data']['break_id'].toString();
-      print(appSettings.breakId);
-      print(res.body.toString());
-      Get.rawSnackbar(message: 'Break Submitted.${res.body} ');
+
+      Get.rawSnackbar(message: 'Break Start Submitted.${res.body} ');
     } catch (e) {
-      Get.rawSnackbar(message: 'Break Submit Failed. ');
+      Get.rawSnackbar(message: 'Break Start Submit Failed. ');
     }
   }
 
   void stopBrakSubmit() async {
     var breakId = appSettings.breakId;
-    print(breakId);
+    // print(breakId);
     try {
       var res = await attendaceApi.breakUpdate({}, breakId);
 
-      Get.rawSnackbar(message: 'Break Submitted. ');
+      Get.rawSnackbar(message: 'Break end Submitted. ');
     } catch (e) {
       Get.rawSnackbar(message: 'Break Submit Failed. ');
     }
