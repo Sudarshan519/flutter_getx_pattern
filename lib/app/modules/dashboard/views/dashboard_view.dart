@@ -10,19 +10,27 @@ import 'package:hajir/app/modules/dashboard/views/my_account.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/dashboard_controller.dart';
 
+var tabs = [
+  const Home(),
+  const ApplyLeave(),
+  MyAccount(
+    controller: Get.find<DashboardController>(),
+  )
+];
+
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
-    var tabs = [
-      const Home(),
-      const ApplyLeave(),
-      MyAccount(
-        controller: controller,
-      )
-    ];
+    // var tabs = [
+    //   const Home(),
+    //   const ApplyLeave(),
+    //   MyAccount(
+    //     controller: controller,
+    //   )
+    // ];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

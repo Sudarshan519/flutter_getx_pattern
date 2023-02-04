@@ -25,7 +25,7 @@ class DashboardController extends GetxController {
   set isInvited(bool isUserInvited) => _isInvited(true);
 
   var selectedWeek = 0.obs;
-  var selectedReport = 0.obs;
+  // var selectedReport = 0.obs;
 
   var selectedMonth = 0.obs;
   var selectedYear = 0.obs;
@@ -60,7 +60,6 @@ class DashboardController extends GetxController {
 
       Get.rawSnackbar(title: e.message, message: e.details);
     } catch (e) {
-      print(e.toString());
       handleExcpt(e);
       log(e.toString());
       loading(false);
@@ -127,8 +126,6 @@ class DashboardController extends GetxController {
       log(e.toString());
       loading(false);
 
-      // Get.back();
-
       Get.rawSnackbar(message: "Something Went Wrong".toString());
     }
   }
@@ -144,6 +141,7 @@ class DashboardController extends GetxController {
     var now = DateTime.now();
     selectedYear(now.year);
     selectedMonth(now.month);
+    selectedWeek(now.day ~/ 7);
     if (!appSettings.isEmployed) {
       // print(appSettings.token);
       getInvitations();
@@ -153,7 +151,8 @@ class DashboardController extends GetxController {
   logout() async {
     appSettings.logout();
     Get.toNamed(Routes.LANGUAGE);
-    Get.delete<DashboardController>();
+
+    Get.deleteAll();
   }
 
   void increment() => count.value++;
@@ -169,5 +168,10 @@ class DashboardController extends GetxController {
         e as UnauthorisedException;
         Get.rawSnackbar(title: e.message, message: e.details);
     }
+  }
+
+  void changeCompany(String id) {
+    appSettings.companyId = id;
+    companySelected = id;
   }
 }

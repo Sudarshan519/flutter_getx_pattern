@@ -569,7 +569,7 @@ class IndividualReport extends StatelessWidget {
                                     child: DescriptionItem(
                                         label: DateFormat('MMMM')
                                             .format(DateTime(2023, i + 1)),
-                                        value: 6000),
+                                        value: '6000'),
                                   ),
                                 ),
                                 const SizedBox(
@@ -612,22 +612,22 @@ class IndividualReport extends StatelessWidget {
                           : Column(
                               children: [
                                 DescriptionItem(
-                                    label: strings.salary, value: 6000),
+                                    label: strings.salary, value: '6000'),
                                 const SizedBox(
                                   height: 5,
                                 ),
                                 DescriptionItem(
-                                    label: strings.overtime, value: 6000),
+                                    label: strings.overtime, value: '6000'),
                                 const SizedBox(
                                   height: 5,
                                 ),
                                 DescriptionItem(
-                                    label: strings.bonus, value: 6000),
+                                    label: strings.bonus, value: '6000'),
                                 const SizedBox(
                                   height: 5,
                                 ),
                                 DescriptionItem(
-                                    label: strings.allowance, value: 6000),
+                                    label: strings.allowance, value: '6000'),
                                 const SizedBox(
                                   height: 5,
                                 ),
@@ -641,13 +641,13 @@ class IndividualReport extends StatelessWidget {
                                             height: 5,
                                           ),
                                           DescriptionItem(
-                                              label: strings.tax, value: 6000),
+                                              label: strings.tax, value: '6000'),
                                           const SizedBox(
                                             height: 5,
                                           ),
                                           DescriptionItem(
                                               label: strings.penalty,
-                                              value: 6000),
+                                              value: '6000'),
                                           const SizedBox(
                                             height: 5,
                                           ),
@@ -710,13 +710,13 @@ class IndividualReport extends StatelessWidget {
                                           ),
                                           DescriptionItem(
                                               label: strings.sick_leave,
-                                              value: 6000),
+                                              value: '6000'),
                                           const SizedBox(
                                             height: 5,
                                           ),
                                           DescriptionItem(
                                               label: strings.extra_leave,
-                                              value: 6000),
+                                              value: '6000'),
                                           const SizedBox(
                                             height: 5,
                                           ),

@@ -2,10 +2,9 @@ import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 
 class CandidatecompaniesController extends GetxController {
-  //TODO: Implement CandidatecompaniesController
-
   final count = 0.obs;
   var candidateCompanies = [].obs;
+
   var loading = false.obs;
   final attendanceApi = Get.find<AttendanceSystemProvider>();
   @override
@@ -19,9 +18,13 @@ class CandidatecompaniesController extends GetxController {
   void getCompanies() async {
     loading(true);
     candidateCompanies.clear();
-    var result = await attendanceApi.candidateCompanies();
-    candidateCompanies(result.body['data']['companies']);
+    try {
+      var result = await attendanceApi.candidateCompanies();
+      candidateCompanies(result.body['data']['companies']);
+    } catch (e) {
+      Get.rawSnackbar(message: e.toString());
+    }
     loading(false);
-    print(result.body);
+    // print(result.body);
   }
 }

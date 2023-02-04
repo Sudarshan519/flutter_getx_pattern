@@ -72,8 +72,8 @@ class MobileOptController extends GetxController {
           Get.back();
           Get.offAllNamed(Routes.EMPLOYER_DASHBOARD);
           Get.delete<MobileOptController>();
-          Get.log(result.body.toString());
-          Get.rawSnackbar(message: result.body['message'].toString());
+          // Get.log(result.body.toString());
+          // Get.rawSnackbar(message: result.body['message'].toString());
           loading(false);
         } else {
           var result =
@@ -88,7 +88,7 @@ class MobileOptController extends GetxController {
           await Future.delayed(1.seconds);
           Get.back();
           Get.offAllNamed(Routes.DASHBOARD);
-          Get.rawSnackbar(message: result.body['message'].toString());
+          // Get.rawSnackbar(message: result.body['message'].toString());
           loading(false);
         }
         // if (args[0]) {

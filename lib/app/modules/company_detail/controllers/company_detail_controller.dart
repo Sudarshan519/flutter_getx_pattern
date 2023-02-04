@@ -1,14 +1,13 @@
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
+import 'package:hajir/app/modules/company_detail/provider/employer_report_provider.dart';
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
 import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 
 class CompanyDetailController extends GetxController {
-  //TODO: Implement CompanyDetailController
-
-  final selectedItem = 2.obs;
+  final selectedItem = 1.obs;
   var company = CompanyModel().obs;
   var candidates = <EmployeeModel>[].obs;
   var loading = false.obs;
@@ -23,29 +22,26 @@ class CompanyDetailController extends GetxController {
   var selectedReport = 0.obs;
   var invitationlist = [].obs;
   var params = {}.obs;
+  var employerReport = {}.obs;
   final attendanceApi = Get.find<AttendanceSystemProvider>();
+  final EmployerReportProvider repository = Get.find();
   @override
   void onInit() {
     super.onInit();
-    getallCandidates();
-    // getEmployee();
-    // loading(true);
     company(Get.arguments);
     params(Get.parameters);
-    // loading(false);
+    getallCandidates();
   }
 
   void increment() => selectedItem.value++;
   getallCandidates() async {
     loading(true);
     var companyId = (Get.parameters['company_id']);
-    // invitationlist.clear();
     try {
       var allcandidates =
           await attendanceApi.getAllInvitationList(companyId.toString());
+      getEmployerReport();
       invitationlist(allcandidates.body['data']['users']);
-      // Get.back();
-      // print(invitationlist.body);
     } on BadRequestException catch (e) {
       loading(false);
       Get.rawSnackbar(title: e.message, message: e.details);
@@ -55,7 +51,6 @@ class CompanyDetailController extends GetxController {
 
       Get.rawSnackbar(message: "Something Went Wrong".toString());
     }
-    loading.value = false;
   }
 
   void getEmployee() {
@@ -76,26 +71,22 @@ class CompanyDetailController extends GetxController {
       }
       var result = await attendanceApi.sendInvitation(
           params['company_id'], candidateId, 'Not-Approved');
-
-      // Get.back();
       Get.back();
 
       Get.rawSnackbar(message: result.body.toString());
       getallCandidates();
     } on BadRequestException catch (e) {
-      // loading(false);
+      loading(false);
       Get.back();
 
       Get.rawSnackbar(title: e.message, message: e.details);
     } catch (e) {
       log(e.toString());
-      // loading(false);
 
       Get.back();
 
       Get.rawSnackbar(message: "Something Went Wrong".toString());
     }
-    // loading.value = false;
   }
 
   void removeEmployee(String candidateId) async {
@@ -124,6 +115,19 @@ class CompanyDetailController extends GetxController {
       Get.back();
 
       Get.rawSnackbar(message: "Something Went Wrong".toString());
+    }
+  }
+
+  getEmployerReport() async {
+    try {
+      loading(true);
+      var result =
+          await repository.getEmployerReport(Get.parameters['company_id']!);
+      employerReport(result.body['data']['employee']);
+      loading(false);
+    } catch (e) {
+      loading(false);
+      Get.rawSnackbar(message: e.toString());
     }
   }
 }

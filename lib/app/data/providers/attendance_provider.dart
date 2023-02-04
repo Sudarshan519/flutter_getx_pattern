@@ -1,9 +1,28 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
+import 'package:hajir/app/modules/dashboard/views/apply_leave.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
 
 class BaseResponse {
+  handle<T>({required onSuccess, required onFailue}) {
+    switch (statusCode) {
+      case HttpStatus.ok:
+      case HttpStatus.created:
+      case HttpStatus.accepted:
+      case HttpStatus.nonAuthoritativeInformation:
+      case HttpStatus.noContent:
+      case HttpStatus.resetContent:
+      case HttpStatus.partialContent:
+        return onSuccess();
+      case 400:
+      case 401:
+        return onFailue();
+    }
+  }
+
   dynamic body;
   String? message;
   int statusCode;
@@ -24,17 +43,13 @@ class ValidatorException implements Exception {
 }
 
 class AttendanceSystemProvider extends GetConnect {
+  get headersList => globalHeaders;
+
   @override
   void onInit() {
     httpClient.baseUrl = 'https://attendance.an4soft.com/api/';
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
   }
-
-  var headersList = {
-    'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${appSettings.token}'
-  };
 
   // dynamic _returnResponse(Response<dynamic> response) {
   //   switch (response.statusCode) {
@@ -55,24 +70,14 @@ class AttendanceSystemProvider extends GetConnect {
   //   }
   // }
   Future<BaseResponse> candidateInvitations() async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'candidate/invitation/all';
-    var res = await get(url, headers: headersList);
+    var res = await get(url, headers: globalHeaders);
     return parseRes(res);
   }
 
   Future<BaseResponse> candidateCompanies() async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'candidate/get-companies';
     var res = await get(url, headers: headersList);
     return parseRes(res);
@@ -80,22 +85,18 @@ class AttendanceSystemProvider extends GetConnect {
 
   Future<BaseResponse> acceptInvitation(String invitationId) async {
     var body = {'status': 'Approved'};
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var res = await post('candidate/invitation-update/$invitationId', body,
-        headers: headersList);
+        headers: globalHeaders);
     return parseRes(res);
   }
 
   Future<BaseResponse> storeAttendance(
       String companyId, String time, String candidateId) async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'candidate/attendance-store/$companyId';
     var body = {'attendance_time': time, 'candidate_id': candidateId};
-    print(body);
+
     var res = await post(url, body, headers: headersList);
     return parseRes(res);
   }
@@ -112,33 +113,23 @@ class AttendanceSystemProvider extends GetConnect {
   /// candidate
   Future<BaseResponse> register(String phone) async {
     var body = {'phone': phone};
-    try {
-      var res = await post('candidate/register', body,
-          headers: {'accept': 'application/json'});
 
-      return parseRes(res);
-    } catch (e) {
-      // print(e.toString());
-      rethrow;
-      //  throw ServerException(e.toString());
-      // return BaseResponse(message: "Something went wrong", statusCode: 400);
-    }
+    var res = await post('candidate/register', body,
+        headers: {'accept': 'application/json'});
+
+    return parseRes(res);
   }
 
   ///
   Future<BaseResponse> verifyOtp(String phone, String code) async {
     var body = {'phone': phone, 'otp': code};
-    // try {
+
     var res = await post('candidate/verify-opt', body, headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
 
     return parseRes(res);
-    // } catch (e) {
-    //   Get.log(e.toString());
-    //   rethrow;
-    // }
   }
 
   // Future<BaseResponse> invitations() async {
@@ -434,12 +425,13 @@ class AttendanceSystemProvider extends GetConnect {
 
 parseRes(Response res) {
   // if (res.statusCode != 200) {
-  //   logRequest(res.request!.url.path, res.body.toString());
+  // logRequest(res.request!.url.path, res.body.toString());
   // }
+
   // log(res.bodyString.toString());
-  // log(res.request!.headers.toString());
   switch (res.statusCode) {
     case 200:
+    case 201:
       return BaseResponse(body: res.body, statusCode: res.statusCode!);
     case 400:
     case 422:

@@ -4,20 +4,133 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/data/providers/attendance_provider.dart';
+import 'package:hajir/app/data/providers/network/api_endpoint.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:hajir/app/modules/dashboard/views/apply_leave.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
+import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
 
 var weekDay = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 var now = DateTime.now();
 
-class Reports extends StatelessWidget {
+class ResultProvider extends GetConnect {
+  @override
+  onInit() {
+    super.onInit();
+    httpClient.baseUrl = APIEndpoint.baseUrl;
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+  }
+
+  Future<BaseResponse> getMonthlyReport() async {
+    return parseRes(await get(
+        "${APIEndpoint.monthlyReport}/${appSettings.companyId}",
+        headers: globalHeaders));
+  }
+
+  Future<BaseResponse> getWeeklyReport() async {
+    return parseRes(await get(
+        "${APIEndpoint.weeklyReport}/${appSettings.companyId}",
+        headers: globalHeaders));
+  }
+
+  Future<BaseResponse> getYearlyReport(String year) async {
+    return parseRes(await get(
+        "${APIEndpoint.yearlyReport}/${appSettings.companyId}/$year",
+        headers: globalHeaders));
+  }
+}
+
+class ReportController extends GetxController {
+  final ResultProvider repository = Get.find();
+  var monthly = {}.obs;
+  var weekly = {}.obs;
+  var yearly = {}.obs;
+  var loading = false.obs;
+  var selectedMonth = 0.obs;
+  var selectedReportType = 0.obs;
+  var selectedYear = 0.obs;
+  var now = DateTime.now();
+
+  int yearlyTotal() {
+    int sum = 0;
+    yearly['data'].forEach((e) {
+      sum = sum + int.parse(e['total_earning'] ?? 0);
+    });
+    return sum;
+  }
+
+  // yearly['data']
+  //     .fold(0, (int t, e) => (int.tryParse(e['total_earning']) ?? 0 + t)) ??
+  // 0;
+  selectMonth(int i) {
+    selectedMonth(i);
+  }
+
+  int get selectedReport => selectedReportType.value;
+  set selectedReport(int i) => selectedReportType(i);
+
+  @override
+  onInit() {
+    super.onInit();
+    selectedYear(now.year);
+    getWeeklyReport();
+    getMonthlyReport();
+    getYearlyReport();
+  }
+
+  getWeeklyReport() async {
+    try {
+      loading(true);
+      var result = await repository.getWeeklyReport();
+      loading(false);
+      // log(result.body);
+      weekly(result.body['data']);
+    } catch (e) {
+      loading(false);
+      Get.rawSnackbar(message: e.toString());
+    }
+  }
+
+  getMonthlyReport() async {
+    try {
+      var result = await repository.getMonthlyReport();
+      monthly(result.body['data']);
+      log(result.body);
+    } catch (e) {}
+  }
+
+  getYearlyReport() async {
+    try {
+      // var year = DateTime.now().year.toString();
+      var result = await repository.getYearlyReport(selectedYear.toString());
+      yearly(result.body['data']);
+      print(result.body);
+    } catch (e) {}
+  }
+
+  void changeSelectedYear(int i) {
+    selectedYear((now.year) - i);
+    getYearlyReport();
+  }
+}
+
+class Reports extends GetView<ReportController> {
   const Reports({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final DashboardController controller = Get.find();
+    final DashboardController dashBoardController = Get.find();
+    // controller.getYearlyReport();
+    // print(controller.weekly['weekdata ']);
+    // print(controller.yearly);
+    // print(controller.monthly);
+    // print(controller.yearlyTotal());
+    // print(controller.weekly.containsKey('weekdata'));
+    // print(controller.weekly.keys.map((e) => print(e)));
     return AppBottomSheet(
       child: SingleChildScrollView(
         child: Column(
@@ -32,40 +145,6 @@ class Reports extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ListTile(
-                  //   contentPadding: EdgeInsets.zero,
-                  //   title: Text("Nitesh Shrestha"),
-                  //   subtitle: Text("RT001"),
-                  //   trailing: Container(
-                  //     child: Row(
-                  //       crossAxisAlignment: CrossAxisAlignment.center,
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         Container(
-                  //           decoration: BoxDecoration(
-                  //               color: Colors.grey.withOpacity(
-                  //                 .1,
-                  //               ),
-                  //               shape: BoxShape.circle),
-                  //           height: 30,
-                  //           width: 30,
-                  //         ),
-                  //         SizedBox(
-                  //           width: 10,
-                  //         ),
-                  //         Container(
-                  //           decoration: BoxDecoration(
-                  //               color: Colors.grey.withOpacity(
-                  //                 .1,
-                  //               ),
-                  //               shape: BoxShape.circle),
-                  //           height: 30,
-                  //           width: 30,
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -73,7 +152,7 @@ class Reports extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Nitesh Shrestha",
+                            dashBoardController.user.value.name.toString(),
                             style: AppTextStyles.normal,
                           ),
                           const SizedBox(
@@ -133,11 +212,11 @@ class Reports extends StatelessWidget {
                         Expanded(
                           child: ReportsButton(
                               onPressed: () {
-                                controller.selectedReport(0);
+                                // dashBoardController.selectedReport(0);
+                                controller.selectedReport = (0);
                               },
-                              active: controller.selectedReport.value == 0
-                                  ? true
-                                  : false,
+                              active:
+                                  controller.selectedReport == 0 ? true : false,
                               label: strings.weekly),
                         ),
                         const SizedBox(
@@ -145,11 +224,11 @@ class Reports extends StatelessWidget {
                         ),
                         Expanded(
                           child: ReportsButton(
-                              active: controller.selectedReport.value == 1
-                                  ? true
-                                  : false,
+                              active:
+                                  controller.selectedReport == 1 ? true : false,
                               onPressed: () {
-                                controller.selectedReport(1);
+                                controller.selectedReport = (1);
+                                // dashBoardController.selectedReport(1);
                               },
                               label: strings.monthly),
                         ),
@@ -158,11 +237,11 @@ class Reports extends StatelessWidget {
                         ),
                         Expanded(
                           child: ReportsButton(
-                              active: controller.selectedReport.value == 2
-                                  ? true
-                                  : false,
+                              active:
+                                  controller.selectedReport == 2 ? true : false,
                               onPressed: () {
-                                controller.selectedReport(2);
+                                controller.selectedReport = (2);
+                                // dashBoardController.selectedReport(2);
                               },
                               label: strings.annual),
                         ),
@@ -187,10 +266,12 @@ class Reports extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              "Present [4]",
-                              style: AppTextStyles.medium.copyWith(
-                                  fontSize: 11, color: Colors.green.shade700),
+                            Obx(
+                              () => Text(
+                                "Present [${controller.selectedReport == 0 ? controller.weekly['present'] : controller.monthly['presentCount']}]",
+                                style: AppTextStyles.medium.copyWith(
+                                    fontSize: 11, color: Colors.green.shade700),
+                              ),
                             ),
                           ],
                         ),
@@ -205,11 +286,11 @@ class Reports extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              "Absent [1]",
-                              style: AppTextStyles.medium
-                                  .copyWith(fontSize: 11, color: Colors.grey),
-                            ),
+                            Obx(() => Text(
+                                  "Absent [${controller.selectedReportType.value == 0 ? controller.weekly['absent'] : controller.monthly['absentcount'].toString()}]",
+                                  style: AppTextStyles.medium.copyWith(
+                                      fontSize: 11, color: Colors.grey),
+                                )),
                           ],
                         ),
                         Row(
@@ -223,10 +304,12 @@ class Reports extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              "Leave [1]",
-                              style: AppTextStyles.medium
-                                  .copyWith(fontSize: 11, color: Colors.red),
+                            Obx(
+                              () => Text(
+                                "Leave [${controller.selectedReport == 0 ? controller.weekly['leave'] : controller.monthly['leavecount']}]",
+                                style: AppTextStyles.medium
+                                    .copyWith(fontSize: 11, color: Colors.red),
+                              ),
                             ),
                           ],
                         ),
@@ -235,7 +318,7 @@ class Reports extends StatelessWidget {
                     height: 20,
                   ),
                   Obx(
-                    () => controller.selectedReport.value == 2
+                    () => controller.selectedReport == 2
                         ? SizedBox(
                             height: 31,
                             child: ListView.builder(
@@ -246,7 +329,7 @@ class Reports extends StatelessWidget {
                                   width: 41.w,
                                   child: InkWell(
                                     onTap: () {
-                                      controller.selectedYear((now.year) - i);
+                                      controller.changeSelectedYear(i);
                                     },
                                     child: Text(
                                       // (Get.locale! == const Locale('en', 'US'))
@@ -268,7 +351,7 @@ class Reports extends StatelessWidget {
                                 ),
                               ),
                             ))
-                        : controller.selectedReport.value == 1
+                        : controller.selectedReport == 1
                             ? SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -276,8 +359,10 @@ class Reports extends StatelessWidget {
                                       12,
                                       (index) => InkWell(
                                             onTap: () {
-                                              controller
-                                                  .selectedMonth(index + 1);
+                                              // controller.selectMonth(index);
+
+                                              // dashBoardController
+                                              //     .selectedMonth(index + 1);
                                             },
                                             child: SizedBox(
                                                 width: 48.w,
@@ -288,7 +373,7 @@ class Reports extends StatelessWidget {
                                                           index + 1, now.day)),
                                                   style: TextStyle(
                                                       fontSize: 12.sp,
-                                                      color: controller
+                                                      color: dashBoardController
                                                                   .selectedMonth
                                                                   .value ==
                                                               index + 1
@@ -313,10 +398,13 @@ class Reports extends StatelessWidget {
                                           Obx(
                                             () => WeekButton(
                                                 onPressed: () {
-                                                  controller.selectedWeek(0);
+                                                  // if(now.day ~/ 7 + 1)
+                                                  // dashBoardController
+                                                  //     .selectedWeek(0);
                                                 },
                                                 label: "WEEK 1",
-                                                active: controller.selectedWeek
+                                                active: dashBoardController
+                                                            .selectedWeek
                                                             .value ==
                                                         0
                                                     ? true
@@ -324,40 +412,44 @@ class Reports extends StatelessWidget {
                                           ),
                                           Obx(() => WeekButton(
                                               onPressed: () {
-                                                controller.selectedWeek(1);
+                                                // dashBoardController
+                                                //     .selectedWeek(1);
                                               },
                                               label: "WEEK 2",
-                                              active: controller
+                                              active: dashBoardController
                                                           .selectedWeek.value ==
                                                       1
                                                   ? true
                                                   : false)),
                                           Obx(() => WeekButton(
                                               onPressed: () {
-                                                controller.selectedWeek(2);
+                                                // dashBoardController
+                                                //     .selectedWeek(2);
                                               },
                                               label: "WEEK 3",
-                                              active: controller
+                                              active: dashBoardController
                                                           .selectedWeek.value ==
                                                       2
                                                   ? true
                                                   : false)),
                                           Obx(() => WeekButton(
                                               onPressed: () {
-                                                controller.selectedWeek(3);
+                                                // dashBoardController
+                                                //     .selectedWeek(3);
                                               },
                                               label: "WEEK 4",
-                                              active: controller
+                                              active: dashBoardController
                                                           .selectedWeek.value ==
                                                       3
                                                   ? true
                                                   : false)),
                                           Obx(() => WeekButton(
                                               onPressed: () {
-                                                controller.selectedWeek(4);
+                                                // dashBoardController
+                                                //     .selectedWeek(4);
                                               },
                                               label: "WEEK 5",
-                                              active: controller
+                                              active: dashBoardController
                                                           .selectedWeek.value ==
                                                       4
                                                   ? true
@@ -372,42 +464,46 @@ class Reports extends StatelessWidget {
                                   SizedBox(
                                     height: 40,
                                     child: Obx(
-                                      () => SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: List.generate(
-                                                controller.selectedWeek == 4
-                                                    ? 3
-                                                    : 7,
-                                                (index) => WeekDay(
-                                                    day: weekDay[index],
-                                                    date: controller
-                                                                .selectedWeek
-                                                                .value ==
-                                                            0
-                                                        ? index + 1
-                                                        : controller.selectedWeek
-                                                                    .value ==
-                                                                1
-                                                            ? (7 + index)
-                                                            : controller.selectedWeek
-                                                                        .value ==
-                                                                    2
-                                                                ? (14 + index)
-                                                                : controller.selectedWeek
-                                                                            .value ==
-                                                                        3
-                                                                    ? (21 +
-                                                                        index)
-                                                                    : controller.selectedWeek.value ==
-                                                                            4
-                                                                        ? (28 +
-                                                                            index)
-                                                                        : (32 +
-                                                                            index)))),
-                                      ),
+                                      () => controller.loading.isTrue
+                                          ? const CircularProgressIndicator()
+                                          : SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: List.generate(
+                                                      dashBoardController
+                                                                  .selectedWeek
+                                                                  .value ==
+                                                              4
+                                                          ? (DateTime(now.year, now.month + 1)
+                                                                  .difference(DateTime(
+                                                                      now.year,
+                                                                      now
+                                                                          .month))
+                                                                  .inDays) -
+                                                              27
+                                                          : 7,
+                                                      (index) => WeekDay(
+                                                          day: weekDay[index],
+                                                          isActive: controller.weekly['weekdata ']
+                                                              .containsKey(weekDay[index]
+                                                                  .capitalizeFirst),
+                                                          date: dashBoardController
+                                                                      .selectedWeek
+                                                                      .value ==
+                                                                  0
+                                                              ? index + 1
+                                                              : dashBoardController.selectedWeek.value == 1
+                                                                  ? (7 + index)
+                                                                  : dashBoardController.selectedWeek.value == 2
+                                                                      ? (14 + index)
+                                                                      : dashBoardController.selectedWeek.value == 3
+                                                                          ? (21 + index)
+                                                                          : dashBoardController.selectedWeek.value == 4
+                                                                              ? (28 + index)
+                                                                              : (32 + index)))),
+                                            ),
                                     ),
                                   ),
                                 ],
@@ -425,88 +521,96 @@ class Reports extends StatelessWidget {
                             .copyWith(fontSize: 14, color: AppColors.primary),
                       ),
                       const Spacer(),
-                      Text(
-                        "Amount",
-                        style: AppTextStyles()
-                            .large
-                            .copyWith(fontSize: 14, color: AppColors.primary),
-                      ),
+                      // Text(
+                      //   "Amount",
+                      //   style: AppTextStyles()
+                      //       .large
+                      //       .copyWith(fontSize: 14, color: AppColors.primary),
+                      // ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   const Divider(thickness: 1),
                   const SizedBox(
                     height: 5,
                   ),
                   Obx(() => controller.selectedReport == 2
-                      ? Column(
-                          children: [
-                            ...List.generate(
-                              12,
-                              (i) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                child: DescriptionItem(
-                                    label: DateFormat('MMMM')
-                                        .format(DateTime(2023, i + 1)),
-                                    value: 6000),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            const Divider(
-                              thickness: 1,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
+                      ? controller.loading.isTrue
+                          ? const CircularProgressIndicator()
+                          : Column(
                               children: [
-                                Text(
-                                  "Total",
-                                  style: AppTextStyles().large.copyWith(
-                                      fontSize: 14, color: AppColors.primary),
+                                ...List.generate(
+                                  controller.yearly['data'].length,
+                                  (i) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: DescriptionItem(
+                                        label: DateFormat('MMMM')
+                                            .format(DateTime(2023, i + 1)),
+                                        value:
+                                            '${controller.yearly['data'][i]['total_earning']} '),
+                                  ),
                                 ),
-                                const Spacer(),
-                                Text(
-                                  "2,40,000/-",
-                                  style: AppTextStyles().large.copyWith(
-                                      fontSize: 14, color: AppColors.primary),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Total",
+                                      style: AppTextStyles().large.copyWith(
+                                          fontSize: 14,
+                                          color: AppColors.primary),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      "${controller.yearlyTotal()}/-",
+                                      style: AppTextStyles().large.copyWith(
+                                          fontSize: 14,
+                                          color: AppColors.primary),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                               ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            const Divider(
-                              thickness: 1,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                          ],
-                        )
+                            )
                       : Column(
                           children: [
-                            DescriptionItem(label: strings.salary, value: 6000),
+                            DescriptionItem(label: strings.salary, value: ' '),
                             const SizedBox(
                               height: 5,
                             ),
                             DescriptionItem(
-                                label: strings.overtime, value: 6000),
+                                label: strings.overtime, value: ' '),
                             const SizedBox(
                               height: 5,
                             ),
-                            DescriptionItem(label: strings.bonus, value: 6000),
+                            DescriptionItem(label: strings.bonus, value: ' '),
                             const SizedBox(
                               height: 5,
                             ),
                             DescriptionItem(
-                                label: strings.allowance, value: 6000),
+                                label: strings.allowance, value: ' '),
                             const SizedBox(
                               height: 5,
                             ),
-                            Obx(() => controller.selectedReport.value == 1
+                            Obx(() => controller.selectedReport == 1
                                 ? Column(
                                     children: [
                                       const Divider(
@@ -516,12 +620,12 @@ class Reports extends StatelessWidget {
                                         height: 5,
                                       ),
                                       DescriptionItem(
-                                          label: strings.tax, value: 6000),
+                                          label: strings.tax, value: '  '),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
-                                          label: strings.penalty, value: 6000),
+                                          label: strings.penalty, value: ''),
                                       const SizedBox(
                                         height: 5,
                                       ),
@@ -543,7 +647,7 @@ class Reports extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  " 21500",
+                                  " ",
                                   style: AppTextStyles().large.copyWith(
                                       fontSize: 14, color: AppColors.primary),
                                 ),
@@ -558,7 +662,7 @@ class Reports extends StatelessWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            Obx(() => controller.selectedReport.value == 1
+                            Obx(() => controller.selectedReport == 1
                                 ? Column(
                                     children: [
                                       Row(
@@ -581,13 +685,13 @@ class Reports extends StatelessWidget {
                                       ),
                                       DescriptionItem(
                                           label: strings.sick_leave,
-                                          value: 6000),
+                                          value: ' '),
                                       const SizedBox(
                                         height: 5,
                                       ),
                                       DescriptionItem(
                                           label: strings.extra_leave,
-                                          value: 6000),
+                                          value: ' '),
                                       const SizedBox(
                                         height: 5,
                                       ),
@@ -640,10 +744,10 @@ class Reports extends StatelessWidget {
 }
 
 class DescriptionItem extends StatelessWidget {
-  const DescriptionItem({Key? key, required this.label, required this.value})
+  const DescriptionItem({Key? key, required this.label, this.value = ''})
       : super(key: key);
   final String label;
-  final int value;
+  final String value;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -695,10 +799,10 @@ class WeekDay extends StatelessWidget {
                 color: isEmployer
                     ? isActive
                         ? Colors.green
-                        : Colors.grey
-                    : isLeave()
-                        ? Colors.red
-                        : Colors.green),
+                        : isLeave()
+                            ? Colors.red
+                            : Colors.grey
+                    : Colors.green),
           ),
           const SizedBox(
             height: 6,
@@ -706,15 +810,16 @@ class WeekDay extends StatelessWidget {
           Text(
             date.toString(),
             style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w600,
-                color: isEmployer
-                    ? isActive
-                        ? Colors.green
-                        : Colors.grey
-                    : isLeave()
-                        ? Colors.red
-                        : Colors.green),
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w600,
+              color: isEmployer
+                  ? isActive
+                      ? Colors.green
+                      : isLeave()
+                          ? Colors.red
+                          : Colors.grey
+                  : Colors.green,
+            ),
           ),
         ],
       ),
@@ -732,8 +837,8 @@ class WeekButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      style:
-          OutlinedButton.styleFrom(side: const BorderSide(color: Colors.transparent)),
+      style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: Colors.transparent)),
       onPressed: onPressed,
       child: Text(
         label,

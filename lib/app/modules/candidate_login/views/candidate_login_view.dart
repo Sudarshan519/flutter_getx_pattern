@@ -20,6 +20,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
   @override
   Widget build(BuildContext context) {
     final DashboardController dashboardController = Get.find();
+
     // controller.startBreakSubmit();
     // controller.stopBrakSubmit();
     // controller.apilogout();

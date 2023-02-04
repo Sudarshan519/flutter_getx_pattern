@@ -119,7 +119,9 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CANDIDATECOMPANIES,
-      page: () => const CandidatecompaniesView(),
+      page: () => CandidatecompaniesView(
+        dashboardController: Get.find(),
+      ),
       binding: CandidatecompaniesBinding(),
     ),
   ];

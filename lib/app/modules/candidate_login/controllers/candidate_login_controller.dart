@@ -79,7 +79,7 @@ class CandidateLoginController extends GetxController {
     } else if (loggedInTime > 60 && breakStarted.value == BreakStatus.Started) {
       startorStopBreak();
     } else {
-      loggedInTime(loggedInTime.value + 1 / (8));
+      loggedInTime(loggedInTime.value + 1 / (8 * 60 * 60));
     }
     percentage(loggedInTime.value);
 

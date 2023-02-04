@@ -7,6 +7,8 @@ import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hajir/app/initial_bindings.dart';
+import 'package:hajir/app/modules/dashboard/views/apply_leave.dart';
+import 'package:hajir/app/modules/dashboard/views/bottom_sheets/reports.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app/routes/app_pages.dart';
@@ -45,12 +47,10 @@ appInit() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  AppSettings appSettings = AppSettings(sharedPreferences);
-  Get.lazyPut<AppSettings>(() => appSettings, fenix: true);
-  final AttendanceSystemProvider attendanceApi = AttendanceSystemProvider();
-  Get.lazyPut(() => attendanceApi, fenix: true);
-  Get.lazyPut<SharedPreferences>(() => sharedPreferences);
-
+  await Get.putAsync((() => SharedPreferences.getInstance()));
+  Get.lazyPut<AppSettings>(() => AppSettings(Get.find()), fenix: true);
+  Get.lazyPut(() => AttendanceSystemProvider(), fenix: true);
+  Get.lazyPut(() => ApplyLeaveProvider(), fenix: true);
+  Get.lazyPut(() => ResultProvider(), fenix: true);
   await ScreenUtil.ensureScreenSize();
 }

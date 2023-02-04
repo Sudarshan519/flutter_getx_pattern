@@ -16,6 +16,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DashboardController controller = Get.find();
+    final CandidatecompaniesController candidatecompaniesController =
+        Get.find();
     return WillPopScope(
       onWillPop: () async {
         var res = await Get.dialog(const ExitDialog());
@@ -24,8 +26,7 @@ class Home extends StatelessWidget {
       child: RefreshIndicator(
         onRefresh: () async {
           if (controller.isEmployed) {
-            final CandidatecompaniesController controller = Get.find();
-            controller.getCompanies();
+            candidatecompaniesController.getCompanies();
           } else {
             controller.getInvitations();
           }
@@ -35,9 +36,11 @@ class Home extends StatelessWidget {
           () => controller.loading.isTrue
               ? const Center(child: CircularProgressIndicator())
               : controller.isEmployed
-                  ? controller.companySelected != ''
+                  ? controller.companySelected.isNotEmpty
                       ? const CandidateLoginView()
-                      : const CandidatecompaniesView()
+                      : CandidatecompaniesView(
+                          dashboardController: controller,
+                        )
                   : controller.invitationlist.isNotEmpty
                       ? Column(
                           children: [

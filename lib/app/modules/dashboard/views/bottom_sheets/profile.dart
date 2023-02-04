@@ -65,6 +65,7 @@ class _ProfileState extends State<Profile> {
                       TextFormField(
                         controller: fname,
                         decoration: InputDecoration(
+                            labelText: strings.firstname,
                             hintText: strings.firstname,
                             hintStyle: AppTextStyles.l1,
                             focusedBorder: OutlineInputBorder(

@@ -14,6 +14,7 @@ class Attendance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 16),
       child: Column(
@@ -29,7 +30,7 @@ class Attendance extends StatelessWidget {
             height: 12,
           ),
           Text(
-            "Rasan Technologies",
+            controller.company.value.name ?? "NA",
             style: Theme.of(context)
                 .textTheme
                 .headline6!
@@ -38,38 +39,41 @@ class Attendance extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AttendanceItem(
-                  label: strings.attendee,
-                  value: "20",
-                  color: const Color.fromRGBO(0, 128, 0, .1),
-                  borderColor: const Color.fromRGBO(0, 128, 0, .05)),
-              AttendanceItem(
-                  label: strings.absent,
-                  value: "20",
-                  color: const Color.fromRGBO(255, 80, 80, 0.1),
-                  borderColor: const Color.fromRGBO(255, 80, 80, 0.05)),
-              AttendanceItem(
-                label: strings.late,
-                value: "20",
-                color: const Color.fromRGBO(128, 128, 128, 0.1),
-                borderColor: const Color.fromRGBO(128, 128, 128, 0.05),
-              ),
-              AttendanceItem(
-                onPressed: () {
-                  Get.bottomSheet(
-                    const OverAllReports(),
-                    isScrollControlled: true,
-                  );
-                },
-                label: strings.reports,
-                value: "20",
-                color: const Color.fromRGBO(0, 0, 255, 0.1),
-                borderColor: const Color.fromRGBO(0, 0, 255, 0.1),
-              )
-            ],
+          Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AttendanceItem(
+                    label: strings.attendee,
+                    value:
+                        controller.employerReport['total_attendee'].toString(),
+                    color: const Color.fromRGBO(0, 128, 0, .1),
+                    borderColor: const Color.fromRGBO(0, 128, 0, .05)),
+                AttendanceItem(
+                    label: strings.absent,
+                    value: controller.employerReport['absent'].toString(),
+                    color: const Color.fromRGBO(255, 80, 80, 0.1),
+                    borderColor: const Color.fromRGBO(255, 80, 80, 0.05)),
+                AttendanceItem(
+                  label: strings.late,
+                  value: controller.employerReport['late'].toString(),
+                  color: const Color.fromRGBO(128, 128, 128, 0.1),
+                  borderColor: const Color.fromRGBO(128, 128, 128, 0.05),
+                ),
+                AttendanceItem(
+                  onPressed: () {
+                    Get.bottomSheet(
+                      const OverAllReports(),
+                      isScrollControlled: true,
+                    );
+                  },
+                  label: strings.reports,
+                  value: "",
+                  color: const Color.fromRGBO(0, 0, 255, 0.1),
+                  borderColor: const Color.fromRGBO(0, 0, 255, 0.1),
+                )
+              ],
+            ),
           ),
           SizedBox(
             height: 20.h,
@@ -157,103 +161,130 @@ class Attendance extends StatelessWidget {
             height: 20.h,
           ),
           Expanded(
-            child: ListView.builder(
-                itemCount: employeeList.length,
-                itemBuilder: (_, i) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8),
-                        onTap: () {
-                          Get.bottomSheet(
-                            const IndividualReport(),
-                            isScrollControlled: true,
-                          );
-                        },
-                        child: Container(
-                          height: 80.r,
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade200),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+            child: Obx(
+              () => controller.loading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: controller.employerReport['candidates'] != null
+                          ? controller.employerReport['candidates'].length
+                          : 0,
+                      itemBuilder: (_, i) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                Get.bottomSheet(
+                                  const IndividualReport(),
+                                  isScrollControlled: true,
+                                );
+                              },
+                              child: Container(
+                                height: 80.r,
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.grey.shade200),
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(employeeList[i].name!),
-                                    const SizedBox(
-                                      height: 5,
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(controller
+                                                  .employerReport['candidates']
+                                              [i]['name']),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            controller.employerReport[
+                                                'candidates'][i]['code'],
+                                            style: const TextStyle(
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      "RT00$i",
-                                      style: const TextStyle(color: Colors.grey),
+                                    SizedBox(
+                                      height: 20.r,
+                                      width: 64.r,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            backgroundColor: controller
+                                                                .employerReport[
+                                                            'candidates'][i]
+                                                        ['status'] ==
+                                                    'Present'
+                                                ? Colors.green.shade800
+                                                : controller.employerReport[
+                                                                'candidates'][i]
+                                                            ['status'] ==
+                                                        'late'
+                                                    ? Colors.grey
+                                                    : Colors.red),
+                                        onPressed: () {},
+                                        child: Text(
+                                          controller
+                                                  .employerReport['candidates']
+                                              [i]['status'],
+                                          // strings.present
+                                          //     .split(" ")
+                                          //     .first
+                                          //     .toUpperCase(),
+                                          style: const TextStyle(fontSize: 7),
+                                        ),
+                                      ),
                                     ),
+                                    // const SizedBox(
+                                    //   width: 8,
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 20.r,
+                                    //   width: 60.r,
+                                    //   child: ElevatedButton(
+                                    //     style: ElevatedButton.styleFrom(
+                                    //         elevation: 0,
+                                    //         backgroundColor: Colors.red),
+                                    //     onPressed: () {},
+                                    //     child: Text(
+                                    //       strings.present
+                                    //           .split(" ")
+                                    //           .last
+                                    //           .toUpperCase(),
+                                    //       style: const TextStyle(fontSize: 7),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // SizedBox(
+                                    //   width: 6.w,
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 20.r,
+                                    //   width: 60.r,
+                                    //   child: ElevatedButton(
+                                    //     style: ElevatedButton.styleFrom(
+                                    //         elevation: 0,
+                                    //         backgroundColor: Colors.grey.shade400),
+                                    //     onPressed: () {},
+                                    //     child: Text(
+                                    //       strings.leave,
+                                    //       style: TextStyle(fontSize: 7.sp),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 20.r,
-                                width: 64.r,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      backgroundColor: Colors.green.shade800),
-                                  onPressed: () {},
-                                  child: Text(
-                                    strings.present
-                                        .split(" ")
-                                        .first
-                                        .toUpperCase(),
-                                    style: const TextStyle(fontSize: 7),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              SizedBox(
-                                height: 20.r,
-                                width: 60.r,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      backgroundColor: Colors.red),
-                                  onPressed: () {},
-                                  child: Text(
-                                    strings.present
-                                        .split(" ")
-                                        .last
-                                        .toUpperCase(),
-                                    style: const TextStyle(fontSize: 7),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 6.w,
-                              ),
-                              SizedBox(
-                                height: 20.r,
-                                width: 60.r,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      backgroundColor: Colors.grey.shade400),
-                                  onPressed: () {},
-                                  child: Text(
-                                    strings.leave,
-                                    style: TextStyle(fontSize: 7.sp),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
+                            ),
+                          )),
+            ),
           )
         ],
       ),

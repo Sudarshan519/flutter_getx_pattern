@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -55,10 +56,14 @@ class MyAccount extends StatelessWidget {
                   //     ? const CircleAvatar(
                   //         radius: 32, child: Icon(Icons.person))
                   //     :
-                  Image.asset(
-                    "assets/Avatar Profile.png",
-                    height: 64,
-                    width: 64,
+                  // Image.asset(
+                  //   "assets/Avatar Profile.png",
+                  //   height: 64,
+                  //   width: 64,
+                  // ),
+                  const Icon(
+                    CupertinoIcons.person_circle,
+                    size: 50,
                   ),
                   const SizedBox(
                     width: 20,
@@ -72,7 +77,7 @@ class MyAccount extends StatelessWidget {
                             ? "+977 ${appSettings.phone}"
                             : appSettings.name,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       const SizedBox(
                         height: 4,
