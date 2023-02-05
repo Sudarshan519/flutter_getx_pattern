@@ -175,44 +175,9 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   addCandidate(var body, String id) async {
-    // try {
-    // var body = {
-    //   "name": "teach",
-    //   "address": "nepal",
-    //   "contact": "9865456587",
-    //   "email": "teach@gmail.com",
-    //   "office_hour_start": "8:00",
-    //   "office_hour_end": "18:00",
-    //   "salary_type": "monthly",
-    //   "duty_time": "8:00",
-    //   "code": "RT2209",
-    //   "dob": "2004-12-18",
-    //   "salary_amount": "20000",
-    //   "joining_date": "2018-02-03",
-    //   "over_time": "1.5"
-    // };
+    var res =
+        await post('employer/candidate/store/$id', body, headers: headersList);
 
-    var res = await post('candidate/store/$id', body, headers: headersList);
-    // print(res.body);
-    return parseRes(res);
-    //   if (res.statusCode! >= 200 && res.statusCode! < 300) {}
-    // } catch (e) {
-    //   rethrow;
-    // }
-  }
-
-  getCandidates() async {
-    // var headersList = {
-    //   'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-    //   'Accept': 'application/json',
-    //   'Content-Type': 'application/json',
-    //   'Authorization':
-    //       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA5MDY1YjAyMjk1YzAwYmY1NTE4MjAyOWQzZTY2ZmU2NTM5Mjk5YjlmMzljMmFiYzllMjM5NmRiNTEwOGNjZDAzMTQ4NzdlMDUwZTljZWQiLCJpYXQiOjE2NzM5NDU0MTEuMjU3OTA4LCJuYmYiOjE2NzM5NDU0MTEuMjU3OTExLCJleHAiOjE3MDU0ODE0MTEuMjUyODIsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.e7f9iwjTyjj34U51p1ggpmM72NNdQgi7nkid_58f0VB1HSo9Xpy2vnQhkP2kr-k2kKAFrznmSCGyNWJQZr8lwyVAxy4J84NNME_roJqLXoQ7p0U4iTYhV4OunuIPT4_nm8wEWAfzDhK_fDlXVJVbMnLxRLYFxvFYPu-oh1URNnSFFm3bzZwdVvXHYa-TZJsugxPd7M30dclgwt1jTddMMNKu_b8zUQUk8n1aLBMravF9ZbwOA2FzZ0RenfPrXbVIQrpnzWEmIDv72qnwuVFBYDyqgTeOj7ZgEKt6EDB1A48vMyIhYzIl5wnthEWkilEe4uamNvVat7Q_XtluxMzvkvTVj2SaxIHds3-DqJ9ZVMQgT2qUxa-J8vRb7D-9peQnYS5upcMLTNbHTAM4bF6k5hOKRNCdtqiHQFpIDwuXVCu9Jh_YK7Lg0Ig5rXt9_1aIOsGKm4lQqFBP0jsl3LsdAgtiedMhQ6uXF0gLwCBuLVU2G_jVSUrOABN0w80Pby75myMQh7pY2Siic1G2ZHtRWjA2OrRY7Jn3P1sP1W7_zv1mtCFygIW5rmPlLFxkdNFpnYcncOChFXsLxk6yfrMCiW7svdu-Ae463XephD7OxrFyHYY8qvbw62BlbZHKkNXMqBDhLlTTVogFC1Npz36hAhPU2IRCOgyI0HkZuHg7CNE'
-    // };
-    // try {
-    var res = await get('localhost:8000/api/candidate/get-candidates/1',
-        headers: headersList);
-    // } catch (e) {}
     return parseRes(res);
   }
 

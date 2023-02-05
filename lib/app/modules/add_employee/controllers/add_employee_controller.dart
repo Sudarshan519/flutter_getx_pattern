@@ -4,8 +4,8 @@ import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/add_employee/candidate_model.dart';
 import 'package:hajir/app/modules/add_employee/providers/candidate_provider.dart';
+import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
 import 'package:hajir/app/modules/login/controllers/login_controller.dart';
-import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 
 class AddEmployeeController extends GetxController {
   final candidateProvider = Get.find<CandidateProvider>();
@@ -52,20 +52,20 @@ class AddEmployeeController extends GetxController {
       ..overTime = overTime.text;
     try {
       showLoading();
-      // await candidateProvider.postCandidate(candidate, Get.arguments);
       await attendaceApi.addCandidate(candidate.toJson(), args.value);
       Get.back();
       Get.back();
+      Get.find<CompanyDetailController>().getallCandidates();
       Get.rawSnackbar(message: "Successfully Created");
     } on UnauthorisedException catch (e) {
       Get.back();
       Get.rawSnackbar(message: e.details);
     } catch (e) {
       Get.back();
-      log(e.toString());
+      Get.rawSnackbar(message: e.toString());
+      // log(e.toString());
     }
     loading(false);
-    // Get.back();
   }
 
   @override

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
@@ -35,16 +34,16 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     isEmployer(Get.arguments);
-    phone.text = isEmployer.value ? '9823457889' : '9841463556';
+    // phone.text = isEmployer.value ? '9823457889' : '9841463556';
   }
 
   void increment() => _selectedItem.value++;
 
   void registerPhone() async {
-    if (kDebugMode) {
-      Get.toNamed(Routes.MOBILE_OPT, arguments: [isEmployer.value, phone.text]);
-    } else
-     if (loading.isFalse) {
+    // if (kDebugMode) {
+    //   Get.toNamed(Routes.MOBILE_OPT, arguments: [isEmployer.value, phone.text]);
+    // } else
+    if (loading.isFalse) {
       try {
         showLoading();
         if (Get.isSnackbarOpen) {
@@ -59,20 +58,20 @@ class LoginController extends GetxController {
 
           Get.toNamed(Routes.MOBILE_OPT,
               arguments: [isEmployer.value, phone.text]);
-          Get.log(result.body['data']['otp']);
-          Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
+          // Get.log(result.body['data']['otp']);
+          // Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
           loading(false);
         } else {
           log('candidate login');
           loading(true);
           var result = await attendanceApi.register(phone.text);
-
+          // print(result.body);
           Get.back();
           loading(false);
           Get.toNamed(Routes.MOBILE_OPT,
               arguments: [isEmployer.value, phone.text]);
-          Get.log(result.body['data']['otp']);
-          Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
+          // Get.log(result.body['data']['otp']);
+          // Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
         }
       } on BadRequestException catch (e) {
         loading(false);
@@ -97,6 +96,11 @@ class LoginController extends GetxController {
           message: e.message.toString(),
         );
       } catch (e) {
+        Get.rawSnackbar(
+          backgroundColor: Colors.red.shade800,
+          // title: e.message,
+          message: e.toString(),
+        );
         loading(false);
         Get.back();
         switch (e) {
