@@ -26,18 +26,21 @@ class ResultProvider extends GetConnect {
   }
 
   Future<BaseResponse> getMonthlyReport() async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     return parseRes(await get(
         "${APIEndpoint.monthlyReport}/${appSettings.companyId}",
         headers: globalHeaders));
   }
 
   Future<BaseResponse> getWeeklyReport() async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     return parseRes(await get(
         "${APIEndpoint.weeklyReport}/${appSettings.companyId}",
         headers: globalHeaders));
   }
 
   Future<BaseResponse> getYearlyReport(String year) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     return parseRes(await get(
         "${APIEndpoint.yearlyReport}/${appSettings.companyId}/$year",
         headers: globalHeaders));
@@ -49,6 +52,7 @@ class ReportController extends GetxController {
   var monthly = {}.obs;
   var weekly = {}.obs;
   var yearly = {}.obs;
+  var loadingSuccess = false.obs;
   var loading = false.obs;
   var selectedMonth = 0.obs;
   var selectedReportType = 0.obs;
@@ -87,8 +91,9 @@ class ReportController extends GetxController {
       loading(true);
       var result = await repository.getWeeklyReport();
       loading(false);
-      // log(result.body);
+      log(result.body);
       weekly(result.body['data']);
+      loadingSuccess(true);
     } catch (e) {
       loading(false);
       Get.rawSnackbar(message: e.toString());
@@ -98,6 +103,7 @@ class ReportController extends GetxController {
   getMonthlyReport() async {
     try {
       var result = await repository.getMonthlyReport();
+      loadingSuccess(true);
       monthly(result.body['data']);
       log(result.body);
     } catch (e) {}
@@ -107,6 +113,7 @@ class ReportController extends GetxController {
     try {
       // var year = DateTime.now().year.toString();
       var result = await repository.getYearlyReport(selectedYear.toString());
+      loadingSuccess(true);
       yearly(result.body['data']);
       print(result.body);
     } catch (e) {}
@@ -486,13 +493,14 @@ class Reports extends GetView<ReportController> {
                                                           : 7,
                                                       (index) => WeekDay(
                                                           day: weekDay[index],
-                                                          isActive: controller.weekly['weekdata ']
-                                                              .containsKey(weekDay[index]
-                                                                  .capitalizeFirst),
-                                                          date: dashBoardController
-                                                                      .selectedWeek
-                                                                      .value ==
-                                                                  0
+                                                          isActive: controller
+                                                                  .loadingSuccess
+                                                                  .isTrue
+                                                              ? controller.weekly[
+                                                                      'weekdata ']
+                                                                  .containsKey(weekDay[index].capitalizeFirst)
+                                                              : false,
+                                                          date: dashBoardController.selectedWeek.value == 0
                                                               ? index + 1
                                                               : dashBoardController.selectedWeek.value == 1
                                                                   ? (7 + index)

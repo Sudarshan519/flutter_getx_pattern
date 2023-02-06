@@ -67,7 +67,13 @@ class MobileOptController extends GetxController {
           timer.cancel();
 
           appSettings.saveUser(UserModel.fromJson(result.body['data']['user']));
+          // appSettings.token = result.body['data']['token'];
+          appSettings.candidateId =
+              result.body['data']['user']['id'].toString();
+          timer.cancel();
+          appSettings.saveUser(UserModel.fromJson(result.body['data']['user']));
           appSettings.token = result.body['data']['token'];
+          // appSettings.type = 'employee';
           appSettings.type = 'employer';
           Get.back();
           Get.offAllNamed(Routes.EMPLOYER_DASHBOARD);

@@ -21,6 +21,7 @@ class CompanyDetailController extends GetxController {
   var selectedMonth = 0.obs;
   var selectedReport = 0.obs;
   var invitationlist = [].obs;
+  var emplist = [].obs;
   var params = {}.obs;
   var employerReport = {}.obs;
   final attendanceApi = Get.find<AttendanceSystemProvider>();
@@ -38,10 +39,16 @@ class CompanyDetailController extends GetxController {
     loading(true);
     var companyId = (Get.parameters['company_id']);
     try {
-      var allcandidates =
+      var allInvitations =
           await attendanceApi.getAllInvitationList(companyId.toString());
+
+      var employeeList =
+          await attendanceApi.allCandidates(companyId.toString());
+      print(employeeList.body['data']['candidate']);
+      emplist(employeeList.body['data']['candidate']);
+      loading(false);
       getEmployerReport();
-      invitationlist(allcandidates.body['data']['users']);
+      invitationlist(allInvitations.body['data']['users']);
     } on BadRequestException catch (e) {
       loading(false);
       Get.rawSnackbar(title: e.message, message: e.details);

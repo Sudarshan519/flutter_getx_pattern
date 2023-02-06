@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
-import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key, this.controller});
-  final controller;
+  const Profile({
+    super.key,
+  });
+
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -15,107 +19,60 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    final controller = widget.controller;
-    final fname = TextEditingController()
-      ..text = controller.user.value.name ?? '';
-    final email = TextEditingController()
-      ..text = controller.user.value.email ?? '';
-    final mobile = TextEditingController(text: controller.user.value.phone);
     final formKey = GlobalKey<FormState>();
-    // final dob = TextEditingController(text: controller.user.value.dob);
-    //     // appSettings.employer
-    //     //     ? Get.find<EmployerDashboardController>()
-    //     //     :
-    //     Get.isRegistered<DashboardController>()
-    //         ? Get.find<DashboardController>()
-    //         : Get.find<EmployerDashboardController>();
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 16),
-        child: AppBottomSheet(
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TitleWidget(title: strings.profile),
-                const SizedBox(
-                  height: 10,
-                ),
-                Image.asset(
-                  "assets/Avatar Profile.png",
-                  height: 118,
-                  width: 118,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  strings.change,
-                  style: const TextStyle(
-                      fontSize: 11, fontWeight: FontWeight.w400),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: fname,
-                        decoration: InputDecoration(
-                            labelText: strings.firstname,
-                            hintText: strings.firstname,
-                            hintStyle: AppTextStyles.l1,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade300)),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey))),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller: email,
-                        validator: (v) {
-                          if (GetUtils.isEmail(v!)) {
-                            return null;
-                          } else if (v.isEmpty) {
-                            return '* Email required';
-                          } else {
-                            return 'Enter a valid email.';
-                          }
-                        },
-                        decoration: InputDecoration(
-                            hintText: 'E-mail',
-                            hintStyle: AppTextStyles.l1,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade300)),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey))),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Get.bottomSheet(const ChangeNumber(),
-                          //     isScrollControlled: true);
-                        },
-                        child: TextFormField(
-                          enabled: false,
-                          controller: mobile,
+
+    TextEditingController fname;
+    TextEditingController email;
+    TextEditingController mobile;
+
+    if (appSettings.employer) {
+      EmployerDashboardController employerDashboardController;
+      employerDashboardController = Get.find();
+      fname = TextEditingController()
+        ..text = employerDashboardController.user.value.name ?? '';
+
+      email = TextEditingController()
+        ..text = employerDashboardController.user.value.email ?? '';
+      mobile = TextEditingController(
+          text: employerDashboardController.user.value.phone);
+      return SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 16),
+          child: AppBottomSheet(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TitleWidget(title: strings.profile),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset(
+                    "assets/Avatar Profile.png",
+                    height: 118,
+                    width: 118,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    strings.change,
+                    style: const TextStyle(
+                        fontSize: 11, fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: fname,
                           decoration: InputDecoration(
-                              hintText: strings.mobile_number,
+                              labelText: strings.firstname,
+                              hintText: strings.firstname,
                               hintStyle: AppTextStyles.l1,
                               focusedBorder: OutlineInputBorder(
                                   borderSide:
@@ -126,79 +83,316 @@ class _ProfileState extends State<Profile> {
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey))),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          try {
-                            var date = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2020),
-                                lastDate: DateTime(2030));
-                            log(date.toString());
-                            if (date == null) {
-                              controller.dob = '';
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: email,
+                          validator: (v) {
+                            if (GetUtils.isEmail(v!)) {
+                              return null;
+                            } else if (v.isEmpty) {
+                              return '* Email required';
                             } else {
-                              controller.dob = date.toString().substring(0, 10);
-                            }
-                          } catch (e) {
-                            controller.dob = '';
-                          }
-                        },
-                        child: Obx(() => TextFormField(
-                              controller: TextEditingController()
-                                ..text = controller.dob,
-                              // initialValue: controller.dob == ''
-                              //     ? strings.dob
-                              //     : controller.dob,
-                              enabled: false,
-                              decoration: InputDecoration(
-                                  hintText: strings.dob,
-                                  hintStyle: AppTextStyles.l1,
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.grey.shade400)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.grey.shade300)),
-                                  border: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey))),
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      CustomButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              if (controller.dob.isEmpty) {
-                                Get.rawSnackbar(
-                                    message: 'Date of birth requried.');
-                              }
-                              controller.updateProfile(
-                                fname.text,
-                                email.text,
-                                mobile.text,
-                              );
+                              return 'Enter a valid email.';
                             }
                           },
-                          label: strings.update),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                          decoration: InputDecoration(
+                              hintText: 'E-mail',
+                              hintStyle: AppTextStyles.l1,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300)),
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey))),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            // Get.bottomSheet(const ChangeNumber(),
+                            //     isScrollControlled: true);
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            controller: mobile,
+                            decoration: InputDecoration(
+                                hintText: strings.mobile_number,
+                                hintStyle: AppTextStyles.l1,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade400)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300)),
+                                border: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey))),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            try {
+                              var date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime(2030));
+
+                              if (appSettings.employer) {
+                                employerDashboardController.dob = '';
+                                if (date == null) {
+                                } else {
+                                  employerDashboardController.dob =
+                                      date.toString().substring(0, 10);
+                                }
+                              } else {}
+                            } catch (e) {
+                              employerDashboardController.dob = '';
+                            }
+                          },
+                          child: Obx(() => TextFormField(
+                                controller: TextEditingController()
+                                  ..text = employerDashboardController.dob,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    hintText: strings.dob,
+                                    hintStyle: AppTextStyles.l1,
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade400)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade300)),
+                                    border: const OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey))),
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        CustomButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                if (employerDashboardController.dob.isEmpty) {
+                                  Get.rawSnackbar(
+                                      message: 'Date of birth requried.');
+                                } else {
+                                  if (appSettings.employer) {
+                                    employerDashboardController.updateProfile(
+                                      fname.text,
+                                      email.text,
+                                      mobile.text,
+                                    );
+                                  } else {}
+                                }
+                              }
+                            },
+                            label: strings.update),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      DashboardController dashboardController;
+      dashboardController = Get.find();
+      fname = TextEditingController()
+        ..text = dashboardController.user.value.name ?? '';
+
+      email = TextEditingController()
+        ..text = dashboardController.user.value.email ?? '';
+      mobile =
+          TextEditingController(text: dashboardController.user.value.phone);
+      return SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 16),
+          child: AppBottomSheet(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TitleWidget(title: strings.profile),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset(
+                    "assets/Avatar Profile.png",
+                    height: 118,
+                    width: 118,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    strings.change,
+                    style: const TextStyle(
+                        fontSize: 11, fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: fname,
+                          decoration: InputDecoration(
+                              labelText: strings.firstname,
+                              hintText: strings.firstname,
+                              hintStyle: AppTextStyles.l1,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300)),
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey))),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: email,
+                          validator: (v) {
+                            if (GetUtils.isEmail(v!)) {
+                              return null;
+                            } else if (v.isEmpty) {
+                              return '* Email required';
+                            } else {
+                              return 'Enter a valid email.';
+                            }
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'E-mail',
+                              hintStyle: AppTextStyles.l1,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade300)),
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey))),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            // Get.bottomSheet(const ChangeNumber(),
+                            //     isScrollControlled: true);
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            controller: mobile,
+                            decoration: InputDecoration(
+                                hintText: strings.mobile_number,
+                                hintStyle: AppTextStyles.l1,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade400)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300)),
+                                border: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey))),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            try {
+                              var date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime(2030));
+
+                              if (date == null) {
+                                dashboardController.dob = '';
+                              } else {
+                                dashboardController.dob =
+                                    date.toString().substring(0, 10);
+                              }
+                            } catch (e) {
+                              dashboardController.dob = '';
+                            }
+                          },
+                          child: Obx(() => TextFormField(
+                                controller: TextEditingController()
+                                  ..text = dashboardController.dob,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                    hintText: strings.dob,
+                                    hintStyle: AppTextStyles.l1,
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade400)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade300)),
+                                    border: const OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey))),
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        CustomButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                if (dashboardController.dob.isEmpty) {
+                                  Get.rawSnackbar(
+                                      message: 'Date of birth requried.');
+                                } else {
+                                  if (appSettings.employer) {
+                                  } else {
+                                    dashboardController.updateProfile(
+                                      fname.text,
+                                      email.text,
+                                      mobile.text,
+                                    );
+                                  }
+                                }
+                              }
+                            },
+                            label: strings.update),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 }
 

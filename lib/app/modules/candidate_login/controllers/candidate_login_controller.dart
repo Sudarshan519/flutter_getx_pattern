@@ -55,16 +55,16 @@ class CandidateLoginController extends GetxController {
         startBreakSubmit();
         breakStarted(BreakStatus.Started);
         breakStartedPercentage(percentage.value);
-        if (kDebugMode) {
-          print(breakStartedPercentage.value);
-        }
+        // if (kDebugMode) {
+        //   print(breakStartedPercentage.value);
+        // }
       } else if (breakStarted.value == BreakStatus.Started) {
         stopBrakSubmit();
         breakStarted(BreakStatus.Ended);
         breakEndPercentage(percentage.value);
-        if (kDebugMode) {
-          print(breakEndPercentage.value);
-        }
+        // if (kDebugMode) {
+        //   print(breakEndPercentage.value);
+        // }
       } else {}
     }
   }
@@ -84,7 +84,7 @@ class CandidateLoginController extends GetxController {
     percentage(loggedInTime.value);
 
     if (true) {
-      print(percentage);
+      // print(percentage);
       var value = (1000 * percentage.value / 100);
 
       var values = (value.toPrecision(2));

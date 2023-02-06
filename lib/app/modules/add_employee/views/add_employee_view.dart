@@ -94,6 +94,28 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
               height: 20,
             ),
             TextFormField(
+              controller: controller.address,
+              validator: (v) => confirmPassword(
+                  password: v!,
+                  cPassword: controller.phone.text,
+                  value: "Phone does not match."),
+              decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  hintText: "Confirm Phone",
+                  hintStyle:
+                      AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400)),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade300)),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey))),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
               controller: controller.designation,
               validator: validateIsEmpty,
               decoration: InputDecoration(
@@ -117,26 +139,8 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
               controller: controller.email,
               // title: 'Email',
             ),
-            const Text("[Add from contact address]"),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: controller.address,
-              validator: validateIsEmpty,
-              decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  hintText: "Contact Address",
-                  hintStyle:
-                      AppTextStyles.l1.copyWith(fontWeight: FontWeight.w500),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400)),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade300)),
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey))),
-            ),
+            // const Text("[Add from contact address]"),
+
             const SizedBox(
               height: 20,
             ),

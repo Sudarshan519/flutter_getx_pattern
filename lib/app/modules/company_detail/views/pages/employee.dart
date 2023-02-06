@@ -13,6 +13,7 @@ class EmployeeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
+    print(controller.emplist.length);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.r),
       child: Column(
@@ -41,14 +42,49 @@ class EmployeeList extends StatelessWidget {
                 color: Colors.grey.shade600),
           ),
           const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: Obx(
+              () => controller.loading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : RefreshIndicator(
+                      onRefresh: () async => controller.getallCandidates(),
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: controller.emplist.length,
+                        itemBuilder: ((context, index) => EmployeeWidget(
+                            controller: controller,
+                            index: index,
+                            isEmployee: true)),
+                      ),
+                    ),
+            ),
+          ),
+          const SizedBox(
             height: 40,
           ),
+          const Text(
+            "All Candidates", // strings.employee_list,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          // Text(
+          //   controller.company.value.name ?? "",
+          //   style: TextStyle(
+          //       fontWeight: FontWeight.w400,
+          //       fontSize: 16,
+          //       color: Colors.grey.shade600),
+          // ),
 
           Expanded(
             child: Obx(
               () => controller.loading.value
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemCount: controller.invitationlist.length,
                       itemBuilder: ((context, index) =>
                           EmployeeWidget(controller: controller, index: index)),
@@ -63,12 +99,15 @@ class EmployeeList extends StatelessWidget {
 
 class EmployeeWidget extends StatefulWidget {
   const EmployeeWidget(
-      {Key? key, required this.controller, required this.index})
+      {Key? key,
+      required this.controller,
+      required this.index,
+      this.isEmployee = false})
       : super(key: key);
 
   final CompanyDetailController controller;
   final int index;
-
+  final bool isEmployee;
   @override
   State<EmployeeWidget> createState() => _EmployeeWidgetState();
 }
@@ -118,9 +157,11 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        widget.controller.invitationlist[widget.index]
-                                ['phone'] ??
-                            '',
+                        widget.isEmployee
+                            ? widget.controller.emplist[widget.index]['contact']
+                            : widget.controller.invitationlist[widget.index]
+                                    ['phone'] ??
+                                '',
                         style: const TextStyle(
                           fontSize: 15,
                         )),
@@ -128,9 +169,11 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                       height: 3,
                     ),
                     Text(
-                      widget.controller.invitationlist[widget.index]
-                              ['candidatedetails']['code'] ??
-                          '',
+                      widget.isEmployee
+                          ? widget.controller.emplist[widget.index]['contact']
+                          : widget.controller.invitationlist[widget.index]
+                                  ['candidatedetails']['code'] ??
+                              '',
                       // "RT00${widget.index + 1}",
                       style: const TextStyle(color: Colors.grey, fontSize: 11),
                     ),
@@ -140,7 +183,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                 IconButton(
                     onPressed: () async {
                       launchUrlString(
-                          'tel:${widget.controller.invitationlist[widget.index]['phone']}');
+                          'tel:${widget.isEmployee ? widget.controller.emplist[widget.index]['contact'] : widget.controller.invitationlist[widget.index]['phone']}');
                     },
                     icon: SvgPicture.asset("assets/Phone.svg"))
               ]),

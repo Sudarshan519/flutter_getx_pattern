@@ -58,8 +58,10 @@ class CircularPercentPaint extends CustomPainter {
             i <
                 (allGreen
                     ? angle
-                    : progress < breakStartedPercentage!
-                        ? angle
+                    : (progress) < breakStartedPercentage!
+                        ? angle < 1
+                            ? (1.5 / 100 * 355)
+                            : angle
                         : ((349) * breakStartedPercentage! ~/ 100 - 7));
             i++) {
           var x1 = centerX + outerCircleRadius * cos(i * pi / 180);

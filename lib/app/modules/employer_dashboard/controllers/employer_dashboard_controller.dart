@@ -3,6 +3,7 @@ import 'package:hajir/app/data/models/user.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
+import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
@@ -10,7 +11,7 @@ import 'package:hajir/core/app_settings/shared_pref.dart';
 class EmployerDashboardController extends GetxController {
   //TODO: Implement EmployerDashboardController
   final AttendanceSystemProvider attendanceApi = Get.find();
-  var isEmployed = false;
+  var isEmployed = true;
   var loading = false.obs;
 
   final selectedIndex = 0.obs;
@@ -32,9 +33,10 @@ class EmployerDashboardController extends GetxController {
   String get dob => _dob.value;
   var user = UserModel().obs;
   var loadingFailed = false.obs;
-  updateProfile(String fname, String email, String phone) {
+  updateProfile(String fname, String email, String phone) async {
     try {
-      var result = attendanceApi.updateProfile({
+      showLoading();
+      var result = await attendanceApi.employerUpdateProfile({
         'firstname': fname,
         'lastname': fname.split(' ').last,
         'email': email,
@@ -45,6 +47,8 @@ class EmployerDashboardController extends GetxController {
       user.value.email = email;
       user.value.name = fname;
       Get.back();
+      Get.back();
+      user(UserModel(name: fname, email: email, phone: phone));
       Get.rawSnackbar(message: 'Update Successful.');
       // appSettings.dob=dob;
     } on UnauthorisedException catch (e) {
@@ -94,6 +98,7 @@ class EmployerDashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    user(appSettings.getuser());
     getCompanies();
   }
 

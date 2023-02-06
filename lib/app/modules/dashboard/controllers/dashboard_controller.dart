@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/data/models/user.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
+import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
@@ -35,31 +36,33 @@ class DashboardController extends GetxController {
   var invitationlist = [].obs;
   var loading = false.obs;
   var user = UserModel().obs;
-  updateProfile(String fname, String email, String phone) {
+  updateProfile(String fname, String email, String phone) async {
     try {
-      var result = attendanceApi.updateProfile({
+      showLoading();
+      var result = await attendanceApi.updateProfile({
         'firstname': fname,
         'lastname': fname.split(' ').last,
         'email': email,
         'dob': dob.replaceAll('-', '/')
       });
+
       appSettings.name = fname;
       appSettings.email = email;
       user.value.email = email;
       user.value.name = fname;
+      user(UserModel(name: fname, email: email, phone: phone));
       Get.back();
-      Get.rawSnackbar(message: 'Update Successful.');
-      // appSettings.dob=dob;
+      Get.back();
+      Get.rawSnackbar(message: result.body.toString());
     } on UnauthorisedException catch (e) {
       loading(false);
 
       Get.rawSnackbar(title: e.message, message: e.details);
     } on BadRequestException catch (e) {
       loading(false);
-      // Get.back();
-
       Get.rawSnackbar(title: e.message, message: e.details);
     } catch (e) {
+      Get.rawSnackbar(title: e.toString());
       handleExcpt(e);
       log(e.toString());
       loading(false);
@@ -78,6 +81,7 @@ class DashboardController extends GetxController {
       }
       var res = await attendanceApi.candidateInvitations();
 
+      print(res.body);
       invitationlist(res.body['data']['candidateInvitations']);
 
       loading(false);
@@ -110,11 +114,13 @@ class DashboardController extends GetxController {
       if (Get.isSnackbarOpen) {
         await Get.closeCurrentSnackbar();
       }
-      var res = await attendanceApi.candidateInvitations();
+      print(invitationId);
+      var res = await attendanceApi.acceptInvitation(invitationId);
+      print(res.body);
       isEmployed = true;
       appSettings.isEmployed = true;
       appSettings.companyId = companyId;
-      invitationlist(res.body['data']['candidateInvitations']);
+      // invitationlist(res.body['data']['candidateInvitations']);
 
       loading(false);
     } on BadRequestException catch (e) {

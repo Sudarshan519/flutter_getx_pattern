@@ -34,7 +34,7 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     isEmployer(Get.arguments);
-    // phone.text = isEmployer.value ? '9823457889' : '9841463556';
+    phone.text = isEmployer.value ? '9823457889' : '9841463556';
   }
 
   void increment() => _selectedItem.value++;

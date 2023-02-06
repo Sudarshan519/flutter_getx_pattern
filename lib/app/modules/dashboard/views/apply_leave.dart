@@ -54,7 +54,15 @@ class ApplyLeaveController extends GetxController {
   final _obj = ''.obs;
   set obj(value) => _obj.value = value;
   get obj => _obj.value;
+  var selected_leave = ''.obs;
   var allLeaveTypes = [].obs;
+  var leave_options = [
+    {
+      'id': 'Full',
+      'title': 'Full Day',
+    },
+    {'id': "Half", 'title': 'Half Day'}
+  ];
   @override
   onInit() {
     super.onInit();
@@ -79,14 +87,20 @@ class ApplyLeaveController extends GetxController {
         'remarks': remarks.text,
         'start_date': start_date.text,
         'end_date': end_date.text,
+        'type': selected_leave.value
       };
       var formData = FormData(body);
-      formData.files.add(MapEntry(
-          'document',
-          MultipartFile(File(image.value),
-              filename: image.value.split('.').last)));
+      if (image.value.isNotEmpty) {
+        formData.files.add(MapEntry(
+            'document',
+            MultipartFile(File(image.value),
+                filename: image.value.split('.').last)));
+      }
       showLoading();
       var result = await repository.applyLeave(formData);
+      // print(result.body);
+      clearAll();
+      Get.back();
       Get.back();
       Get.dialog(const AlertDialog(
         content: ApplySuccess(),
@@ -97,6 +111,14 @@ class ApplyLeaveController extends GetxController {
       Get.rawSnackbar(message: e.toString());
     }
   }
+
+  void clearAll() {
+    leave_type.value = '';
+    remarks.clear();
+    image('');
+    start_date.clear();
+    end_date.clear();
+  }
 }
 
 class ApplyLeave extends GetView<ApplyLeaveController> {
@@ -105,7 +127,7 @@ class ApplyLeave extends GetView<ApplyLeaveController> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    controller.getAllLeaveTypes();
+    // controller.getAllLeaveTypes();
     return AppBottomSheet(
       child: RPadding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 18),
@@ -139,7 +161,9 @@ class ApplyLeave extends GetView<ApplyLeaveController> {
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 8),
-                        hintText: strings.leave_type,
+                        hintText: controller.allLeaveTypes.isEmpty
+                            ? 'Loading ...'
+                            : strings.leave_type,
                         hintStyle: AppTextStyles.l1,
                         focusedBorder: OutlineInputBorder(
                             borderSide:
@@ -149,15 +173,49 @@ class ApplyLeave extends GetView<ApplyLeaveController> {
                                 BorderSide(color: Colors.grey.shade300)),
                         border: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey))),
-                    items: controller.allLeaveTypes
-                        .map((element) => DropdownMenuItem(
-                            value: element['id'].toString(),
-                            child: Text(element['title'].toString())))
-                        .toList(),
+                    items: controller.allLeaveTypes.isEmpty
+                        ? [
+                            const DropdownMenuItem(
+                              value: '',
+                              child: Text('loading...'),
+                            )
+                          ]
+                        : controller.allLeaveTypes
+                            .map((element) => DropdownMenuItem(
+                                value: element['id'].toString(),
+                                child: Text(element['title'].toString())))
+                            .toList(),
                     onChanged: (String? value) {
-                      controller.leave_type(value!);
+                      controller.selected_leave(value!);
                     },
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                DropdownButtonFormField(
+                  validator: validateIsEmpty,
+                  // value: controller.leave_type.value,
+                  isDense: true,
+                  decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      hintText: 'Type',
+                      hintStyle: AppTextStyles.l1,
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade300)),
+                      border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey))),
+                  items: controller.leave_options
+                      .map((element) => DropdownMenuItem(
+                          value: element['id'].toString(),
+                          child: Text(element['title'].toString())))
+                      .toList(),
+                  onChanged: (String? value) {
+                    controller.leave_type(value!);
+                  },
                 ),
                 const SizedBox(
                   height: 20,

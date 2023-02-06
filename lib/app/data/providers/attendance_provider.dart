@@ -48,27 +48,9 @@ class AttendanceSystemProvider extends GetConnect {
   @override
   void onInit() {
     httpClient.baseUrl = 'https://attendance.an4soft.com/api/';
-    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    // globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
   }
 
-  // dynamic _returnResponse(Response<dynamic> response) {
-  //   switch (response.statusCode) {
-  //     case 200:
-  //       return response.body;
-  //     case 400:
-  //       throw BadRequestException(response.body.toString());
-  //     case 401:
-  //     case 403:
-  //       throw UnauthorisedException(response.body.toString());
-  //     case 404:
-  //       throw BadRequestException('Not found');
-  //     case 500:
-  //       throw FetchDataException('Internal Server Error');
-  //     default:
-  //       throw FetchDataException(
-  //           'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
-  //   }
-  // }
   Future<BaseResponse> candidateInvitations() async {
     globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'candidate/invitation/all';
@@ -84,9 +66,9 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   Future<BaseResponse> acceptInvitation(String invitationId) async {
-    var body = {'status': 'Approved'};
     globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
-    var res = await post('candidate/invitation-update/$invitationId', body,
+    var res = await post('candidate/invitation/invitation-update/$invitationId',
+        {'status': 'Approved'},
         headers: globalHeaders);
     return parseRes(res);
   }
@@ -154,9 +136,7 @@ class AttendanceSystemProvider extends GetConnect {
   Future<BaseResponse> registerEmployer(
     String phone,
   ) async {
-    var body = {
-      'phone': phone,
-    };
+    var body = {'phone': phone};
 
     var res = await post('employer/register', body, headers: headersList);
 
@@ -175,17 +155,18 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   addCandidate(var body, String id) async {
-    var res =
-        await post('employer/candidate/store/$id', body, headers: headersList);
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var res = await post('employer/candidate/store/$id', body,
+        headers: globalHeaders);
 
     return parseRes(res);
   }
 
   addCompany(dynamic body) async {
     var url = 'employer/company/store';
-
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     // try {
-    var res = await post(url, body, headers: headersList);
+    var res = await post(url, body, headers: globalHeaders);
     log(res.bodyString!);
     return parseRes(res);
     // } catch (e) {
@@ -194,26 +175,17 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   Future<BaseResponse> getEmployerCompanies() async {
-    var url = ('employer/company/all');
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    // var url = ('employer/company/all');
+    var url = 'employer/company/employercompanies';
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
 
-    // try {
     var res = await get(url, headers: headersList);
 
     return parseRes(res);
-    // } catch (e) {
-    //   rethrow;
-    // }
-    // if (res.statusCode! >= 200 && res.statusCode! < 300) {
-    // } else {}
   }
 
   getCompanyById() async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = ('company/get-companies/1');
 
     // try {
@@ -227,13 +199,7 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   updateCompanyById() async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA5MDY1YjAyMjk1YzAwYmY1NTE4MjAyOWQzZTY2ZmU2NTM5Mjk5YjlmMzljMmFiYzllMjM5NmRiNTEwOGNjZDAzMTQ4NzdlMDUwZTljZWQiLCJpYXQiOjE2NzM5NDU0MTEuMjU3OTA4LCJuYmYiOjE2NzM5NDU0MTEuMjU3OTExLCJleHAiOjE3MDU0ODE0MTEuMjUyODIsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.e7f9iwjTyjj34U51p1ggpmM72NNdQgi7nkid_58f0VB1HSo9Xpy2vnQhkP2kr-k2kKAFrznmSCGyNWJQZr8lwyVAxy4J84NNME_roJqLXoQ7p0U4iTYhV4OunuIPT4_nm8wEWAfzDhK_fDlXVJVbMnLxRLYFxvFYPu-oh1URNnSFFm3bzZwdVvXHYa-TZJsugxPd7M30dclgwt1jTddMMNKu_b8zUQUk8n1aLBMravF9ZbwOA2FzZ0RenfPrXbVIQrpnzWEmIDv72qnwuVFBYDyqgTeOj7ZgEKt6EDB1A48vMyIhYzIl5wnthEWkilEe4uamNvVat7Q_XtluxMzvkvTVj2SaxIHds3-DqJ9ZVMQgT2qUxa-J8vRb7D-9peQnYS5upcMLTNbHTAM4bF6k5hOKRNCdtqiHQFpIDwuXVCu9Jh_YK7Lg0Ig5rXt9_1aIOsGKm4lQqFBP0jsl3LsdAgtiedMhQ6uXF0gLwCBuLVU2G_jVSUrOABN0w80Pby75myMQh7pY2Siic1G2ZHtRWjA2OrRY7Jn3P1sP1W7_zv1mtCFygIW5rmPlLFxkdNFpnYcncOChFXsLxk6yfrMCiW7svdu-Ae463XephD7OxrFyHYY8qvbw62BlbZHKkNXMqBDhLlTTVogFC1Npz36hAhPU2IRCOgyI0HkZuHg7CNE'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = ('localhost:8000/api/employer/company/update/1');
 
     var body = {
@@ -265,12 +231,7 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   deleteCompany() async {
-    var headersList = {
-      'Accept': '*/*',
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Authorization':
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA5MDY1YjAyMjk1YzAwYmY1NTE4MjAyOWQzZTY2ZmU2NTM5Mjk5YjlmMzljMmFiYzllMjM5NmRiNTEwOGNjZDAzMTQ4NzdlMDUwZTljZWQiLCJpYXQiOjE2NzM5NDU0MTEuMjU3OTA4LCJuYmYiOjE2NzM5NDU0MTEuMjU3OTExLCJleHAiOjE3MDU0ODE0MTEuMjUyODIsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.e7f9iwjTyjj34U51p1ggpmM72NNdQgi7nkid_58f0VB1HSo9Xpy2vnQhkP2kr-k2kKAFrznmSCGyNWJQZr8lwyVAxy4J84NNME_roJqLXoQ7p0U4iTYhV4OunuIPT4_nm8wEWAfzDhK_fDlXVJVbMnLxRLYFxvFYPu-oh1URNnSFFm3bzZwdVvXHYa-TZJsugxPd7M30dclgwt1jTddMMNKu_b8zUQUk8n1aLBMravF9ZbwOA2FzZ0RenfPrXbVIQrpnzWEmIDv72qnwuVFBYDyqgTeOj7ZgEKt6EDB1A48vMyIhYzIl5wnthEWkilEe4uamNvVat7Q_XtluxMzvkvTVj2SaxIHds3-DqJ9ZVMQgT2qUxa-J8vRb7D-9peQnYS5upcMLTNbHTAM4bF6k5hOKRNCdtqiHQFpIDwuXVCu9Jh_YK7Lg0Ig5rXt9_1aIOsGKm4lQqFBP0jsl3LsdAgtiedMhQ6uXF0gLwCBuLVU2G_jVSUrOABN0w80Pby75myMQh7pY2Siic1G2ZHtRWjA2OrRY7Jn3P1sP1W7_zv1mtCFygIW5rmPlLFxkdNFpnYcncOChFXsLxk6yfrMCiW7svdu-Ae463XephD7OxrFyHYY8qvbw62BlbZHKkNXMqBDhLlTTVogFC1Npz36hAhPU2IRCOgyI0HkZuHg7CNE'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = ('localhost:8000/api/company/destroy/1');
 
     try {
@@ -282,10 +243,7 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   requestLeave() async {
-    var headersList = {
-      'Accept': '*/*',
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = ('');
 
     try {
@@ -297,19 +255,17 @@ class AttendanceSystemProvider extends GetConnect {
   }
 
   Future<BaseResponse> getAllInvitationList(String id) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = ('employer/$id/invitation/all-candidates');
 
-    // try {
     var res = await get(url, headers: headersList);
     return parseRes(res);
-    // } catch (e) {
-    // rethrow;
-    // }
   }
 
   Future<BaseResponse> getallCandidates(String companyId) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'employer/$companyId/invitation/all-candidates';
-    var res = await get(url, headers: headersList);
+    var res = await get(url, headers: globalHeaders);
     return parseRes(res);
   }
 
@@ -323,67 +279,61 @@ class AttendanceSystemProvider extends GetConnect {
 
   Future<BaseResponse> sendInvitation(
       String companyId, String candidateId, var status) async {
-    // var body = {'status': 'Not-Approved', 'candidate_id': '3'};
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var body = {
       'status': status,
       'candidate_id': candidateId,
       // 'status': status
     };
     var url = 'employer/$companyId /invitation/store';
-    var result = await post(url, body, headers: headersList);
+    var result = await post(url, body, headers: globalHeaders);
     return parseRes(result);
   }
 
   Future<BaseResponse> updateProfile(var body) async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
-    print(body);
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+
     var result =
-        await post('candidate/profile-update', body, headers: headersList);
-    print(result.body);
+        await post('candidate/profile-update', body, headers: globalHeaders);
+
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> employerUpdateProfile(var body) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var result =
+        await post('employer/profile-update', body, headers: globalHeaders);
+
     return parseRes(result);
   }
 
   Future<BaseResponse> logout(
       Map<String, double> body, String companyId, String attendanceId) async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var result = await post(
         'candidate/attendance-update/$companyId/$attendanceId', body,
         headers: headersList);
-    print(result.body);
     return parseRes(result);
   }
 
   Future<BaseResponse> breakStore(var body, var attendanceId) async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'candidate/attendance-break-store/$attendanceId';
-    var result = await post(url, body, headers: headersList);
+    var result = await post(url, body, headers: globalHeaders);
     return parseRes(result);
   }
 
   Future<BaseResponse> breakUpdate(var body, var breakId) async {
-    var headersList = {
-      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${appSettings.token}'
-    };
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
     var url = 'candidate/attendance-break-update/$breakId';
-    var result = await post(url, body, headers: headersList);
+    var result = await post(url, body, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> allCandidates(String companyId) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/candidate/get-candidates/8';
+    var result = await get(url, headers: globalHeaders);
     return parseRes(result);
   }
 }
@@ -393,7 +343,6 @@ parseRes(Response res) {
   // logRequest(res.request!.url.path, res.body.toString());
   // }
 
-  // log(res.bodyString.toString());
   switch (res.statusCode) {
     case 200:
     case 201:

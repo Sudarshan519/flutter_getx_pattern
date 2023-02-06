@@ -11,11 +11,12 @@ String? validatePassword(String? string) {
   }
 }
 
-String? confirmPassword({required String password, required String cPassword}) {
+String? confirmPassword(
+    {required String password, required String cPassword, String? value}) {
   if (password == cPassword) {
     return null;
   } else {
-    return "Passwords do not match.";
+    return value??"Passwords do not match.";
   }
 }
 

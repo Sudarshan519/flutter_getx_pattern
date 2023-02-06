@@ -20,10 +20,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
       const EmployerHome(),
       const Attendance(),
       const EmployeeList(),
-      MyAccount(
-        isEmployer: true,
-        controller: controller,
-      )
+      const MyAccount(isEmployer: true)
     ];
 
     return Scaffold(

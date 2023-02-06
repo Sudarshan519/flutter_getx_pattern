@@ -209,9 +209,8 @@ class EmployerDashboardView extends GetView<EmployerDashboardController> {
     ScreenUtil.init(context);
     var pages = [
       const Companies(),
-      MyAccount(
+      const MyAccount(
         isEmployer: true,
-        controller: controller,
       )
     ];
 
