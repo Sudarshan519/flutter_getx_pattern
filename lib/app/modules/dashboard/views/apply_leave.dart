@@ -49,6 +49,7 @@ class ApplyLeaveController extends GetxController {
   final start_date = TextEditingController();
   final end_date = TextEditingController();
   final image = ''.obs;
+  final start_time = TextEditingController();
   final remarks = TextEditingController();
   final leave_type = ''.obs;
   final _obj = ''.obs;
@@ -216,6 +217,52 @@ class ApplyLeave extends GetView<ApplyLeaveController> {
                   onChanged: (String? value) {
                     controller.leave_type(value!);
                   },
+                ),
+                Obx(() => controller.leave_type.value ==
+                            controller.leave_options[0]['id'] ||
+                        controller.leave_type.value.isEmpty
+                    ? const SizedBox()
+                    : const SizedBox(
+                        height: 20,
+                      )),
+                Obx(
+                  () => controller.leave_type.value ==
+                              controller.leave_options[0]['id'] ||
+                          controller.leave_type.value.isEmpty
+                      ? const SizedBox()
+                      : InkWell(
+                          onTap: () async {
+                            var now = DateTime.now();
+                            var date = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                            );
+                            if (date != null) {
+                              // print(date);
+                              controller.start_time.text = date.format(context);
+                              // controller.start_date.text = date.format(context).substring(0, 10);
+                            }
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            controller: controller.start_time,
+                            decoration: InputDecoration(
+                                labelText: "Leave Start Time",
+                                hintText: strings.duration,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8),
+                                hintStyle: AppTextStyles.l1,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade400)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300)),
+                                border: const OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey))),
+                          ),
+                        ),
                 ),
                 const SizedBox(
                   height: 20,

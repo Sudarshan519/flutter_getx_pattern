@@ -173,15 +173,17 @@ class CandidateLoginController extends GetxController {
           } on PlatformException catch (e) {
             Get.rawSnackbar(message: e.message);
           }
-        } else {
-          if (kDebugMode) {
-            authStatus = AuthStatus.Authenticated;
-            timerInit(true);
-            timer = Timer.periodic(1.milliseconds, (timer) {
-              now(DateTime.now());
-              updatePercentage();
-            });
-          }
+        }
+      } else {
+        if (kDebugMode) {
+          updateLogin();
+          authStatus = AuthStatus.Authenticated;
+          timerInit(true);
+
+          timer = Timer.periodic(const Duration(microseconds: 1), (timer) {
+            now(DateTime.now());
+            updatePercentage();
+          });
         }
       }
     } catch (e) {}

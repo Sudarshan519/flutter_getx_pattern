@@ -9,6 +9,7 @@ import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/candidate_login/views/widgets/charts/line_chart.dart';
 import 'package:hajir/app/modules/candidate_login/views/widgets/clock_painter.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/app/utils/custom_paint/arc_painter.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
@@ -456,7 +457,9 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
           right: 0,
           child: SafeArea(
             child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(Routes.NOTIFICATIONS);
+                },
                 icon: SizedBox(
                     height: 24,
                     width: 24,
@@ -467,16 +470,22 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                           height: 24,
                           width: 24,
                         ),
-                        Positioned(
-                          top: 3,
-                          right: 0,
-                          child: Container(
-                            height: 8,
-                            width: 8,
-                            decoration: const BoxDecoration(
-                                color: Colors.red, shape: BoxShape.circle),
-                          ),
-                        ),
+                        Obx(
+                          () => dashboardController
+                                  .notificationController.notifications.isEmpty
+                              ? const SizedBox()
+                              : Positioned(
+                                  top: 3,
+                                  right: 0,
+                                  child: Container(
+                                    height: 8,
+                                    width: 8,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle),
+                                  ),
+                                ),
+                        )
                       ],
                     ))),
           ),

@@ -59,10 +59,11 @@ class ReportController extends GetxController {
   var selectedYear = 0.obs;
   var now = DateTime.now();
 
-  int yearlyTotal() {
-    int sum = 0;
+  double yearlyTotal() {
+    double sum = 0;
+    print(yearly);
     yearly['data'].forEach((e) {
-      sum = sum + int.parse(e['total_earning'] ?? 0);
+      sum = sum + double.parse(e['total_earning'] ?? '0');
     });
     return sum;
   }
@@ -91,7 +92,8 @@ class ReportController extends GetxController {
       loading(true);
       var result = await repository.getWeeklyReport();
       loading(false);
-      log(result.body);
+      print(result.body);
+      // log(result.body);
       weekly(result.body['data']);
       loadingSuccess(true);
     } catch (e) {
@@ -104,6 +106,7 @@ class ReportController extends GetxController {
     try {
       var result = await repository.getMonthlyReport();
       loadingSuccess(true);
+      // print(result.body);
       monthly(result.body['data']);
       log(result.body);
     } catch (e) {}
@@ -115,7 +118,7 @@ class ReportController extends GetxController {
       var result = await repository.getYearlyReport(selectedYear.toString());
       loadingSuccess(true);
       yearly(result.body['data']);
-      print(result.body);
+      // print(result.body);
     } catch (e) {}
   }
 
@@ -492,19 +495,52 @@ class Reports extends GetView<ReportController> {
                                                               27
                                                           : 7,
                                                       (index) => WeekDay(
-                                                          day: weekDay[index],
-                                                          isActive: controller
-                                                                  .loadingSuccess
-                                                                  .isTrue
-                                                              ? controller.weekly[
-                                                                      'weekdata ']
-                                                                  .containsKey(weekDay[index].capitalizeFirst)
-                                                              : false,
-                                                          date: dashBoardController.selectedWeek.value == 0
+                                                          day:
+                                                              getWeekDay(index),
+                                                          // isActive: controller
+                                                          //         .loadingSuccess
+                                                          //         .isTrue
+                                                          //     ? controller.now
+                                                          //                 .toString()
+                                                          //                 .substring(
+                                                          //                     0, 10) ==
+                                                          //             (7 + index)
+                                                          //         ? true
+                                                          //         : false
+                                                          //     : false,
+                                                          // isActive: controller
+                                                          //         .loadingSuccess
+                                                          //         .isTrue
+                                                          //     ? controller
+                                                          //         .weekly['weekdata']
+                                                          //             [getDateByIndex(index)]
+                                                          //         .contains('Late')
+                                                          //     // .values
+                                                          //     // [index]
+                                                          //     // .contains(
+                                                          //     //     'Late') //getDateByIndex(index))
+                                                          //     : true,
+                                                          // isActive: controller
+                                                          //         .loadingSuccess
+                                                          //         .isTrue
+                                                          //     ? controller.weekly[
+                                                          //             'weekdata ']
+                                                          //         .containsKey(weekDay[index].capitalizeFirst)
+                                                          //     : false,
+                                                          date: dashBoardController
+                                                                      .selectedWeek
+                                                                      .value ==
+                                                                  0
                                                               ? index + 1
-                                                              : dashBoardController.selectedWeek.value == 1
+                                                              : dashBoardController
+                                                                          .selectedWeek
+                                                                          .value ==
+                                                                      1
                                                                   ? (7 + index)
-                                                                  : dashBoardController.selectedWeek.value == 2
+                                                                  : dashBoardController
+                                                                              .selectedWeek
+                                                                              .value ==
+                                                                          2
                                                                       ? (14 + index)
                                                                       : dashBoardController.selectedWeek.value == 3
                                                                           ? (21 + index)
@@ -748,6 +784,39 @@ class Reports extends GetView<ReportController> {
         ),
       ),
     );
+  }
+
+  getDateByIndex(int index) {
+    final DashboardController dashBoardController = Get.find();
+    var date = dashBoardController.selectedWeek.value == 0
+        ? index + 1
+        : dashBoardController.selectedWeek.value == 1
+            ? (7 + index)
+            : dashBoardController.selectedWeek.value == 2
+                ? (14 + index)
+                : dashBoardController.selectedWeek.value == 3
+                    ? (21 + index)
+                    : dashBoardController.selectedWeek.value == 4
+                        ? (28 + index)
+                        : (32 + index);
+    return DateTime(now.year, now.month, date).toString().substring(0, 10);
+  }
+
+  getWeekDay(int index) {
+    final DashboardController dashBoardController = Get.find();
+    var date = dashBoardController.selectedWeek.value == 0
+        ? index + 1
+        : dashBoardController.selectedWeek.value == 1
+            ? (7 + index)
+            : dashBoardController.selectedWeek.value == 2
+                ? (14 + index)
+                : dashBoardController.selectedWeek.value == 3
+                    ? (21 + index)
+                    : dashBoardController.selectedWeek.value == 4
+                        ? (28 + index)
+                        : (32 + index);
+    return DateFormat('EEE').format(DateTime(now.year, now.month, date));
+    //weekDay[index];
   }
 }
 

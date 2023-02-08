@@ -4,11 +4,13 @@ import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
+import 'package:hajir/app/modules/notifications/controllers/notifications_controller.dart';
 import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
 
 class DashboardController extends GetxController {
   final attendanceApi = Get.find<AttendanceSystemProvider>();
+  final notificationController = Get.find<NotificationsController>();
   final count = 0.obs;
   final _isEmployed = false.obs;
   bool get isEmployed => _isEmployed.value;

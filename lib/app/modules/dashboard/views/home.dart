@@ -8,6 +8,7 @@ import 'package:hajir/app/modules/candidatecompanies/controllers/candidatecompan
 import 'package:hajir/app/modules/candidatecompanies/views/candidatecompanies_view.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:hajir/app/modules/dashboard/views/my_account.dart';
+import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 class Home extends StatelessWidget {
@@ -50,7 +51,9 @@ class Home extends StatelessWidget {
                               elevation: 0,
                               actions: [
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Get.toNamed(Routes.NOTIFICATIONS);
+                                    },
                                     icon: SizedBox(
                                         height: 24,
                                         width: 24,
@@ -250,32 +253,43 @@ class Home extends StatelessWidget {
                                 elevation: 0,
                                 actions: [
                                   IconButton(
-                                      onPressed: () {},
-                                      icon: SizedBox(
-                                          height: 24,
-                                          width: 24,
-                                          child: Stack(
-                                            children: [
-                                              SvgPicture.asset(
-                                                "assets/notification.svg",
-                                                height: 24,
-                                                width: 24,
-                                              ),
-                                              Positioned(
-                                                top: 3,
-                                                right: 0,
-                                                child: Container(
-                                                  height: 8,
-                                                  width: 8,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          color: Colors.red,
-                                                          shape:
-                                                              BoxShape.circle),
-                                                ),
-                                              ),
-                                            ],
-                                          ))),
+                                    onPressed: () {
+                                      Get.toNamed(Routes.NOTIFICATIONS);
+                                    },
+                                    icon: SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: Stack(
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/notification.svg",
+                                              height: 24,
+                                              width: 24,
+                                            ),
+                                            Obx(
+                                              () => controller
+                                                      .notificationController
+                                                      .notifications
+                                                      .isNotEmpty
+                                                  ? Positioned(
+                                                      top: 3,
+                                                      right: 0,
+                                                      child: Container(
+                                                        height: 8,
+                                                        width: 8,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: BoxShape
+                                                                    .circle),
+                                                      ),
+                                                    )
+                                                  : const SizedBox(),
+                                            )
+                                          ],
+                                        )),
+                                  ),
                                   const SizedBox(
                                     width: 20,
                                   )

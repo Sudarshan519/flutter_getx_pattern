@@ -72,8 +72,10 @@ class MyAccount extends StatelessWidget {
                           () => Text(
                             // !controller.isEmployed &&
                             controller.isEmployed && appSettings.employer
-                                ? "+977 ${controller.user.value.name}"
-                                : controller.user.value.name.toString(),
+                                ? "+977 ${controller.user.value.phone}"
+                                : controller.user.value.name == ""
+                                    ? "NA"
+                                    : controller.user.value.name.toString(),
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500),
                           ),
@@ -275,9 +277,6 @@ class MyAccount extends StatelessWidget {
                       fontSize: 24, fontWeight: FontWeight.w700),
                 ),
               ),
-              // const SizedBox(
-              //   height: 12,
-              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -305,9 +304,11 @@ class MyAccount extends StatelessWidget {
                         Obx(
                           () => Text(
                             // !controller.isEmployed &&
-                            controller.isEmployed && appSettings.employer
-                                ? "+977 ${controller.user.value.name}"
-                                : controller.user.value.name.toString(),
+                            controller.isEmployed
+                                ? "+977 ${controller.user.value.phone}"
+                                : controller.user.value.name == ""
+                                    ? "NA"
+                                    : controller.user.value.name.toString(),
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500),
                           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dart';
+import 'package:hajir/app/modules/dashboard/views/bottom_sheets/change_number.dart';
 import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
@@ -298,8 +299,8 @@ class _ProfileState extends State<Profile> {
                         ),
                         InkWell(
                           onTap: () {
-                            // Get.bottomSheet(const ChangeNumber(),
-                            //     isScrollControlled: true);
+                            Get.bottomSheet(const ChangeNumber(),
+                                isScrollControlled: true);
                           },
                           child: TextFormField(
                             enabled: false,

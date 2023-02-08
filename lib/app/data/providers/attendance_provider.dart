@@ -336,6 +336,40 @@ class AttendanceSystemProvider extends GetConnect {
     var result = await get(url, headers: globalHeaders);
     return parseRes(result);
   }
+
+  Future<BaseResponse> notifications() async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'candidate/notifications';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> markRead() async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'candidate/mark-notification-read';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> markSingleRead(String id) async {
+    var url = 'candidate/mark-singlenotification-read/$id';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  Future<BaseResponse> changePhoneNumber(var body) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'candidate/change-phonenumber';
+    var result = await post(url, body, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  Future changeEmployerPhone(var body) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/change-phonenumber';
+    var result = await post(url, body, headers: globalHeaders);
+    return parseRes(result);
+  }
 }
 
 parseRes(Response res) {

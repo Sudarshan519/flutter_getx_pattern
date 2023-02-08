@@ -30,6 +30,8 @@ import '../modules/missing_attendance/bindings/missing_attendance_binding.dart';
 import '../modules/missing_attendance/views/missing_attendance_view.dart';
 import '../modules/mobile_opt/bindings/mobile_opt_binding.dart';
 import '../modules/mobile_opt/views/mobile_opt_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
 import '../modules/welcome/bindings/welcome_binding.dart';
 import '../modules/welcome/views/welcome_view.dart';
 
@@ -123,6 +125,11 @@ class AppPages {
         dashboardController: Get.find(),
       ),
       binding: CandidatecompaniesBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATIONS,
+      page: () => const NotificationsView(),
+      binding: NotificationsBinding(),
     ),
   ];
 }

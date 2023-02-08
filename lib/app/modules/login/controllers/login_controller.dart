@@ -58,8 +58,8 @@ class LoginController extends GetxController {
 
           Get.toNamed(Routes.MOBILE_OPT,
               arguments: [isEmployer.value, phone.text]);
-          // Get.log(result.body['data']['otp']);
-          // Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
+          Get.log(result.body['data']['otp']);
+          Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
           loading(false);
         } else {
           log('candidate login');
@@ -70,8 +70,8 @@ class LoginController extends GetxController {
           loading(false);
           Get.toNamed(Routes.MOBILE_OPT,
               arguments: [isEmployer.value, phone.text]);
-          // Get.log(result.body['data']['otp']);
-          // Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
+          Get.log(result.body['data']['otp']);
+          Get.rawSnackbar(message: 'Your otp is ${result.body['data']['otp']}');
         }
       } on BadRequestException catch (e) {
         loading(false);

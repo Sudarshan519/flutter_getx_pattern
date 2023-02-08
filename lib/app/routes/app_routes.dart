@@ -19,6 +19,7 @@ abstract class Routes {
   static const MISSING_ATTENDANCE = _Paths.MISSING_ATTENDANCE;
   static const INITIAL = _Paths.INITIAL;
   static const CANDIDATECOMPANIES = _Paths.CANDIDATECOMPANIES;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
 }
 
 abstract class _Paths {
@@ -39,4 +40,5 @@ abstract class _Paths {
   static const MISSING_ATTENDANCE = '/missing-attendance';
   static const INITIAL = '/initial';
   static const CANDIDATECOMPANIES = '/candidatecompanies';
+  static const NOTIFICATIONS = '/notifications';
 }
