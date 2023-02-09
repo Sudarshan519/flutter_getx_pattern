@@ -305,10 +305,10 @@ class MyAccount extends StatelessWidget {
                           () => Text(
                             // !controller.isEmployed &&
                             controller.isEmployed
-                                ? "+977 ${controller.user.value.phone}"
-                                : controller.user.value.name == ""
+                                ? controller.user.value.name == ""
                                     ? "NA"
-                                    : controller.user.value.name.toString(),
+                                    : controller.user.value.name.toString()
+                                : "+977 ${controller.user.value.phone}",
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500),
                           ),

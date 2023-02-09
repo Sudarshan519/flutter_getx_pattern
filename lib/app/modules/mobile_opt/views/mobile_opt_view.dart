@@ -16,6 +16,7 @@ class MobileOptView extends GetView<MobileOptController> {
   const MobileOptView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // controller.resendCode();
     // var p1 = TextEditingController().text =
     //     controller.code.value.split(RegExp(r"[0-9]"))[0];
     // var p2 = TextEditingController().text = controller.code.value.split('')[1];

@@ -112,7 +112,7 @@ class MobileOptController extends GetxController {
 
         Get.back();
 
-        Get.rawSnackbar(message: "Something Went Wrong".toString());
+        Get.rawSnackbar(message: e.toString().toString());
       }
     }
   }

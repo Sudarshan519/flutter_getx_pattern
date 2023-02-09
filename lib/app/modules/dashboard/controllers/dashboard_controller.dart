@@ -59,10 +59,10 @@ class DashboardController extends GetxController {
     } on UnauthorisedException catch (e) {
       loading(false);
 
-      Get.rawSnackbar(title: e.message, message: e.details);
+      Get.rawSnackbar(title: e.message, message: e.details.toString());
     } on BadRequestException catch (e) {
       loading(false);
-      Get.rawSnackbar(title: e.message, message: e.details);
+      Get.rawSnackbar(title: e.message, message: e.details.toString());
     } catch (e) {
       Get.rawSnackbar(title: e.toString());
       handleExcpt(e);

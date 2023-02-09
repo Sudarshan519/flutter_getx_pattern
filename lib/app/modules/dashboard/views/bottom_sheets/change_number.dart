@@ -6,6 +6,7 @@ import 'package:hajir/app/modules/dashboard/controllers/dashboard_controller.dar
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
 import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/language/views/language_view.dart';
+import 'package:hajir/app/routes/app_pages.dart';
 import 'package:hajir/app/utils/validators.dart';
 import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
@@ -135,6 +136,10 @@ class ChangeNumber extends StatelessWidget {
                               controller.user.value.phone = phone.text;
                               Get.back();
                               Get.back();
+                              Get.toNamed(Routes.MOBILE_OPT, arguments: [
+                                appSettings.employer,
+                                phone.text
+                              ]);
                               Get.rawSnackbar(message: result.body.toString());
                             } catch (e) {
                               Get.rawSnackbar(message: e.toString());

@@ -5,6 +5,7 @@ import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/login/models/carousel_item.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/app/routes/app_pages.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 
 class LoginController extends GetxController {
@@ -34,7 +35,8 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     isEmployer(Get.arguments);
-    phone.text = isEmployer.value ? '9823457889' : '9841463556';
+    phone.text =
+        appSettings.phone; // isEmployer.value ? '9823457889' : '9841463556';
   }
 
   void increment() => _selectedItem.value++;

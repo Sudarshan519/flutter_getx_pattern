@@ -58,7 +58,7 @@ class ReportController extends GetxController {
   var selectedReportType = 0.obs;
   var selectedYear = 0.obs;
   var now = DateTime.now();
-
+  var list = [].obs;
   double yearlyTotal() {
     double sum = 0;
     print(yearly);
@@ -87,14 +87,34 @@ class ReportController extends GetxController {
     getYearlyReport();
   }
 
+  init() {
+    getWeeklyReport();
+    getMonthlyReport();
+    getYearlyReport();
+  }
+
   getWeeklyReport() async {
     try {
       loading(true);
       var result = await repository.getWeeklyReport();
+      // print(result.body['data']['weekdata']);
       loading(false);
-      print(result.body);
-      // log(result.body);
+      // log(result.body['data'].toString());
       weekly(result.body['data']);
+      // weekly({
+      //   'weekdata': {
+      //     '2022-02-05': 'Present',
+      //     '2022-02-06': 'Present',
+      //     '2022-02-07': 'Late',
+      //     '2022-02-08': 'Business Holiday',
+      //     '2022-02-09': 'Abscent',
+      //     '2022-02-10': 'Government Holiday',
+      //     '2022-02-11': 'Government Holiday',
+      //   }
+      // });
+
+      // weekly['weekdata'].entries.forEach((e) => list.add({e.key, e.value}));
+      // print(list);
       loadingSuccess(true);
     } catch (e) {
       loading(false);
@@ -108,6 +128,7 @@ class ReportController extends GetxController {
       loadingSuccess(true);
       // print(result.body);
       monthly(result.body['data']);
+
       log(result.body);
     } catch (e) {}
   }
@@ -135,7 +156,7 @@ class Reports extends GetView<ReportController> {
   Widget build(BuildContext context) {
     final DashboardController dashBoardController = Get.find();
     // controller.getYearlyReport();
-    // print(controller.weekly['weekdata ']);
+    // print(controller.list);
     // print(controller.yearly);
     // print(controller.monthly);
     // print(controller.yearlyTotal());
@@ -278,7 +299,7 @@ class Reports extends GetView<ReportController> {
                             ),
                             Obx(
                               () => Text(
-                                "Present [${controller.selectedReport == 0 ? controller.weekly['present'] : controller.monthly['presentCount']}]",
+                                "Present [${controller.selectedReport == 0 ? controller.weekly['present'] ?? 'NA' : controller.monthly['presentCount'] ?? 'NA'}]",
                                 style: AppTextStyles.medium.copyWith(
                                     fontSize: 11, color: Colors.green.shade700),
                               ),
@@ -358,7 +379,14 @@ class Reports extends GetView<ReportController> {
                                           fontSize: 12.sp),
                                     ),
                                   ),
-                                ),
+                                ), //     : true,
+                                // isActive: controller
+                                //         .loadingSuccess
+                                //         .isTrue
+                                //     ? controller.weekly[
+                                //             'weekdata ']
+                                //         .containsKey(weekDay[index].capitalizeFirst)
+                                //     : false,
                               ),
                             ))
                         : controller.selectedReport == 1
@@ -476,78 +504,116 @@ class Reports extends GetView<ReportController> {
                                     child: Obx(
                                       () => controller.loading.isTrue
                                           ? const CircularProgressIndicator()
-                                          : SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: List.generate(
-                                                      dashBoardController
-                                                                  .selectedWeek
-                                                                  .value ==
-                                                              4
-                                                          ? (DateTime(now.year, now.month + 1)
-                                                                  .difference(DateTime(
-                                                                      now.year,
-                                                                      now
-                                                                          .month))
-                                                                  .inDays) -
-                                                              27
-                                                          : 7,
-                                                      (index) => WeekDay(
-                                                          day:
-                                                              getWeekDay(index),
-                                                          // isActive: controller
-                                                          //         .loadingSuccess
-                                                          //         .isTrue
-                                                          //     ? controller.now
-                                                          //                 .toString()
-                                                          //                 .substring(
-                                                          //                     0, 10) ==
-                                                          //             (7 + index)
-                                                          //         ? true
-                                                          //         : false
-                                                          //     : false,
-                                                          // isActive: controller
-                                                          //         .loadingSuccess
-                                                          //         .isTrue
-                                                          //     ? controller
-                                                          //         .weekly['weekdata']
-                                                          //             [getDateByIndex(index)]
-                                                          //         .contains('Late')
-                                                          //     // .values
-                                                          //     // [index]
-                                                          //     // .contains(
-                                                          //     //     'Late') //getDateByIndex(index))
-                                                          //     : true,
-                                                          // isActive: controller
-                                                          //         .loadingSuccess
-                                                          //         .isTrue
-                                                          //     ? controller.weekly[
-                                                          //             'weekdata ']
-                                                          //         .containsKey(weekDay[index].capitalizeFirst)
-                                                          //     : false,
-                                                          date: dashBoardController
-                                                                      .selectedWeek
-                                                                      .value ==
-                                                                  0
-                                                              ? index + 1
-                                                              : dashBoardController
-                                                                          .selectedWeek
-                                                                          .value ==
-                                                                      1
-                                                                  ? (7 + index)
-                                                                  : dashBoardController
-                                                                              .selectedWeek
-                                                                              .value ==
-                                                                          2
-                                                                      ? (14 + index)
-                                                                      : dashBoardController.selectedWeek.value == 3
-                                                                          ? (21 + index)
-                                                                          : dashBoardController.selectedWeek.value == 4
-                                                                              ? (28 + index)
-                                                                              : (32 + index)))),
-                                            ),
+                                          : controller.loadingSuccess.isFalse
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    controller.init();
+                                                  },
+                                                  child:
+                                                      const Text('Try again'))
+                                              : SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      ...controller
+                                                          .weekly['weekdata']
+                                                          .entries
+                                                          .map((v) => WeekDay(
+                                                                data: v,
+                                                              )), // Text({
+                                                      //   v.key,
+                                                      //   v.value
+                                                      // }.toString())
+                                                      // Text(controller
+                                                      //     .weekly['weekdata']
+                                                      //     .entries
+                                                      //     .map((v) => {
+                                                      //           v.key,
+                                                      //           v.value
+                                                      //         }.toString())
+                                                      //     .toString())
+                                                      // controller.weekly['weekdata']
+                                                      //     .entries
+                                                      //     .forEach((e) => Text({
+                                                      //           e.key,
+                                                      //           e.value
+                                                      //         }.toString())),
+                                                    ]
+                                                    // .toList()
+                                                    ,
+                                                    // children: List.generate(
+                                                    //     dashBoardController
+                                                    //                 .selectedWeek
+                                                    //                 .value ==
+                                                    //             4
+                                                    //         ? (DateTime(now.year, now.month + 1)
+                                                    //                 .difference(DateTime(
+                                                    //                     now.year,
+                                                    //                     now
+                                                    //                         .month))
+                                                    //                 .inDays) -
+                                                    //             27
+                                                    //         : 7,
+                                                    //     (index) => WeekDay(
+                                                    //         day:
+                                                    //             getWeekDay(index),
+                                                    //         isActive: false,
+
+                                                    //         // isActive: controller
+                                                    //         //         .loadingSuccess
+                                                    //         //         .isTrue
+                                                    //         //     ? controller.now
+                                                    //         //                 .toString()
+                                                    //         //                 .substring(
+                                                    //         //                     0, 10) ==
+                                                    //         //             (7 + index)
+                                                    //         //         ? true
+                                                    //         //         : false
+                                                    //         //     : false,
+                                                    //         // isActive: controller
+                                                    //         //         .loadingSuccess
+                                                    //         //         .isTrue
+                                                    //         //     ? controller
+                                                    //         //         .weekly['weekdata']
+                                                    //         //             [getDateByIndex(index)]
+                                                    //         //         .contains('Late')
+                                                    //         //     // .values
+                                                    //         //     // [index]
+                                                    //         //     // .contains(
+                                                    //         //     //     'Late') //getDateByIndex(index))
+                                                    //         //     : true,
+                                                    //         // isActive: controller
+                                                    //         //         .loadingSuccess
+                                                    //         //         .isTrue
+                                                    //         //     ? controller.weekly[
+                                                    //         //             'weekdata ']
+                                                    //         //         .containsKey(weekDay[index].capitalizeFirst)
+                                                    //         //     : false,
+                                                    //         date: dashBoardController
+                                                    //                     .selectedWeek
+                                                    //                     .value ==
+                                                    //                 0
+                                                    //             ? index + 1
+                                                    //             : dashBoardController
+                                                    //                         .selectedWeek
+                                                    //                         .value ==
+                                                    //                     1
+                                                    //                 ? (7 + index)
+                                                    //                 : dashBoardController
+                                                    //                             .selectedWeek
+                                                    //                             .value ==
+                                                    //                         2
+                                                    //                     ? (14 + index)
+                                                    //                     : dashBoardController.selectedWeek.value == 3
+                                                    //                         ? (21 + index)
+                                                    //                         : dashBoardController.selectedWeek.value == 4
+                                                    //                             ? (28 + index)
+                                                    //                             : (32 + index)))
+                                                  ),
+                                                ),
                                     ),
                                   ),
                                 ],
@@ -583,57 +649,61 @@ class Reports extends GetView<ReportController> {
                   Obx(() => controller.selectedReport == 2
                       ? controller.loading.isTrue
                           ? const CircularProgressIndicator()
-                          : Column(
-                              children: [
-                                ...List.generate(
-                                  controller.yearly['data'].length,
-                                  (i) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: DescriptionItem(
-                                        label: DateFormat('MMMM')
-                                            .format(DateTime(2023, i + 1)),
-                                        value:
-                                            '${controller.yearly['data'][i]['total_earning']} '),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                const Divider(
-                                  thickness: 1,
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
+                          : controller.loadingSuccess.isFalse
+                              ? InkWell(
+                                  onTap: () => controller.init(),
+                                  child: const Text('Try again'))
+                              : Column(
                                   children: [
-                                    Text(
-                                      "Total",
-                                      style: AppTextStyles().large.copyWith(
-                                          fontSize: 14,
-                                          color: AppColors.primary),
+                                    ...List.generate(
+                                      controller.yearly['data'].length,
+                                      (i) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: DescriptionItem(
+                                            label: DateFormat('MMMM')
+                                                .format(DateTime(2023, i + 1)),
+                                            value:
+                                                '${controller.yearly['data'][i]['total_earning']} '),
+                                      ),
                                     ),
-                                    const Spacer(),
-                                    Text(
-                                      "${controller.yearlyTotal()}/-",
-                                      style: AppTextStyles().large.copyWith(
-                                          fontSize: 14,
-                                          color: AppColors.primary),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Divider(
+                                      thickness: 1,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Total",
+                                          style: AppTextStyles().large.copyWith(
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          "${controller.yearlyTotal()}/-",
+                                          style: AppTextStyles().large.copyWith(
+                                              fontSize: 14,
+                                              color: AppColors.primary),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Divider(
+                                      thickness: 1,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
                                     ),
                                   ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                const Divider(
-                                  thickness: 1,
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            )
+                                )
                       : Column(
                           children: [
                             DescriptionItem(label: strings.salary, value: ' '),
@@ -845,60 +915,77 @@ class DescriptionItem extends StatelessWidget {
 
 class WeekDay extends StatelessWidget {
   const WeekDay(
-      {Key? key,
-      required this.day,
-      required this.date,
-      this.onPressed,
-      this.isActive})
+      {Key? key, this.data, this.day, this.date, this.onPressed, this.isActive})
       : super(key: key);
-  final String day;
-  final int date;
-  final isActive;
+  final String? day;
+  final int? date;
+  final bool? isActive;
   final onPressed;
-  bool isLeave() {
-    var leave = (day == "SUN" || day == "SAT") ? true : false;
-    return leave;
-  }
+  final data;
 
   @override
   Widget build(BuildContext context) {
     bool isEmployer = isActive != null;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Text(
-            day,
-            style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w600,
-                color: isEmployer
-                    ? isActive
-                        ? Colors.green
-                        : isLeave()
-                            ? Colors.red
-                            : Colors.grey
-                    : Colors.green),
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          Text(
-            date.toString(),
-            style: TextStyle(
-              fontSize: 10.sp,
-              fontWeight: FontWeight.w600,
-              color: isEmployer
-                  ? isActive
-                      ? Colors.green
-                      : isLeave()
-                          ? Colors.red
-                          : Colors.grey
-                  : Colors.green,
+    // print(now.day);
+    // print(day);
+    var thisday = DateFormat('EEE').format(DateTime.parse(data.key));
+    bool isLeave() {
+      var leave = (thisday == "Sun" || thisday == "Sat") ? true : false;
+      return leave;
+    }
+
+    var textStyle = TextStyle(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.w600,
+        color: isLeave()
+            ? Colors.red
+            : data.value.contains('Holiday')
+                ? Colors.red
+                : data.value == 'Present' || data.value == 'Late'
+                    ? Colors.green
+                    : Colors.grey);
+    return Tooltip(
+      message: data.value,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              thisday,
+              style: textStyle,
+              // style: TextStyle(
+              //     fontSize: 10.sp,
+              //     fontWeight: FontWeight.w600,
+              //     color: isEmployer
+              //         ? isActive
+              //             ? Colors.green
+              //             : isLeave()
+              //                 ? Colors.red
+              //                 : Colors.grey
+              //         : Colors.green),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 6,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  border: now.day.toString() == day
+                      ? Border.all(color: Colors.green)
+                      : null),
+              child: Text(data.key.toString().split('-').last, style: textStyle
+                  //   color: isEmployer
+                  //       ? isActive
+                  //           ? Colors.green
+                  //           : isLeave()
+                  //               ? Colors.red
+                  //               : Colors.grey
+                  //       : Colors.green,
+                  // ),
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
