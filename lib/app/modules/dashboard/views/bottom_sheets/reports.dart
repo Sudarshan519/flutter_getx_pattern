@@ -915,7 +915,13 @@ class DescriptionItem extends StatelessWidget {
 
 class WeekDay extends StatelessWidget {
   const WeekDay(
-      {Key? key, this.data, this.day, this.date, this.onPressed, this.isActive})
+      {Key? key,
+      this.data =
+          const MapEntry('2022-03-01', 'Present'), //{'2022-03-01': 'Present'},
+      this.day,
+      this.date,
+      this.onPressed,
+      this.isActive})
       : super(key: key);
   final String? day;
   final int? date;
@@ -926,6 +932,7 @@ class WeekDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isEmployer = isActive != null;
+
     // print(now.day);
     // print(day);
     var thisday = DateFormat('EEE').format(DateTime.parse(data.key));

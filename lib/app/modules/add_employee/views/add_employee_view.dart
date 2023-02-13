@@ -77,6 +77,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             TextFormField(
               controller: controller.phone,
               validator: validatePhone,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -95,6 +96,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             ),
             TextFormField(
               controller: controller.address,
+              keyboardType: TextInputType.number,
               validator: (v) => confirmPassword(
                   password: v!,
                   cPassword: controller.phone.text,
@@ -571,6 +573,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
               items: const ['monthly', 'Part Time'],
             ),
             CustomFormField(
+                num: true,
                 controller: controller.salaryAmount,
                 validator: validateIsEmpty,
                 title: "Salary Amount",
@@ -635,6 +638,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                   child: Row(children: [
                     Expanded(
                       child: TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: controller.dutyTime,
                         validator: validateIsEmpty,
                         decoration: const InputDecoration(
@@ -780,12 +784,14 @@ class CustomFormField extends StatelessWidget {
       required this.hint,
       this.validator,
       this.isMultiline = false,
+      this.num = false,
       this.controller});
   final String title;
   final String hint;
   final bool isMultiline;
   final controller;
   final validator;
+  final bool num;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -795,6 +801,7 @@ class CustomFormField extends StatelessWidget {
               validator: validator,
               controller: controller,
               maxLines: isMultiline ? 5 : 1,
+              keyboardType: num ? TextInputType.number : TextInputType.text,
               decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -817,6 +824,7 @@ class CustomFormField extends StatelessWidget {
                 height: 20,
               ),
               TextFormField(
+                keyboardType: num ? TextInputType.number : TextInputType.text,
                 validator: validator,
                 controller: controller,
                 maxLines: isMultiline ? 5 : 1,

@@ -105,7 +105,7 @@ class CandidatecompaniesView extends GetView<CandidatecompaniesController> {
                                                       text: "OfficeTime [  "),
                                                   TextSpan(
                                                       text:
-                                                          "${e['office_hour_start'].toString().substring(0, 5)} AM - ${e['office_hour_end'].toString().substring(0, 5)} PM",
+                                                          "${e['office_hour_start']?.toString().substring(0, 5) ?? "NA"} AM - ${e['office_hour_end']?.toString().substring(0, 5) ?? "NA"} PM",
                                                       style: AppTextStyles.b2
                                                           .copyWith(
                                                               color: AppColors

@@ -13,7 +13,7 @@ class EmployeeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
-    print(controller.emplist.length);
+    // print(controller.emplist.length);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.r),
       child: Column(
@@ -158,10 +158,11 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                   children: [
                     Text(
                         widget.isEmployee
-                            ? widget.controller.emplist[widget.index]['contact']
+                            ? widget.controller.emplist[widget.index]['name'] ??
+                                "NA"
                             : widget.controller.invitationlist[widget.index]
                                     ['phone'] ??
-                                '',
+                                'NA',
                         style: const TextStyle(
                           fontSize: 15,
                         )),
@@ -170,10 +171,13 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                     ),
                     Text(
                       widget.isEmployee
-                          ? widget.controller.emplist[widget.index]['contact']
+                          ? widget.controller.emplist[widget.index]['email'] ??
+                              "NA".toString() ??
+                              "NA"
                           : widget.controller.invitationlist[widget.index]
-                                  ['candidatedetails']['code'] ??
-                              '',
+                                  ['candidatedetails']?['email'] ??
+                              "NA".toString() ??
+                              'NA',
                       // "RT00${widget.index + 1}",
                       style: const TextStyle(color: Colors.grey, fontSize: 11),
                     ),

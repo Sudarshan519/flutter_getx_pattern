@@ -332,7 +332,7 @@ class AttendanceSystemProvider extends GetConnect {
 
   Future<BaseResponse> allCandidates(String companyId) async {
     globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
-    var url = 'employer/candidate/get-candidates/8';
+    var url = 'employer/candidate/get-candidates/$companyId';
     var result = await get(url, headers: globalHeaders);
     return parseRes(result);
   }

@@ -18,7 +18,7 @@ class AddEmployeeController extends GetxController {
   final dob = ''.obs;
   final count = 0.obs;
   final email = TextEditingController();
-  var officeHourStart = '8:00'.obs;
+  var officeHourStart = '08:00'.obs;
   var officeHourEnd = '18:00'.obs;
   final salaryType = TextEditingController()..text = 'monthly';
   final joiningDate = DateTime.now().toIso8601String().substring(0, 10).obs;

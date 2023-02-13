@@ -14,7 +14,7 @@ class Attendance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
-
+    // controller.employerReport['late'] = '1';
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 16),
       child: Column(
@@ -45,18 +45,19 @@ class Attendance extends StatelessWidget {
               children: [
                 AttendanceItem(
                     label: strings.attendee,
-                    value:
-                        controller.employerReport['total_attendee'].toString(),
+                    value: controller.employerReport['total_attendee'] ??
+                        "NA".toString(),
                     color: const Color.fromRGBO(0, 128, 0, .1),
                     borderColor: const Color.fromRGBO(0, 128, 0, .05)),
                 AttendanceItem(
                     label: strings.absent,
-                    value: controller.employerReport['absent'].toString(),
+                    value:
+                        controller.employerReport['absent'] ?? "NA".toString(),
                     color: const Color.fromRGBO(255, 80, 80, 0.1),
                     borderColor: const Color.fromRGBO(255, 80, 80, 0.05)),
                 AttendanceItem(
                   label: strings.late,
-                  value: controller.employerReport['late'].toString(),
+                  value: controller.employerReport['late'] ?? "NA".toString(),
                   color: const Color.fromRGBO(128, 128, 128, 0.1),
                   borderColor: const Color.fromRGBO(128, 128, 128, 0.05),
                 ),

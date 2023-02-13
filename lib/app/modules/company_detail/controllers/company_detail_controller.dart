@@ -5,6 +5,7 @@ import 'package:hajir/app/modules/company_detail/provider/employer_report_provid
 import 'package:hajir/app/modules/employer_dashboard/models/company.dart';
 import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
+import 'package:hajir/core/app_settings/shared_pref.dart';
 
 class CompanyDetailController extends GetxController {
   final selectedItem = 1.obs;
@@ -26,10 +27,12 @@ class CompanyDetailController extends GetxController {
   var employerReport = {}.obs;
   final attendanceApi = Get.find<AttendanceSystemProvider>();
   final EmployerReportProvider repository = Get.find();
+  var selectedCompany = '0'.obs;
   @override
   void onInit() {
     super.onInit();
     company(Get.arguments);
+    selectedCompany(Get.parameters['company_id'].toString());
     params(Get.parameters);
     getallCandidates();
   }
@@ -37,14 +40,15 @@ class CompanyDetailController extends GetxController {
   void increment() => selectedItem.value++;
   getallCandidates() async {
     loading(true);
-    var companyId = (Get.parameters['company_id']);
+    appSettings.companyId = selectedCompany.value;
+    var companyId = selectedCompany; //(Get.parameters['company_id']);
     try {
       var allInvitations =
           await attendanceApi.getAllInvitationList(companyId.toString());
-
+      // attendanceApi.getallCandidates(appSettings.companyId);
       var employeeList =
           await attendanceApi.allCandidates(companyId.toString());
-      print(employeeList.body['data']['candidate']);
+
       emplist(employeeList.body['data']['candidate']);
       loading(false);
       getEmployerReport();
