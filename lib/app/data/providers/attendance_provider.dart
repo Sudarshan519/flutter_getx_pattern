@@ -370,6 +370,41 @@ class AttendanceSystemProvider extends GetConnect {
     var result = await post(url, body, headers: globalHeaders);
     return parseRes(result);
   }
+
+  Future<BaseResponse> getEmployerWeeklyReport() async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/change-phonenumber';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  getInactiveCandidates(String companyId) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/report/today/inactive-candidate/$companyId';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  getActiveCandidates(String companyId) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/report/today/active-candidate/$companyId';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  getCandidateWeeklyReport(String id, String compId) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/report/weekly-report/$compId/$id';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  getCandidateMonthlyReport(id, compId) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/report/monthly-report/$compId/$id';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
 }
 
 parseRes(Response res) {

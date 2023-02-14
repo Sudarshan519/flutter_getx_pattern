@@ -212,13 +212,16 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                       InkWell(
                         borderRadius: BorderRadius.circular(4),
                         onTap: () {
-                          var candidateId = (widget
-                              .controller
-                              .invitationlist[widget.index]['candidatedetails']
-                                  ['id']
-                              .toString());
-                          if (widget.controller.loading.isFalse) {
-                            widget.controller.sendInvitation(candidateId);
+                          if (widget.isEmployee) {
+                          } else {
+                            // print(widget.controller.invitationlist[widget.index]
+                            //     ['id']);
+                            var candidateId = (widget
+                                .controller.invitationlist[widget.index]['id']
+                                .toString());
+                            if (widget.controller.loading.isFalse) {
+                              widget.controller.sendInvitation(candidateId);
+                            }
                           }
                         },
                         child: Row(

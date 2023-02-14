@@ -25,9 +25,13 @@ class CompanyDetailController extends GetxController {
   var emplist = [].obs;
   var params = {}.obs;
   var employerReport = {}.obs;
+  var inactiveCandidates = {}.obs;
+  var attendanceLoading = false.obs;
+  var activeCandidates = {}.obs;
   final attendanceApi = Get.find<AttendanceSystemProvider>();
   final EmployerReportProvider repository = Get.find();
   var selectedCompany = '0'.obs;
+  var loadingFailed = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -43,24 +47,29 @@ class CompanyDetailController extends GetxController {
     appSettings.companyId = selectedCompany.value;
     var companyId = selectedCompany; //(Get.parameters['company_id']);
     try {
-      var allInvitations =
-          await attendanceApi.getAllInvitationList(companyId.toString());
       // attendanceApi.getallCandidates(appSettings.companyId);
       var employeeList =
           await attendanceApi.allCandidates(companyId.toString());
-
-      emplist(employeeList.body['data']['candidate']);
+      if (employeeList.body['data'] is Map) {
+        emplist(employeeList.body['data']['candidate']);
+      } else {
+        loadingFailed(true);
+      }
       loading(false);
       getEmployerReport();
+      var allInvitations =
+          await attendanceApi.getAllInvitationList(companyId.value.toString());
       invitationlist(allInvitations.body['data']['users']);
     } on BadRequestException catch (e) {
+      loadingFailed(true);
       loading(false);
-      Get.rawSnackbar(title: e.message, message: e.details);
+      Get.rawSnackbar(
+          title: e.message.toString(), message: e.details.toString());
     } catch (e) {
       log(e.toString());
       loading(false);
-
-      Get.rawSnackbar(message: "Something Went Wrong".toString());
+      loadingFailed(true);
+      Get.rawSnackbar(message: "Something Went Wrong ".toString());
     }
   }
 
@@ -130,15 +139,46 @@ class CompanyDetailController extends GetxController {
   }
 
   getEmployerReport() async {
+    employerReport.clear();
     try {
       loading(true);
+      attendanceLoading(true);
       var result =
           await repository.getEmployerReport(Get.parameters['company_id']!);
       employerReport(result.body['data']['employee']);
       loading(false);
+      attendanceLoading(false);
     } catch (e) {
+      attendanceLoading(false);
       loading(false);
+      loadingFailed(true);
       Get.rawSnackbar(message: e.toString());
+    }
+  }
+
+  void getInactiveCandidates() async {
+    attendanceLoading(true);
+    try {
+      var result =
+          await attendanceApi.getInactiveCandidates(selectedCompany.value);
+      attendanceLoading(false);
+      employerReport['candidates'] = result.body['data']['candidates'];
+    } catch (e) {
+      loadingFailed(true);
+      attendanceLoading(false);
+    }
+  }
+
+  void getActiveCandidates() async {
+    attendanceLoading(true);
+    try {
+      var result =
+          await attendanceApi.getActiveCandidates(selectedCompany.value);
+      attendanceLoading(false);
+      employerReport['candidates'] = result.body['data']['candidates'];
+    } catch (e) {
+      loadingFailed(true);
+      attendanceLoading(false);
     }
   }
 }

@@ -242,161 +242,167 @@ class Home extends StatelessWidget {
                             ),
                           ],
                         )
-                      : SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              AppBar(
-                                leading: const SizedBox(),
-                                backgroundColor: Colors.white,
-                                elevation: 0,
-                                actions: [
-                                  IconButton(
-                                    onPressed: () {
-                                      Get.toNamed(Routes.NOTIFICATIONS);
-                                    },
-                                    icon: SizedBox(
-                                        height: 24,
-                                        width: 24,
+                      : candidatecompaniesController
+                              .candidateCompanies.isNotEmpty
+                          ? CandidatecompaniesView(
+                              dashboardController: controller,
+                            )
+                          : SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  AppBar(
+                                    leading: const SizedBox(),
+                                    backgroundColor: Colors.white,
+                                    elevation: 0,
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Get.toNamed(Routes.NOTIFICATIONS);
+                                        },
+                                        icon: SizedBox(
+                                            height: 24,
+                                            width: 24,
+                                            child: Stack(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  "assets/notification.svg",
+                                                  height: 24,
+                                                  width: 24,
+                                                ),
+                                                Obx(
+                                                  () => controller
+                                                          .notificationController
+                                                          .notifications
+                                                          .isNotEmpty
+                                                      ? Positioned(
+                                                          top: 3,
+                                                          right: 0,
+                                                          child: Container(
+                                                            height: 8,
+                                                            width: 8,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                          ),
+                                                        )
+                                                      : const SizedBox(),
+                                                )
+                                              ],
+                                            )),
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      )
+                                    ],
+                                  ),
+                                  // SizedBox(
+                                  //   width: double.infinity,
+                                  //   height:
+                                  //       controller.invitationlist.isNotEmpty ? (9) : 125,
+                                  // ),
+                                  // if (controller.invitationlist.isNotEmpty)
+                                  //   AnimatedContainer(
+                                  //     duration: 300.milliseconds,
+                                  //     curve: Curves.ease,
+                                  //     child: Column(
+                                  //       children: [
+                                  //         Align(
+                                  //           alignment: Alignment.topRight,
+                                  //           child: Container(
+                                  //             margin: const EdgeInsets.only(right: 16),
+                                  //             height: 63,
+                                  //             width: 228.67,
+                                  //             padding: const EdgeInsets.all(14),
+                                  //             decoration: BoxDecoration(
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(5.92),
+                                  //                 color: Colors.white,
+                                  //                 boxShadow: [
+                                  //                   BoxShadow(
+                                  //                       color: Colors.grey.shade300,
+                                  //                       blurRadius: 1)
+                                  //                 ]),
+                                  //             child: RichText(
+                                  //                 text: TextSpan(children: [
+                                  //               TextSpan(
+                                  //                   text: !appSettings.isEnglish
+                                  //                       ? strings.removed.split(" ").first
+                                  //                       : strings.removed,
+                                  //                   style: Theme.of(context)
+                                  //                       .textTheme
+                                  //                       .bodyMedium),
+                                  //               TextSpan(
+                                  //                   text: " Rasan Technologies ",
+                                  //                   style: Theme.of(context)
+                                  //                       .textTheme
+                                  //                       .bodyMedium!
+                                  //                       .copyWith(
+                                  //                           fontWeight: FontWeight.w700)),
+                                  //               TextSpan(
+                                  //                   text: strings.company,
+                                  //                   style: Theme.of(context)
+                                  //                       .textTheme
+                                  //                       .bodyMedium),
+                                  //               TextSpan(
+                                  //                   text: !appSettings.isEnglish
+                                  //                       ? ("${strings.removed.replaceAll("${strings.removed.split(" ").first} ", " ")}।")
+                                  //                       : "",
+                                  //                   style: Theme.of(context)
+                                  //                       .textTheme
+                                  //                       .bodyMedium),
+                                  //             ])),
+                                  //           ),
+                                  //         ),
+                                  //         const SizedBox(
+                                  //           height: 29,
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  if (controller.invitationlist.isEmpty)
+                                    SizedBox(
+                                        height: 160.48 + 26.52,
+                                        width: 173.85,
                                         child: Stack(
                                           children: [
-                                            SvgPicture.asset(
-                                              "assets/notification.svg",
-                                              height: 24,
-                                              width: 24,
+                                            Positioned(
+                                              top: 17,
+                                              child: Image.asset(
+                                                "assets/Group 89.png",
+                                                height: 170,
+                                                width: 170,
+                                              ),
                                             ),
-                                            Obx(
-                                              () => controller
-                                                      .notificationController
-                                                      .notifications
-                                                      .isNotEmpty
-                                                  ? Positioned(
-                                                      top: 3,
-                                                      right: 0,
-                                                      child: Container(
-                                                        height: 8,
-                                                        width: 8,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                                color:
-                                                                    Colors.red,
-                                                                shape: BoxShape
-                                                                    .circle),
-                                                      ),
-                                                    )
-                                                  : const SizedBox(),
-                                            )
+                                            SvgPicture.asset(
+                                              "assets/Group 115(1).svg",
+                                              height: 160.48,
+                                              width: 173.85,
+                                            ),
                                           ],
                                         )),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  )
+                                  if (controller.loading.isTrue)
+                                    const Center(
+                                        child: CircularProgressIndicator()),
+                                  if (controller.invitationlist.isNotEmpty)
+                                    const SizedBox()
+                                  else ...[
+                                    const SizedBox(
+                                      height: 76,
+                                    ),
+                                    Text(
+                                      strings.not_invited_to_company,
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
+                                    ),
+                                  ]
                                 ],
                               ),
-                              // SizedBox(
-                              //   width: double.infinity,
-                              //   height:
-                              //       controller.invitationlist.isNotEmpty ? (9) : 125,
-                              // ),
-                              // if (controller.invitationlist.isNotEmpty)
-                              //   AnimatedContainer(
-                              //     duration: 300.milliseconds,
-                              //     curve: Curves.ease,
-                              //     child: Column(
-                              //       children: [
-                              //         Align(
-                              //           alignment: Alignment.topRight,
-                              //           child: Container(
-                              //             margin: const EdgeInsets.only(right: 16),
-                              //             height: 63,
-                              //             width: 228.67,
-                              //             padding: const EdgeInsets.all(14),
-                              //             decoration: BoxDecoration(
-                              //                 borderRadius:
-                              //                     BorderRadius.circular(5.92),
-                              //                 color: Colors.white,
-                              //                 boxShadow: [
-                              //                   BoxShadow(
-                              //                       color: Colors.grey.shade300,
-                              //                       blurRadius: 1)
-                              //                 ]),
-                              //             child: RichText(
-                              //                 text: TextSpan(children: [
-                              //               TextSpan(
-                              //                   text: !appSettings.isEnglish
-                              //                       ? strings.removed.split(" ").first
-                              //                       : strings.removed,
-                              //                   style: Theme.of(context)
-                              //                       .textTheme
-                              //                       .bodyMedium),
-                              //               TextSpan(
-                              //                   text: " Rasan Technologies ",
-                              //                   style: Theme.of(context)
-                              //                       .textTheme
-                              //                       .bodyMedium!
-                              //                       .copyWith(
-                              //                           fontWeight: FontWeight.w700)),
-                              //               TextSpan(
-                              //                   text: strings.company,
-                              //                   style: Theme.of(context)
-                              //                       .textTheme
-                              //                       .bodyMedium),
-                              //               TextSpan(
-                              //                   text: !appSettings.isEnglish
-                              //                       ? ("${strings.removed.replaceAll("${strings.removed.split(" ").first} ", " ")}।")
-                              //                       : "",
-                              //                   style: Theme.of(context)
-                              //                       .textTheme
-                              //                       .bodyMedium),
-                              //             ])),
-                              //           ),
-                              //         ),
-                              //         const SizedBox(
-                              //           height: 29,
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              if (controller.invitationlist.isEmpty)
-                                SizedBox(
-                                    height: 160.48 + 26.52,
-                                    width: 173.85,
-                                    child: Stack(
-                                      children: [
-                                        Positioned(
-                                          top: 17,
-                                          child: Image.asset(
-                                            "assets/Group 89.png",
-                                            height: 170,
-                                            width: 170,
-                                          ),
-                                        ),
-                                        SvgPicture.asset(
-                                          "assets/Group 115(1).svg",
-                                          height: 160.48,
-                                          width: 173.85,
-                                        ),
-                                      ],
-                                    )),
-                              if (controller.loading.isTrue)
-                                const Center(
-                                    child: CircularProgressIndicator()),
-                              if (controller.invitationlist.isNotEmpty)
-                                const SizedBox()
-                              else ...[
-                                const SizedBox(
-                                  height: 76,
-                                ),
-                                Text(
-                                  strings.not_invited_to_company,
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                              ]
-                            ],
-                          ),
-                        ),
+                            ),
         ),
       ),
     );

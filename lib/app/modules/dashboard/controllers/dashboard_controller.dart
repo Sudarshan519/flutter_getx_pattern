@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:hajir/app/data/models/user.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/data/providers/network/api_provider.dart';
+import 'package:hajir/app/modules/candidatecompanies/controllers/candidatecompanies_controller.dart';
 import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 import 'package:hajir/app/modules/mobile_opt/controllers/mobile_opt_controller.dart';
 import 'package:hajir/app/modules/notifications/controllers/notifications_controller.dart';
@@ -28,6 +29,7 @@ class DashboardController extends GetxController {
   set isInvited(bool isUserInvited) => _isInvited(true);
 
   var selectedWeek = 0.obs;
+  final CandidatecompaniesController candidatecompaniesController = Get.find();
   // var selectedReport = 0.obs;
 
   var selectedMonth = 0.obs;
@@ -83,9 +85,11 @@ class DashboardController extends GetxController {
       }
       var res = await attendanceApi.candidateInvitations();
 
-      print(res.body);
+      // print(res.body);
       invitationlist(res.body['data']['candidateInvitations']);
-
+      // if (invitationlist.isEmpty) {
+      //   candidatecompaniesController.getCompanies();
+      // }
       loading(false);
       // var invitation = invitationlist
       //     .firstWhereOrNull((element) => element['status'] == 'Approved');

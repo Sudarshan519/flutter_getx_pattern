@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/data/providers/attendance_provider.dart';
+import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/add_employee/views/add_employee_view.dart';
 import 'package:hajir/app/modules/candidate_login/views/widgets/custom_paint/circular_progress_paint.dart';
 import 'package:hajir/app/modules/dashboard/views/bottom_sheets/profile.dart';
@@ -12,6 +14,53 @@ import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashbo
 import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
+
+class MonthlyReportsController extends GetxController {
+  var dailyReport = {}.obs;
+  var weeklyReport = {}.obs;
+  var monthlyReport = {}.obs;
+  var yearlyReport = {}.obs;
+  var loading = false.obs;
+  final AttendanceSystemProvider attendanceApi = Get.find();
+  @override
+  onInit() {
+    super.onInit();
+
+    getDailyReport();
+    getWeeklyReport(Get.arguments);
+    getMonthlyReport();
+    getYearlyReport();
+  }
+
+  void getDailyReport() {}
+
+  void getWeeklyReport(String empId) async {
+    loading(true);
+    try {
+      var result = await attendanceApi.getEmployerWeeklyReport();
+      weeklyReport(result.body['data']);
+    } on UnauthorisedException catch (e) {
+      loading(false);
+
+      Get.rawSnackbar(title: e.message, message: e.details);
+    } on BadRequestException catch (e) {
+      loading(false);
+      // Get.back();
+
+      Get.rawSnackbar(title: e.message, message: e.details);
+    } catch (e) {
+      loading(false);
+
+      // Get.back();
+
+      Get.rawSnackbar(message: "Something Went Wrong".toString());
+    }
+  }
+
+  void getMonthlyReport() {}
+
+  void getYearlyReport() {}
+}
 
 class MonthlyReports extends StatelessWidget {
   const MonthlyReports({super.key});

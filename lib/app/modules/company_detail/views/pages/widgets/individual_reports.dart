@@ -1,10 +1,10 @@
- 
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
 import 'package:hajir/app/config/app_text_styles.dart';
+import 'package:hajir/app/data/providers/attendance_provider.dart';
 import 'package:hajir/app/modules/add_employee/views/add_employee_view.dart';
 import 'package:hajir/app/modules/candidate_login/views/widgets/custom_paint/circular_progress_paint.dart';
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
@@ -14,12 +14,44 @@ import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
 import 'package:intl/intl.dart';
 
+class IndividualReportController extends GetxController {
+  final AttendanceSystemProvider attendanceApi = Get.find();
+  final CompanyDetailController detailController = Get.find();
+  var weeklyReport = {}.obs;
+  var monthlyReport = {}.obs;
+  var loading = false.obs;
+  getWeeklyReport(String id, String compId) async {
+    loading(true);
+    weeklyReport['weekdata '] = {};
+    try {
+      var result = await attendanceApi.getCandidateWeeklyReport(id, compId);
+      weeklyReport(result.body['data']);
+    } catch (e) {}
+    loading(false);
+    // print(result.body['data']);
+  }
+
+  getMonthlyReport(id, compId) async {
+    var result = await attendanceApi.getCandidateMonthlyReport(id, compId);
+  }
+
+  @override
+  onInit() {
+    super.onInit();
+    getWeeklyReport(
+        Get.arguments['id'].toString(), detailController.selectedCompany.value);
+    getMonthlyReport(
+        Get.arguments['id'].toString(), detailController.selectedCompany.value);
+  }
+}
+
 class IndividualReport extends StatelessWidget {
   const IndividualReport({super.key});
 
   @override
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
+    final individualReportController = Get.put(IndividualReportController());
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16),
       child: AppBottomSheet(
@@ -44,14 +76,14 @@ class IndividualReport extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Nitesh Shrestha",
+                      Get.arguments['name'] ?? "NA",
                       style: AppTextStyles.normal,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
-                      "RT001",
+                      Get.arguments['code'] ?? "NA",
                       style: AppTextStyles.normal.copyWith(fontSize: 11),
                     ),
                   ],
@@ -98,116 +130,127 @@ class IndividualReport extends StatelessWidget {
               height: 20,
             ),
             Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: ReportsButton(
-                        onPressed: () {
-                          controller.selectedReport(5);
-                        },
-                        active:
-                            controller.selectedReport.value == 5 ? true : false,
-                        label: strings.daily),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: ReportsButton(
-                        onPressed: () {
-                          controller.selectedReport(0);
-                        },
-                        active:
-                            controller.selectedReport.value == 0 ? true : false,
-                        label: strings.weekly),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: ReportsButton(
-                        active:
-                            controller.selectedReport.value == 1 ? true : false,
-                        onPressed: () {
-                          controller.selectedReport(1);
-                        },
-                        label: strings.monthly),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: ReportsButton(
-                        active:
-                            controller.selectedReport.value == 2 ? true : false,
-                        onPressed: () {
-                          controller.selectedReport(2);
-                        },
-                        label: strings.annual),
-                  ),
-                ],
-              ),
+              () => individualReportController.loading.isTrue
+                  ? const CircularProgressIndicator()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: ReportsButton(
+                              onPressed: () {
+                                controller.selectedReport(5);
+                              },
+                              active: controller.selectedReport.value == 5
+                                  ? true
+                                  : false,
+                              label: strings.daily),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: ReportsButton(
+                              onPressed: () {
+                                controller.selectedReport(0);
+                              },
+                              active: controller.selectedReport.value == 0
+                                  ? true
+                                  : false,
+                              label: strings.weekly),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: ReportsButton(
+                              active: controller.selectedReport.value == 1
+                                  ? true
+                                  : false,
+                              onPressed: () {
+                                controller.selectedReport(1);
+                              },
+                              label: strings.monthly),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: ReportsButton(
+                              active: controller.selectedReport.value == 2
+                                  ? true
+                                  : false,
+                              onPressed: () {
+                                controller.selectedReport(2);
+                              },
+                              label: strings.annual),
+                        ),
+                      ],
+                    ),
             ),
             const SizedBox(
               height: 24,
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-              Row(
-                children: [
-                  Container(
-                    height: 8,
-                    width: 8,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.green.shade800),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "${strings.present.split(" ").first} [4]",
-                    style: AppTextStyles.medium
-                        .copyWith(fontSize: 11, color: Colors.green.shade700),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 8,
-                    width: 8,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.grey),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "${strings.absent} [1]",
-                    style: AppTextStyles.medium
-                        .copyWith(fontSize: 11, color: Colors.grey),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 8,
-                    width: 8,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.red),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "Leave [1]",
-                    style: AppTextStyles.medium
-                        .copyWith(fontSize: 11, color: Colors.red),
-                  ),
-                ],
-              ),
-            ]),
+            Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 8,
+                            width: 8,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.green.shade800),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Obx(
+                            () => Text(
+                              "${strings.present.split(" ").first} [${individualReportController.weeklyReport['present']}]",
+                              style: AppTextStyles.medium.copyWith(
+                                  fontSize: 11, color: Colors.green.shade700),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            height: 8,
+                            width: 8,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.grey),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "${strings.absent} [${individualReportController.weeklyReport['absent']}]",
+                            style: AppTextStyles.medium
+                                .copyWith(fontSize: 11, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            height: 8,
+                            width: 8,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Leave [${individualReportController.weeklyReport['leave']}]",
+                            style: AppTextStyles.medium
+                                .copyWith(fontSize: 11, color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    ])),
             const SizedBox(
               height: 20,
             ),
@@ -350,39 +393,51 @@ class IndividualReport extends StatelessWidget {
                                 () => SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: List.generate(
-                                          controller.selectedWeek.value == 4
-                                              ? 3
-                                              : 7,
-                                          (index) => WeekDay(
-                                              isActive:
-                                                  (index == 2) ? true : false,
-                                              onPressed: () {},
-                                              day: weekDay[index],
-                                              date: controller
-                                                          .selectedWeek.value ==
-                                                      0
-                                                  ? index + 1
-                                                  : controller.selectedWeek
-                                                              .value ==
-                                                          1
-                                                      ? (7 + index)
-                                                      : controller.selectedWeek
-                                                                  .value ==
-                                                              2
-                                                          ? (14 + index)
-                                                          : controller.selectedWeek
-                                                                      .value ==
-                                                                  3
-                                                              ? (21 + index)
-                                                              : controller.selectedWeek
-                                                                          .value ==
-                                                                      4
-                                                                  ? (28 + index)
-                                                                  : (32 +
-                                                                      index)))),
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      ...individualReportController
+                                          .weeklyReport['weekdata '].entries
+                                          .map((e) => WeekDay(
+                                                data: e,
+                                              ))
+                                    ],
+                                    // children: List.generate(
+                                    //     controller.selectedWeek.value == 4
+                                    //         ? 3
+                                    //         : 7,
+                                    //     (index) => WeekDay(
+
+                                    //         data: individualReportController
+                                    //             .weeklyReport['weekdata']
+                                    //             .entries[index],
+                                    //         isActive:
+                                    //             (index == 2) ? true : false,
+                                    //         onPressed: () {},
+                                    //         day: weekDay[index],
+                                    //         date: controller
+                                    //                     .selectedWeek.value ==
+                                    //                 0
+                                    //             ? index + 1
+                                    //             : controller.selectedWeek
+                                    //                         .value ==
+                                    //                     1
+                                    //                 ? (7 + index)
+                                    //                 : controller.selectedWeek
+                                    //                             .value ==
+                                    //                         2
+                                    //                     ? (14 + index)
+                                    //                     : controller.selectedWeek
+                                    //                                 .value ==
+                                    //                             3
+                                    //                         ? (21 + index)
+                                    //                         : controller.selectedWeek
+                                    //                                     .value ==
+                                    //                                 4
+                                    //                             ? (28 + index)
+                                    //                             : (32 +
+                                    //                                 index),),
+                                    // ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -485,8 +540,7 @@ class IndividualReport extends StatelessWidget {
                                             width: 30.5,
                                           ),
                                           const Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 6.0),
+                                            padding: EdgeInsets.only(left: 6.0),
                                             child: Text(
                                               "70 %",
                                               style: TextStyle(
@@ -558,7 +612,7 @@ class IndividualReport extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      Obx(() => controller.selectedReport == 2
+                      Obx(() => controller.selectedReport.value == 2
                           ? Column(
                               children: [
                                 ...List.generate(
@@ -641,7 +695,8 @@ class IndividualReport extends StatelessWidget {
                                             height: 5,
                                           ),
                                           DescriptionItem(
-                                              label: strings.tax, value: '6000'),
+                                              label: strings.tax,
+                                              value: '6000'),
                                           const SizedBox(
                                             height: 5,
                                           ),

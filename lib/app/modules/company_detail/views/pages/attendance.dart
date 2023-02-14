@@ -98,6 +98,7 @@ class Attendance extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         controller.selected = 0;
+                        controller.getEmployerReport();
                       },
                       child: Container(
                           alignment: Alignment.center,
@@ -118,6 +119,7 @@ class Attendance extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         controller.selected = 1;
+                        controller.getActiveCandidates();
                       },
                       child: Container(
                           alignment: Alignment.center,
@@ -138,6 +140,7 @@ class Attendance extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         controller.selected = 2;
+                        controller.getInactiveCandidates();
                       },
                       child: Container(
                           alignment: Alignment.center,
@@ -163,7 +166,7 @@ class Attendance extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => controller.loading.value
+              () => controller.attendanceLoading.value
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       itemCount: controller.employerReport['candidates'] != null
@@ -176,6 +179,9 @@ class Attendance extends StatelessWidget {
                               onTap: () {
                                 Get.bottomSheet(
                                   const IndividualReport(),
+                                  settings: RouteSettings(
+                                      arguments: controller
+                                          .employerReport['candidates'][i]),
                                   isScrollControlled: true,
                                 );
                               },
@@ -197,9 +203,9 @@ class Attendance extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(controller
-                                                  .employerReport['candidates']
-                                              [i]['name']),
+                                          Text(controller.employerReport[
+                                                  'candidates'][i]['name'] ??
+                                              "NA"),
                                           const SizedBox(
                                             height: 5,
                                           ),
@@ -219,10 +225,14 @@ class Attendance extends StatelessWidget {
                                         style: ElevatedButton.styleFrom(
                                             elevation: 0,
                                             backgroundColor: controller
-                                                                .employerReport[
-                                                            'candidates'][i]
-                                                        ['status'] ==
-                                                    'Present'
+                                                                    .employerReport[
+                                                                'candidates'][i]
+                                                            ['status'] ==
+                                                        "Active" ||
+                                                    controller.employerReport[
+                                                                'candidates'][i]
+                                                            ['status'] ==
+                                                        'Present'
                                                 ? Colors.green.shade800
                                                 : controller.employerReport[
                                                                 'candidates'][i]
