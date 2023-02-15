@@ -412,6 +412,7 @@ parseRes(Response res) {
   // logRequest(res.request!.url.path, res.body.toString());
   // }
   log(res.request!.url.toString());
+
   log(res.body.toString());
   switch (res.statusCode) {
     case 200:

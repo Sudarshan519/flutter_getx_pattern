@@ -61,14 +61,14 @@ class CompanyDetailController extends GetxController {
           await attendanceApi.getAllInvitationList(companyId.value.toString());
       invitationlist(allInvitations.body['data']['users']);
     } on BadRequestException catch (e) {
-      loadingFailed(true);
+      // loadingFailed(true);
       loading(false);
       Get.rawSnackbar(
           title: e.message.toString(), message: e.details.toString());
     } catch (e) {
       log(e.toString());
       loading(false);
-      loadingFailed(true);
+      // loadingFailed(true);
       Get.rawSnackbar(message: "Something Went Wrong ".toString());
     }
   }
@@ -145,7 +145,7 @@ class CompanyDetailController extends GetxController {
       attendanceLoading(true);
       var result =
           await repository.getEmployerReport(Get.parameters['company_id']!);
-      employerReport(result.body['data']['employee']);
+      employerReport(result.body['data']);
       loading(false);
       attendanceLoading(false);
     } catch (e) {

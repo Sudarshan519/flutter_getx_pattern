@@ -1,11 +1,88 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+
+// import 'package:easyqrimage/easyqrimage.dart';
+import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:hajir/app/config/app_text_styles.dart';
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
+import 'package:hajir/app/modules/language/views/language_view.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
+
+Future<String?> _scan() async {
+  await Permission.camera.request();
+  String? barcode = await scanner.scan();
+  if (barcode == null) {
+    print('nothing return.');
+  } else {
+    return barcode;
+  }
+  return null;
+}
+
+Future<String?> _scanPhoto() async {
+  await Permission.storage.request();
+  String barcode = await scanner.scanPhoto();
+  return barcode;
+}
+
+Future<String?> _scanPath(String path) async {
+  await Permission.storage.request();
+  String barcode = await scanner.scanPath(path);
+  return barcode;
+}
+
+Future<File?> _scanBytes() async {
+  File file =
+      await ImagePicker().getImage(source: ImageSource.camera).then((picked) {
+    if (picked == null) {}
+    return File(picked!.path);
+  });
+  Uint8List bytes = file.readAsBytesSync();
+  String barcode = await scanner.scanBytes(bytes);
+  barcode;
+  return null;
+}
+
+Future<Uint8List> _generateBarCode(String inputCode) async {
+  Uint8List result = await scanner.generateBarCode(inputCode);
+  return result;
+}
+
+Future<void> _captureAndSharePng(key) async {
+  await Future.delayed(const Duration(milliseconds: 20));
+  try {
+    RenderRepaintBoundary boundary = key.currentContext.findRenderObject();
+    var image = await boundary.toImage();
+    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+    Uint8List? pngBytes = byteData?.buffer.asUint8List();
+
+    final tempDir = await getTemporaryDirectory();
+    final file = await File('${tempDir.path}/image.png').create();
+    await file.writeAsBytes(pngBytes!);
+    // var res = await _scanPath(file.path);
+    // print(res);
+    await Share.file(
+        "Employee Info",
+        'emp-${DateTime.now().millisecondsSinceEpoch}.png',
+        pngBytes,
+        'image/png');
+  } catch (e) {
+    print(e.toString());
+  }
+}
 
 class EmployeeList extends StatelessWidget {
   const EmployeeList({super.key});
@@ -13,6 +90,7 @@ class EmployeeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
+    controller.selected = controller.selected == 0 ? 1 : controller.selected;
     // print(controller.emplist.length);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.r),
@@ -27,19 +105,134 @@ class EmployeeList extends StatelessWidget {
           //   width: 200,
           //   child: CustomPaint(painter: ArcPainter(percentage: .5)),
           // ),
-          Text(
-            strings.employee_list,
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    strings.employee_list,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    controller.company.value.name ?? "",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: Colors.grey.shade600),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                  onPressed: () async {
+                    var resp = await _scanPhoto();
+                    var candidateInfo = jsonDecode(resp!);
+                    Get.dialog(AlertDialog(
+                      content: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          const Text("Name"),
+                          Text(candidateInfo['name'] ?? "NA"),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          const Text("Phone"),
+                          Text(candidateInfo['phone'] ?? "NA"),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          const Text("Email"),
+                          Text(candidateInfo['email'] ?? "NA"),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          CustomButton(
+                              onPressed: () {
+                                var candidateId =
+                                    candidateInfo['id'].toString();
+
+                                controller.sendInvitation(candidateId);
+                                Get.back();
+                              },
+                              label: "Send Invitation"),
+                        ],
+                      ),
+                    ));
+                  },
+                  icon: const Icon(CupertinoIcons.barcode_viewfinder))
+            ],
           ),
           const SizedBox(
-            height: 8,
+            height: 20,
           ),
-          Text(
-            controller.company.value.name ?? "",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                color: Colors.grey.shade600),
+          Container(
+            height: 38.h,
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7.r),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Color.fromRGBO(236, 237, 240, 1), blurRadius: 2)
+                ],
+                color: const Color.fromRGBO(236, 237, 240, 1)),
+            child: Obx(
+              () => Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.selected = 1;
+                      },
+                      child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.r),
+                              color: controller.selected == 1
+                                  ? Colors.white
+                                  : Colors.transparent),
+                          height: 34.h,
+                          width: double.infinity,
+                          child: Text(
+                            strings.active,
+                            style: AppTextStyles.b2,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.selected = 2;
+                      },
+                      child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7.r),
+                              color: controller.selected == 2
+                                  ? Colors.white
+                                  : Colors.transparent),
+                          height: 32.h,
+                          width: double.infinity,
+                          child: Text(
+                            strings.inactive,
+                            style: AppTextStyles.b2,
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           const SizedBox(
             height: 20,
@@ -52,45 +245,48 @@ class EmployeeList extends StatelessWidget {
                       onRefresh: () async => controller.getallCandidates(),
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: controller.emplist.length,
+                        itemCount: controller.selected == 2
+                            ? controller.invitationlist.length
+                            : controller.emplist.length,
                         itemBuilder: ((context, index) => EmployeeWidget(
                             controller: controller,
                             index: index,
-                            isEmployee: true)),
+                            isEmployee:
+                                controller.selected == 2 ? false : true)),
                       ),
                     ),
             ),
           ),
-          const SizedBox(
-            height: 40,
-          ),
-          const Text(
-            "All Candidates", // strings.employee_list,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          // Text(
-          //   controller.company.value.name ?? "",
-          //   style: TextStyle(
-          //       fontWeight: FontWeight.w400,
-          //       fontSize: 16,
-          //       color: Colors.grey.shade600),
-          // ),
+          //   const SizedBox(
+          //     height: 40,
+          //   ),
+          //   const Text(
+          //     "All Candidates", // strings.employee_list,
+          //     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+          //   ),
+          //   const SizedBox(
+          //     height: 8,
+          //   ),
+          //   // Text(
+          //   //   controller.company.value.name ?? "",
+          //   //   style: TextStyle(
+          //   //       fontWeight: FontWeight.w400,
+          //   //       fontSize: 16,
+          //   //       color: Colors.grey.shade600),
+          //   // ),
 
-          Expanded(
-            child: Obx(
-              () => controller.loading.value
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: controller.invitationlist.length,
-                      itemBuilder: ((context, index) =>
-                          EmployeeWidget(controller: controller, index: index)),
-                    ),
-            ),
-          ),
+          //   Expanded(
+          //     child: Obx(
+          //       () => controller.loading.value
+          //           ? const Center(child: CircularProgressIndicator())
+          //           : ListView.builder(
+          //               physics: const AlwaysScrollableScrollPhysics(),
+          //               itemCount: controller.invitationlist.length,
+          //               itemBuilder: ((context, index) =>
+          //                   EmployeeWidget(controller: controller, index: index)),
+          //             ),
+          //     ),
+          //   ),
         ],
       ),
     );
@@ -114,6 +310,7 @@ class EmployeeWidget extends StatefulWidget {
 
 class _EmployeeWidgetState extends State<EmployeeWidget> {
   var isExpanded = false;
+  final GlobalKey globalKey = GlobalKey();
   changeCardState() {
     isExpanded = !isExpanded;
     setState(() {});
@@ -121,14 +318,21 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isEmployee) {
+      isExpanded = false;
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: () {
-          changeCardState();
+          if (widget.isEmployee) {
+          } else {
+            changeCardState();
+          }
         },
         child: Container(
+          alignment: Alignment.center,
           height: isExpanded ? 142 : 70,
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -137,6 +341,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
               border: Border.all(color: Colors.grey.shade300)),
           // margin: const EdgeInsets.only(bottom: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -238,7 +443,59 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                         ),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            var data = await _generateBarCode(jsonEncode(widget
+                                .controller.invitationlist[widget.index]));
+                            Get.bottomSheet(
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(18),
+                                    topRight: Radius.circular(18)),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 18.0),
+                                  color: Colors.white,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      RepaintBoundary(
+                                          key: globalKey,
+                                          child: Image.memory(data)),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 18.0),
+                                        child: CustomButton(
+                                            onPressed: () {
+                                              _captureAndSharePng(globalKey);
+                                            },
+                                            label: "Share"),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              isScrollControlled: true,
+                              // ClipRRect(
+                              //   borderRadius: const BorderRadius.only(
+                              //       topLeft: Radius.circular(18),
+                              //       topRight: Radius.circular(18)),
+                              //   child: QrGenerator(
+                              //       globalKey: globalKey,
+                              //       data: jsonEncode(widget.controller
+                              //           .invitationlist[widget.index])),
+                              // ),
+                            );
+                            // _captureAndSharePng(globalKey);
+                          },
                           icon: SvgPicture.asset(
                               "assets/material-symbols_qr-code-2.svg")),
                       InkWell(
@@ -275,3 +532,57 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
     );
   }
 }
+
+// class QrGenerator extends StatelessWidget {
+//   const QrGenerator({Key? key, required this.globalKey, required this.data})
+//       : super(key: key);
+
+//   final GlobalKey<State<StatefulWidget>> globalKey;
+//   final String data;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: Colors.white,
+//       child: AppBottomSheet(
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           mainAxisAlignment: MainAxisAlignment.end,
+//           children: [
+//             const SizedBox(
+//               height: 20,
+//             ),
+//             RepaintBoundary(
+//               key: globalKey,
+//               child: EasyQRImage(
+//                 data: data, //Required
+//                 size: 280, //Optional
+//                 color: Colors.black, //Optional
+//                 backgroundColor: Colors.white, //Optional
+//                 margin: 5, //Optional
+//                 quietZone: 4, //Optional
+//                 format: Formats.png, //Optional
+//                 charsetSource: Charsets.UTF8, //Optional
+//                 charsetTarget: Charsets.UTF8, //Optional
+//                 ECC: Ecc.High, //Optional
+//               ),
+//             ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            //   child: CustomButton(
+            //       onPressed: () {
+            //         _captureAndSharePng(globalKey);
+            //       },
+            //       label: "Share"),
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -89,7 +89,6 @@ class LanguageView extends GetView<LanguageController> {
                       ),
                       CustomButton(
                           onPressed: () {
-                            
                             appSettings.changeLang();
                             Get.offNamed(Routes.WELCOME);
                           },

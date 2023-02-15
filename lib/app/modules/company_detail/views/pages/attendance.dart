@@ -45,19 +45,20 @@ class Attendance extends StatelessWidget {
               children: [
                 AttendanceItem(
                     label: strings.attendee,
-                    value: controller.employerReport['total_attendee'] ??
-                        "NA".toString(),
+                    value:
+                        controller.employerReport['total_attendee'].toString(),
                     color: const Color.fromRGBO(0, 128, 0, .1),
                     borderColor: const Color.fromRGBO(0, 128, 0, .05)),
                 AttendanceItem(
                     label: strings.absent,
-                    value:
-                        controller.employerReport['absent'] ?? "NA".toString(),
+                    value: controller.employerReport['absent'].toString() ??
+                        "NA".toString(),
                     color: const Color.fromRGBO(255, 80, 80, 0.1),
                     borderColor: const Color.fromRGBO(255, 80, 80, 0.05)),
                 AttendanceItem(
                   label: strings.late,
-                  value: controller.employerReport['late'] ?? "NA".toString(),
+                  value: controller.employerReport['late'].toString() ??
+                      "NA".toString(),
                   color: const Color.fromRGBO(128, 128, 128, 0.1),
                   borderColor: const Color.fromRGBO(128, 128, 128, 0.05),
                 ),
@@ -211,7 +212,8 @@ class Attendance extends StatelessWidget {
                                           ),
                                           Text(
                                             controller.employerReport[
-                                                'candidates'][i]['code'],
+                                                    'candidates'][i]['code'] ??
+                                                "NA",
                                             style: const TextStyle(
                                                 color: Colors.grey),
                                           ),
@@ -242,54 +244,13 @@ class Attendance extends StatelessWidget {
                                                     : Colors.red),
                                         onPressed: () {},
                                         child: Text(
-                                          controller
-                                                  .employerReport['candidates']
-                                              [i]['status'],
-                                          // strings.present
-                                          //     .split(" ")
-                                          //     .first
-                                          //     .toUpperCase(),
+                                          controller.employerReport[
+                                                  'candidates'][i]['status'] ??
+                                              "NA",
                                           style: const TextStyle(fontSize: 7),
                                         ),
                                       ),
                                     ),
-                                    // const SizedBox(
-                                    //   width: 8,
-                                    // ),
-                                    // SizedBox(
-                                    //   height: 20.r,
-                                    //   width: 60.r,
-                                    //   child: ElevatedButton(
-                                    //     style: ElevatedButton.styleFrom(
-                                    //         elevation: 0,
-                                    //         backgroundColor: Colors.red),
-                                    //     onPressed: () {},
-                                    //     child: Text(
-                                    //       strings.present
-                                    //           .split(" ")
-                                    //           .last
-                                    //           .toUpperCase(),
-                                    //       style: const TextStyle(fontSize: 7),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // SizedBox(
-                                    //   width: 6.w,
-                                    // ),
-                                    // SizedBox(
-                                    //   height: 20.r,
-                                    //   width: 60.r,
-                                    //   child: ElevatedButton(
-                                    //     style: ElevatedButton.styleFrom(
-                                    //         elevation: 0,
-                                    //         backgroundColor: Colors.grey.shade400),
-                                    //     onPressed: () {},
-                                    //     child: Text(
-                                    //       strings.leave,
-                                    //       style: TextStyle(fontSize: 7.sp),
-                                    //     ),
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
