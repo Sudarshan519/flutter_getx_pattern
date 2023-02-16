@@ -56,10 +56,11 @@ class CompanyDetailController extends GetxController {
         loadingFailed(true);
       }
       loading(false);
-      getEmployerReport();
+     
       var allInvitations =
           await attendanceApi.getAllInvitationList(companyId.value.toString());
       invitationlist(allInvitations.body['data']['users']);
+       getEmployerReport();
     } on BadRequestException catch (e) {
       // loadingFailed(true);
       loading(false);
