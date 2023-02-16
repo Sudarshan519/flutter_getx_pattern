@@ -52,6 +52,7 @@ class AddEmployeeController extends GetxController {
       ..overTime = overTime.text;
     try {
       showLoading();
+      print(candidate.toJson());
       await attendaceApi.addCandidate(candidate.toJson(), args.value);
       Get.back();
       Get.back();
