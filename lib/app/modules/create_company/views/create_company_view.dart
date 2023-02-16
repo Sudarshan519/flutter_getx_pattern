@@ -35,6 +35,13 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
               const SizedBox(
                 height: 20,
               ),
+              Text(
+                "Company Name",
+                style: AppTextStyles.l1.copyWith(color: AppColors.primary),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 controller: controller.name,
                 validator: validateIsEmpty,
@@ -60,6 +67,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                 controller: controller.email,
               ),
               CustomFormField(
+                num: true,
                 hint: '',
                 title: "Phone",
                 validator: validatePhone,
@@ -580,6 +588,42 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                   //   ),
                   // ]),
                   ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: CustomDropDownField(
+                        icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                        onChanged: (String? v) {
+                          controller.sickLeaveType(v!);
+                        },
+                        title: 'Sick leave allowed',
+                        hint: 'Please select',
+                        items: const ['Weekly', 'Monthly', 'Yearly']),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                      width: 60,
+                      child: CustomFormField(
+                          num: true,
+                          hint: '1',
+                          onChanged: (String? v) =>
+                              controller.sickLeaveDays(v!)))
+                ],
+              ),
+              CustomDropDownField(
+                  onChanged: (String? v) {
+                    controller.probationPeroid(v!);
+                  },
+                  title: 'Probation peroid',
+                  hint: 'Please select',
+                  items: const ['1 Month', '3 Months', '6 Months']),
               const SizedBox(
                 height: 20,
               ),

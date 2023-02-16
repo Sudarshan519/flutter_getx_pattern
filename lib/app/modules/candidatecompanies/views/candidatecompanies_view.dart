@@ -17,6 +17,7 @@ class CandidatecompaniesView extends GetView<CandidatecompaniesController> {
   @override
   Widget build(BuildContext context) {
     final DashboardController dashboardController = Get.find();
+
     return ListView(
       children: [
         RPadding(
@@ -27,7 +28,7 @@ class CandidatecompaniesView extends GetView<CandidatecompaniesController> {
           ),
         ),
         Obx(
-          () => controller.loading.isTrue || dashboardController.loading.isTrue
+          () => controller.loading.isTrue
               ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: controller.candidateCompanies
@@ -39,9 +40,11 @@ class CandidatecompaniesView extends GetView<CandidatecompaniesController> {
                             borderRadius: BorderRadius.circular(8),
                             onTap: () {
                               var id = e['id'].toString();
-                              print(id);
-                              dashboardController.changeCompany(id);
 
+                              dashboardController.companySelected = (id);
+                              dashboardController.isCompanySelected(true);
+
+                              // Get.back();
                               // Get.toNamed(Routes.COMPANY_DETAIL,
                               //     arguments: controller.companyList[index],
                               //     parameters: {

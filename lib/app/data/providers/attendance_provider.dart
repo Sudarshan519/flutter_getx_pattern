@@ -405,6 +405,14 @@ class AttendanceSystemProvider extends GetConnect {
     var result = await get(url, headers: globalHeaders);
     return parseRes(result);
   }
+
+  getOverAllDailyReport({required String companyId, required int type}) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url =
+        'employer/report/${type == 5 ? 'daily' : type == 0 ? 'weekly' : type == 1 ? 'monthly' : 'yearly'}/$companyId';
+    var result = await get(url, headers: globalHeaders);
+    return parseRes(result);
+  }
 }
 
 parseRes(Response res) {

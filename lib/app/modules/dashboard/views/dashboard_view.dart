@@ -33,17 +33,15 @@ class DashboardView extends GetView<DashboardController> {
       bottomNavigationBar: Obx(() => BottomNavigationBar(
               onTap: (i) {
                 if (i == 0) {
+                  controller.isCompanySelected(false);
                   controller.companySelected = '';
                   controller.selectedIndex = i;
-                } else if (controller.companySelected != '' && i == 1) {
-                  controller.isEmployed
-                      ? Get.bottomSheet(
-                          const Material(
-                              color: Colors.white, child: ApplyLeave()),
-                          isScrollControlled: true)
-                      : Get.rawSnackbar(
-                          message: "No employment details found.");
+                } else if (controller.isCompanySelected.isTrue && i == 1) {
+                  Get.bottomSheet(
+                      const Material(color: Colors.white, child: ApplyLeave()),
+                      isScrollControlled: true);
                 } else if (controller.companySelected == '' && i == 1) {
+                  Get.rawSnackbar(message: "No employment details found.");
                 } else {
                   controller.selectedIndex = i;
                 }

@@ -51,25 +51,28 @@ class CompanyDetailController extends GetxController {
       var employeeList =
           await attendanceApi.allCandidates(companyId.toString());
       if (employeeList.body['data'] is Map) {
+        // if (employeeList.body['data']['candidate'].length is int) {
         emplist(employeeList.body['data']['candidate']);
+        // } else {
+        //   Get.rawSnackbar(message: 'Format Exception');
+        // }
       } else {
         loadingFailed(true);
       }
-      loading(false);
-     
+
       var allInvitations =
           await attendanceApi.getAllInvitationList(companyId.value.toString());
-      invitationlist(allInvitations.body['data']['users']);
-       getEmployerReport();
+      invitationlist(allInvitations.body['data']['candidate']);
+      getEmployerReport();
     } on BadRequestException catch (e) {
-      // loadingFailed(true);
+      loadingFailed(true);
       loading(false);
       Get.rawSnackbar(
           title: e.message.toString(), message: e.details.toString());
     } catch (e) {
       log(e.toString());
       loading(false);
-      // loadingFailed(true);
+      loadingFailed(true);
       Get.rawSnackbar(message: "Something Went Wrong ".toString());
     }
   }
@@ -166,7 +169,7 @@ class CompanyDetailController extends GetxController {
       employerReport['candidates'] = result.body['data']['candidates'];
     } catch (e) {
       loadingFailed(true);
-      attendanceLoading(false);
+      // attendanceLoading(false);
     }
   }
 
@@ -179,7 +182,7 @@ class CompanyDetailController extends GetxController {
       employerReport['candidates'] = result.body['data']['candidates'];
     } catch (e) {
       loadingFailed(true);
-      attendanceLoading(false);
+      // attendanceLoading(false);
     }
   }
 }

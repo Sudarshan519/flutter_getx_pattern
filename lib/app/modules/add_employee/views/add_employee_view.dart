@@ -726,6 +726,7 @@ class CustomDropDownField extends StatelessWidget {
   const CustomDropDownField(
       {super.key,
       required this.title,
+      this.icon,
       this.value,
       required this.hint,
       this.onChanged,
@@ -734,6 +735,7 @@ class CustomDropDownField extends StatelessWidget {
   final List<String> items;
   final String hint;
   final String? value;
+  final Widget? icon;
   final onChanged;
   @override
   Widget build(BuildContext context) {
@@ -750,6 +752,10 @@ class CustomDropDownField extends StatelessWidget {
             height: 20,
           ),
           DropdownButtonFormField(
+            isExpanded: true,
+            icon: const Icon(
+              Icons.keyboard_arrow_down,
+            ),
             value: value,
             items: items
                 .map((e) => DropdownMenuItem(
@@ -778,19 +784,21 @@ class CustomDropDownField extends StatelessWidget {
 }
 
 class CustomFormField extends StatelessWidget {
-  const CustomFormField(
+  CustomFormField(
       {super.key,
       this.title = "",
       required this.hint,
       this.validator,
       this.isMultiline = false,
       this.num = false,
+      this.onChanged,
       this.controller});
   final String title;
   final String hint;
   final bool isMultiline;
   final controller;
   final validator;
+  void Function(String)? onChanged;
   final bool num;
   @override
   Widget build(BuildContext context) {
@@ -798,6 +806,7 @@ class CustomFormField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: title == ""
           ? TextFormField(
+              onChanged: ((value) => onChanged),
               validator: validator,
               controller: controller,
               maxLines: isMultiline ? 5 : 1,
@@ -824,6 +833,7 @@ class CustomFormField extends StatelessWidget {
                 height: 20,
               ),
               TextFormField(
+                onChanged: ((value) => onChanged),
                 keyboardType: num ? TextInputType.number : TextInputType.text,
                 validator: validator,
                 controller: controller,

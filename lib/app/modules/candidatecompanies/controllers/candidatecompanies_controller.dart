@@ -24,7 +24,7 @@ class CandidatecompaniesController extends GetxController {
     } catch (e) {
       Get.rawSnackbar(message: e.toString());
     }
-    loading(false);
+   loading(false);
     // print(result.body);
   }
 }

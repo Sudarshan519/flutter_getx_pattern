@@ -15,9 +15,10 @@ class DashboardController extends GetxController {
   final count = 0.obs;
   final _isEmployed = false.obs;
   bool get isEmployed => _isEmployed.value;
-  final _selectedCompany = ''.obs;
-  String get companySelected => _selectedCompany.value;
-  set companySelected(String id) => _selectedCompany(id);
+  final selectedCompany = ''.obs;
+  final isCompanySelected = false.obs;
+  String get companySelected => selectedCompany.value;
+  set companySelected(String id) => selectedCompany(id);
   set isEmployed(bool userEmploymentStatus) =>
       _isEmployed(userEmploymentStatus);
   final _selectedIndex = 0.obs;
@@ -88,7 +89,7 @@ class DashboardController extends GetxController {
       // print(res.body);
       invitationlist(res.body['data']['candidateInvitations']);
       if (invitationlist.isEmpty) {
-        candidatecompaniesController.getCompanies();
+        // candidatecompaniesController.getCompanies();
       }
       loading(false);
       // var invitation = invitationlist
@@ -120,14 +121,14 @@ class DashboardController extends GetxController {
       if (Get.isSnackbarOpen) {
         await Get.closeCurrentSnackbar();
       }
-      print(invitationId);
+
       var res = await attendanceApi.acceptInvitation(invitationId);
       getInvitations();
-      print(res.body);
+
       isEmployed = true;
       appSettings.isEmployed = true;
       appSettings.companyId = companyId;
-      // invitationlist(res.body['data']['candidateInvitations']);
+      invitationlist(res.body['data']['candidateInvitations']);
 
       loading(false);
     } on BadRequestException catch (e) {
@@ -185,7 +186,9 @@ class DashboardController extends GetxController {
   }
 
   void changeCompany(String id) {
+    loading(true);
+    selectedCompany(id);
     appSettings.companyId = id;
-    companySelected = id;
+    loading(false);
   }
 }

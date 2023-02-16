@@ -36,7 +36,8 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                         child: InkWell(
                             onTap: () => controller.getallCandidates(),
                             child: const Text("Try Again")))
-                    : controller.invitationlist.isEmpty
+                    : controller.invitationlist.isEmpty ||
+                            controller.emplist.isEmpty
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [

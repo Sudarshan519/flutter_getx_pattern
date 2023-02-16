@@ -143,8 +143,8 @@ class _ProfileState extends State<Profile> {
                             try {
                               var date = await showDatePicker(
                                   context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2020),
+                                  initialDate: DateTime(2020),
+                                  firstDate: DateTime(1900),
                                   lastDate: DateTime(2030));
 
                               if (appSettings.employer) {

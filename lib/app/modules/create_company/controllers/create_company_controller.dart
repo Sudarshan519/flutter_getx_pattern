@@ -28,6 +28,10 @@ class CreateCompanyController extends GetxController {
   var codeType = 'auto'.obs;
   var loading = false.obs;
 
+  var sickLeaveType = "".obs;
+  var sickLeaveDays = "".obs;
+
+  var probationPeroid = "".obs;
   addCompany() async {
     var body = {
       "name": name.text,
@@ -39,12 +43,16 @@ class CreateCompanyController extends GetxController {
       "office_hour_end": officeHourEnd.value,
       // "calculation_type": calculation_type.value,
       "network_ip": networkIp.text,
-      "salary_type": salaryType.value,
+      "salary_type": salaryType.value, "sick_leave_type": sickLeaveType.value,
+      'sick_leave_days': sickLeaveDays.value,
+
+      "probation_peroid": probationPeroid.value,
       "government_leavedates": [
         ...governmentLeaveDates.map((e) => {"leave_date": e})
       ],
       "special_leavedates": [
         ...specialLeaveDates.map((e) => {"leave_date": e})
+
         // {"leave_date": "04/04/2017"},
         // {"leave_date": "04/04/2018"}
       ]
@@ -76,6 +84,7 @@ class CreateCompanyController extends GetxController {
     try {
       showLoading();
       // await Future.delayed(3.seconds);
+      print(body);
       await attendanceApi.addCompany(body);
       Get.back();
       EmployerDashboardController controller = Get.find();

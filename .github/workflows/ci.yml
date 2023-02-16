@@ -49,7 +49,6 @@ jobs:
     # 6
     runs-on: ubuntu-latest
     # runs-on: macos-latest
-
     # 7
     steps:
       - name: Send Gmail to
@@ -57,7 +56,7 @@ jobs:
         with:
           to: sudarshanshrestha519@gmail.com
           subject: 'Build Started'
-          body: 'Apk will be ready in approx 4 min.'
+          body: 'Apk will be ready in approx 10 min.'
       
       # 8
       - uses: actions/checkout@v3
@@ -131,9 +130,8 @@ jobs:
       
       - name: Send Gmail to Person2
         uses: cinotify/github-action@main
- 
-       
         with:
-          to: sudarshan@mailinator.com
+          # to: sudarshanshrestha519@gmail.com
+          to: anupniroula125@gmail.com
           subject: 'Check out for new version of apk'
-          body: 'This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk.'
+          body: 'This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk https://drive.google.com/drive/folders/1JySJu1MsnU_U_iMuS9et0UPbKjvrOi6O/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk'
