@@ -87,9 +87,9 @@ class DashboardController extends GetxController {
 
       // print(res.body);
       invitationlist(res.body['data']['candidateInvitations']);
-      // if (invitationlist.isEmpty) {
-      //   candidatecompaniesController.getCompanies();
-      // }
+      if (invitationlist.isEmpty) {
+        candidatecompaniesController.getCompanies();
+      }
       loading(false);
       // var invitation = invitationlist
       //     .firstWhereOrNull((element) => element['status'] == 'Approved');
@@ -122,6 +122,7 @@ class DashboardController extends GetxController {
       }
       print(invitationId);
       var res = await attendanceApi.acceptInvitation(invitationId);
+      getInvitations();
       print(res.body);
       isEmployed = true;
       appSettings.isEmployed = true;
@@ -154,9 +155,10 @@ class DashboardController extends GetxController {
     selectedYear(now.year);
     selectedMonth(now.month);
     selectedWeek(now.day ~/ 7);
+    getInvitations();
     if (!appSettings.isEmployed) {
       // print(appSettings.token);
-      getInvitations();
+
     }
   }
 

@@ -10,11 +10,13 @@ import 'package:hajir/core/localization/l10n/strings.dart';
 import '../controllers/candidatecompanies_controller.dart';
 
 class CandidatecompaniesView extends GetView<CandidatecompaniesController> {
-  const CandidatecompaniesView({Key? key, required this.dashboardController})
-      : super(key: key);
-  final DashboardController dashboardController;
+  const CandidatecompaniesView({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final DashboardController dashboardController = Get.find();
     return ListView(
       children: [
         RPadding(
@@ -37,6 +39,7 @@ class CandidatecompaniesView extends GetView<CandidatecompaniesController> {
                             borderRadius: BorderRadius.circular(8),
                             onTap: () {
                               var id = e['id'].toString();
+                              print(id);
                               dashboardController.changeCompany(id);
 
                               // Get.toNamed(Routes.COMPANY_DETAIL,

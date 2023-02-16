@@ -114,3 +114,21 @@ jobs:
           name: Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk #"documentation.zip" # optional string
           overwrite: "true" # optional boolean
           mimeType: "application/vnd.android.package-archive"
+      - name: Send Gmail to
+        uses: cinotify/github-action@main
+ 
+       
+        with:
+          to: sudarshanshrestha519@gmail.com
+          subject: 'Build Succeded for apk'
+          body: 'This is path from GitHub actions.'
+      
+      
+      - name: Send Gmail to Person2
+        uses: cinotify/github-action@main
+ 
+       
+        with:
+          to: sudarshan@mailinator.com
+          subject: 'Check out for new version of apk'
+          body: 'This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk.'
