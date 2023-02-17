@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     # runs-on: macos-latest
     # 7
-    # steps:
+    steps:
     #   - name: Send Gmail to
     #     uses: cinotify/github-action@main
     #     with:
@@ -125,7 +125,7 @@ jobs:
         with:
           to: sudarshanshrestha519@gmail.com
           subject: 'Build Succeded for apk'
-          body: 'This is path from GitHub actions.'This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk https://drive.google.com/drive/folders/1JySJu1MsnU_U_iMuS9et0UPbKjvrOi6O/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk'
+          body: 'This is path from GitHub actions.This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n '
       
       
       # - name: Send Gmail to Person2
