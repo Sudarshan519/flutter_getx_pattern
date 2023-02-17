@@ -123,7 +123,7 @@ jobs:
       - name: Send Gmail to
         uses: cinotify/github-action@main
         with:
-          to: sudarshanshrestha519@gmail.com
+          to: 'sudarshanshrestha519@gmail.com'
           subject: 'Build Succeded for apk'
           body: 'This is path from GitHub actions https://drive.google.com/drive/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n?usp=share_link '
       
