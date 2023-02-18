@@ -15,14 +15,14 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
   const CompanyDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // controller.getallCandidates();
     var pages = [
       const EmployerHome(),
       const Attendance(),
       const EmployeeList(),
       const MyAccount(isEmployer: true)
     ];
-
+    print(controller.emplist.isEmpty);
+    //     (controller.invitationlist.isEmpty && controller.emplist.isEmpty));
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -36,8 +36,9 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
                         child: InkWell(
                             onTap: () => controller.getallCandidates(),
                             child: const Text("Try Again")))
-                    : controller.invitationlist.isEmpty ||
-                            controller.emplist.isEmpty
+                    : controller.emplist.isEmpty &&
+                            controller.employerReport['candidates'].isEmpty &&
+                            controller.invitationlist.isEmpty
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -108,7 +109,8 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
               onPressed: () async {
                 var isAdded = (await Get.toNamed(Routes.ADD_EMPLOYEE,
                         arguments: controller.params['company_id']) ??
-                    false);
+                    false); 
+      
                 if (isAdded) {
                   controller.getEmployee();
                 }

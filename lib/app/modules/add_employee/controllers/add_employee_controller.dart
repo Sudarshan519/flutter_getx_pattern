@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hajir/app/data/providers/attendance_provider.dart';
@@ -5,6 +6,7 @@ import 'package:hajir/app/data/providers/network/api_provider.dart';
 import 'package:hajir/app/modules/add_employee/candidate_model.dart';
 import 'package:hajir/app/modules/add_employee/providers/candidate_provider.dart';
 import 'package:hajir/app/modules/company_detail/controllers/company_detail_controller.dart';
+import 'package:hajir/app/modules/employer_dashboard/controllers/employer_dashboard_controller.dart';
 import 'package:hajir/app/modules/login/controllers/login_controller.dart';
 
 class AddEmployeeController extends GetxController {
@@ -52,7 +54,9 @@ class AddEmployeeController extends GetxController {
       ..overTime = overTime.text;
     try {
       showLoading();
-      print(candidate.toJson());
+      if (kDebugMode) {
+        print(candidate.toJson());
+      }
       await attendaceApi.addCandidate(candidate.toJson(), args.value);
       Get.back();
       Get.back();
@@ -76,8 +80,21 @@ class AddEmployeeController extends GetxController {
     loading(true);
     args(Get.arguments);
 
+    var company = Get.find<EmployerDashboardController>()
+        .companyList
+        .firstWhere((p0) => p0.id.toString() == Get.arguments);
+    if (company.generateCode ?? false) {
+      generateCandidateCode();
+    }
     loading(false);
   }
 
   void increment() => count.value++;
+
+  void generateCandidateCode() async {
+    loading(true);
+    var result = await attendaceApi.generateCandidateCode(Get.arguments);
+    code.text = result.body['data']['code'].toString();
+    loading(false);
+  }
 }

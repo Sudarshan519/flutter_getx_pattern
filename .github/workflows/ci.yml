@@ -50,82 +50,107 @@ jobs:
     runs-on: ubuntu-latest
     # runs-on: macos-latest
     # 7
-    # steps:
-    #   - name: Send Gmail to
-    #     uses: cinotify/github-action@main
-    #     with:
-    #       to: sudarshanshrestha519@gmail.com
-    #       subject: 'Build Started'
-    #       body: 'Apk will be ready in approx 10 min.'
-      
-    #   # 8
-    #   - uses: actions/checkout@v3
-    #   # 9
-    #   - uses: actions/setup-java@v3
-    #     with:
-    #       distribution: 'zulu'
-    #       java-version: "12.x"
-    #   # 10   
-    #   - uses: subosito/flutter-action@v2
-    #     with:
-    #       # 11
-    #       flutter-version: "3.3.9"
-    #       channel: 'stable'
-    #       cache: true
-    #   # 12
-    #   # - name: Get dependencies
-    #     # run: flutter pub get
-    #   # - name: Build APK
-    #   #   run: flutter build apk --release
-    #   #   # run: |
-    #   #   #   flutter build ios --no-codesign
-    #   #   #   cd build/ios/iphoneos
-    #   #   #   mkdir Payload
-    #   #   #   ln -S ../Runner.app
-    #   #   #   cd ..
-    #   #   #   zip -r app.ipa Payload
-
-    #   # - name: Push to Releases
-    #   #   uses: ncipollo/release-action@v1
-    #   #   with:
-    #   #     artifacts: "build/app/outputs/apk/release/*"
-    #   #     tag: v1.0.${{github.run_number}}
-    #   #     token: ${{secrets.HAJIRTOKEN}}
-      
-    #   # Runs a set of commands using the runners shell
-    #   # - name: Start release build
-    #   #   run: flutter build appbundle
-
-    #   - name: Get Today Date
-    #     id: date
-    #     run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-    #   # - name: Get Folder id by condition
-    #   #   uses: haya14busa/action-cond@v1
-    #   #   id: folderId
-    #   #   with:
-    #   #     cond: ${{ steps.branch.outputs.branch == 'main' }}
-    #   - run: flutter build apk #--debug
-    #   - name: Archive Files
-    #     run: |
-    #       sudo apt-get install zip
-    #       zip -r archive.zip *
-
-    #   - name: Upload to gdrive
-    #     uses: adityak74/google-drive-upload-git-action@main
-    #     with:
-    #       credentials: ${{secrets.DRIVE_SECRETS}}
-    #       # filename: "build/app/outputs/apk/debug/app-debug.apk"
-    #       filename: "build/app/outputs/apk/release/app-release.apk"
-    #       folderId: "1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n"
-    #       name: Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk #"documentation.zip" # optional string
-    #       overwrite: "true" # optional boolean
-    #       mimeType: "application/vnd.android.package-archive"
+    steps:
       - name: Send Gmail to
         uses: cinotify/github-action@main
         with:
           to: sudarshanshrestha519@gmail.com
-          subject: 'Build Succeded for apk'
-          body: 'This is path from GitHub actions.'This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk https://drive.google.com/drive/folders/1JySJu1MsnU_U_iMuS9et0UPbKjvrOi6O/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk'
+          subject: 'Build Started'
+          body: 'Apk will be ready in approx 10 min.'
+      
+      # 8
+      - uses: actions/checkout@v3
+      # 9
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "12.x"
+      # 10   
+      - uses: subosito/flutter-action@v2
+        with:
+          # 11
+          flutter-version: "3.3.9"
+          channel: 'stable'
+          cache: true
+      # 12
+      # - name: Get dependencies
+        # run: flutter pub get
+      # - name: Build APK
+      #   run: flutter build apk --release
+      #   # run: |
+      #   #   flutter build ios --no-codesign
+      #   #   cd build/ios/iphoneos
+      #   #   mkdir Payload
+      #   #   ln -S ../Runner.app
+      #   #   cd ..
+      #   #   zip -r app.ipa Payload
+
+      # - name: Push to Releases
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     artifacts: "build/app/outputs/apk/release/*"
+      #     tag: v1.0.${{github.run_number}}
+      #     token: ${{secrets.HAJIRTOKEN}}
+      
+      # Runs a set of commands using the runners shell
+      # - name: Start release build
+      #   run: flutter build appbundle
+
+      - name: Get Today Date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      # - name: Get Folder id by condition
+      #   uses: haya14busa/action-cond@v1
+      #   id: folderId
+      #   with:
+      #     cond: ${{ steps.branch.outputs.branch == 'main' }}
+      - run: flutter build apk #--debug
+      - name: Archive Files
+        run: |
+          sudo apt-get install zip
+          zip -r archive.zip *
+
+      - name: Upload to gdrive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{secrets.DRIVE_SECRETS}}
+          # filename: "build/app/outputs/apk/debug/app-debug.apk"
+          filename: "build/app/outputs/apk/release/app-release.apk"
+          folderId: "1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n"
+          name: Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk #"documentation.zip" # optional string
+          overwrite: "true" # optional boolean
+          mimeType: "application/vnd.android.package-archive"
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with: 
+          server_address: ${{secrets.HOST}}
+    # Server port, default 25:
+          server_port: 465
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional (recommended) mail server username:
+          username: ${{secrets.MAIL_USER_EMAIL}}
+          # Optional (recommended) mail server password:
+          password: ${{secrets.MAIL_USER_PASSWORD}}
+
+          subject: Github Actions job result
+      # Required recipients' addresses:
+          to: sudarshanshrestha519@gmail.com
+          # to: anupniroula125@gmail.com,sudarshanshrestha519@gmail.com
+          # Required sender full name (address can be skipped):
+          from: Sudarshan Shrestha # <user@example.com>
+          # Optional plain body:
+          body: This is from me sending app Link https://drive.google.com/drive/folders/1JySJu1MsnU_U_iMuS9et0UPbKjvrOi6O?usp=share_link!
+          # Optional HTML body read from file:
+          html_body:  " Build job of completed successfully! This is from GitHub actions. Link to apk   https://drive.google.com/drive/folders/1JySJu1MsnU_U_iMuS9et0UPbKjvrOi6O?usp=share_link"
+      # Required mail subject:
+          # Server port, default 25:
+      # - name: Send Gmail to
+      #   uses: cinotify/github-action@main
+      #   with:
+      #     to: sudarshanshrestha519@gmail.com
+      #     subject: 'Build Succeded for apk'
+      #     body: 'This is path from GitHub actions.'This is path from GitHub actions https://drive.google.com/drive/u/0/folders/1uzHaHj_2Fe_BrG0R3KkpC9P8W0mwOn8n/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk https://drive.google.com/drive/folders/1JySJu1MsnU_U_iMuS9et0UPbKjvrOi6O/Hajir.v1.0.${{github.run_number}}-${{steps.date.outputs.date}}.apk'
       
       
       # - name: Send Gmail to Person2

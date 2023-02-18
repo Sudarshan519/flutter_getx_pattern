@@ -15,20 +15,20 @@ class CreateCompanyController extends GetxController {
   final TextEditingController address = TextEditingController();
   final workingDays = TextEditingController();
   final officeHourStart = '8:00'.obs;
-  var companyWorkingDays = <String>[].obs;
+  var businessLeaveDays = <int>[].obs;
   final officeHourEnd = '18:00'.obs;
   final code = ''.obs;
-  final calculation_type = '30 days'.obs;
+  final calculation_type = '30_days'.obs;
   final networkIp = TextEditingController();
   final salaryType = 'monthly'.obs;
   final governmentLeaveDates = <String>[].obs;
   final specialLeaveDates = <String>[].obs;
-  final networkType = 'any'.obs;
+  final networkType = ''.obs;
 
   var codeType = 'auto'.obs;
   var loading = false.obs;
 
-  var sickLeaveType = "".obs;
+  var sickLeaveAllowed = "".obs;
   var sickLeaveDays = "".obs;
 
   var probationPeroid = "".obs;
@@ -38,15 +38,15 @@ class CreateCompanyController extends GetxController {
       "email": email.text,
       "phone": phone.text,
       "address": address.text,
-      "working_days": 6,
+      "working_days": 7 - businessLeaveDays.length,
       "office_hour_start": officeHourStart.value,
       "office_hour_end": officeHourEnd.value,
-      // "calculation_type": calculation_type.value,
+      "calculation_type": calculation_type.value,
       "network_ip": networkIp.text,
-      "salary_type": salaryType.value, "sick_leave_type": sickLeaveType.value,
-      'sick_leave_days': sickLeaveDays.value,
-
-      "probation_peroid": probationPeroid.value,
+      "salary_type": salaryType.value,
+      "leave_duartion_type": sickLeaveAllowed.value,
+      "leave_duration": sickLeaveDays.value,
+      "probation_duration": probationPeroid.value,
       "government_leavedates": [
         ...governmentLeaveDates.map((e) => {"leave_date": e})
       ],
@@ -55,15 +55,19 @@ class CreateCompanyController extends GetxController {
 
         // {"leave_date": "04/04/2017"},
         // {"leave_date": "04/04/2018"}
-      ]
+      ],
+      "business_leave": businessLeaveDays
     };
     if (calculation_type.value == 'calendar_days') {
       // "code": "C-0967",
       body["calculation_type"] = "calendar_days";
     }
     if (code.value != '' && codeType.value == 'custom') {
-      body["code"] = code.value;
+      body["code"] = 0;
+    } else {
+      body["code"] = 1;
     }
+    print(body);
     // if (governmentLeaveDates.isNotEmpty) {
     //   body["government_leavedates"] = [
     //     ...governmentLeaveDates.map((e) => {"leave_date": e})
@@ -97,7 +101,7 @@ class CreateCompanyController extends GetxController {
     } catch (e) {
       Get.back();
 
-      Get.rawSnackbar(message: "Something Went Wrong".toString());
+      Get.rawSnackbar(message: e.toString());
     }
     loading(false);
     // print(body);

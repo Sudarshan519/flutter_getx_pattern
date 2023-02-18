@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
+  contact_picker:
+    dependency: "direct main"
+    description:
+      name: contact_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   cross_file:
     dependency: transitive
     description:
@@ -151,6 +158,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_native_contact_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_native_contact_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   flutter_otp_text_field:
     dependency: "direct main"
     description:

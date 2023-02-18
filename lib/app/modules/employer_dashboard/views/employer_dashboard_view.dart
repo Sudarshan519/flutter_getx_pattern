@@ -72,14 +72,13 @@ class Companies extends StatelessWidget {
                                   parameters: {
                                     'company_id': controller
                                         .companyList[index].id
-                                        .toString()
+                                        .toString(),
                                   });
                             },
                             child: Container(
                               height: 83,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 16),
-                              // margin: const EdgeInsets.only(bottom: 10),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   border:
@@ -118,7 +117,10 @@ class Companies extends StatelessWidget {
                                                               .grey.shade600),
                                                 ),
                                                 TextSpan(
-                                                    text: "x",
+                                                    text: controller
+                                                        .companyList[index]
+                                                        .employeeCount
+                                                        .toString(),
                                                     style: AppTextStyles.b2
                                                         .copyWith(
                                                             fontWeight:
@@ -140,7 +142,10 @@ class Companies extends StatelessWidget {
                                                   text:
                                                       "${strings.approver} [  "),
                                               TextSpan(
-                                                  text: "x",
+                                                  text: controller
+                                                      .companyList[index]
+                                                      .approverCount
+                                                      .toString(),
                                                   style: AppTextStyles.b2
                                                       .copyWith(
                                                           color:

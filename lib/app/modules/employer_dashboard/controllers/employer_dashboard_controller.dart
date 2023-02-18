@@ -15,7 +15,7 @@ class EmployerDashboardController extends GetxController {
   var loading = false.obs;
 
   final selectedIndex = 0.obs;
-  var companyList = <CompanyModel>[].obs;
+  var companyList = <Company>[].obs;
   final _selected = 0.obs;
 
   var selected_payments_options = 0.obs;
@@ -77,7 +77,7 @@ class EmployerDashboardController extends GetxController {
       var result = await attendanceApi.getEmployerCompanies();
       // print(result.body['data']);
       result.body['data']['companies']
-          .forEach((e) => companyList.add(CompanyModel.fromJson(e)));
+          .forEach((e) => companyList.add(Company.fromJson(e)));
     } on BadRequestException catch (e) {
       loading(false);
       Get.back();

@@ -9,7 +9,7 @@ import 'package:hajir/core/app_settings/shared_pref.dart';
 
 class CompanyDetailController extends GetxController {
   final selectedItem = 1.obs;
-  var company = CompanyModel().obs;
+  var company = Company.empty().obs;
   var candidates = <EmployeeModel>[].obs;
   var loading = false.obs;
   var myPlan = "Free(Forever)".obs;
@@ -45,34 +45,32 @@ class CompanyDetailController extends GetxController {
   getallCandidates() async {
     loading(true);
     appSettings.companyId = selectedCompany.value;
-    var companyId = selectedCompany; //(Get.parameters['company_id']);
+    var companyId = selectedCompany;
     try {
-      // attendanceApi.getallCandidates(appSettings.companyId);
       var employeeList =
           await attendanceApi.allCandidates(companyId.toString());
       if (employeeList.body['data'] is Map) {
-        // if (employeeList.body['data']['candidate'].length is int) {
-        emplist(employeeList.body['data']['candidate']);
-        // } else {
-        //   Get.rawSnackbar(message: 'Format Exception');
-        // }
+        if (employeeList.body['data']['candidate'].length is int) {
+          emplist(employeeList.body['data']['candidate']);
+        } else {
+          Get.rawSnackbar(message: 'Format Exception');
+        }
       } else {
         loadingFailed(true);
       }
 
       var allInvitations =
           await attendanceApi.getAllInvitationList(companyId.value.toString());
-      invitationlist(allInvitations.body['data']['candidate']);
+      invitationlist(allInvitations.body['data']['candidates']);
       getEmployerReport();
     } on BadRequestException catch (e) {
-      loadingFailed(true);
       loading(false);
       Get.rawSnackbar(
           title: e.message.toString(), message: e.details.toString());
     } catch (e) {
       log(e.toString());
       loading(false);
-      loadingFailed(true);
+      // loadingFailed(true);
       Get.rawSnackbar(message: "Something Went Wrong ".toString());
     }
   }
@@ -165,11 +163,11 @@ class CompanyDetailController extends GetxController {
     try {
       var result =
           await attendanceApi.getInactiveCandidates(selectedCompany.value);
-      attendanceLoading(false);
       employerReport['candidates'] = result.body['data']['candidates'];
+      attendanceLoading(false);
     } catch (e) {
-      loadingFailed(true);
-      // attendanceLoading(false);
+      attendanceLoading(false);
+      Get.rawSnackbar(message: e.toString());
     }
   }
 
@@ -181,8 +179,7 @@ class CompanyDetailController extends GetxController {
       attendanceLoading(false);
       employerReport['candidates'] = result.body['data']['candidates'];
     } catch (e) {
-      loadingFailed(true);
-      // attendanceLoading(false);
+      Get.rawSnackbar(message: e.toString());
     }
   }
 }

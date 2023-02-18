@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -413,6 +414,20 @@ class AttendanceSystemProvider extends GetConnect {
     var result = await get(url, headers: globalHeaders);
     return parseRes(result);
   }
+
+  sendNotification(String id, String compId, String message) async {
+    var url = 'employer/notification-send/$id/$compId';
+    var body = {'message': message};
+    var result = await post(url, body, headers: globalHeaders);
+    return parseRes(result);
+  }
+
+  generateCandidateCode(id) async {
+    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+    var url = 'employer/company/$id/generate-code';
+
+    return parseRes(await get(url, headers: globalHeaders));
+  }
 }
 
 parseRes(Response res) {
@@ -421,7 +436,7 @@ parseRes(Response res) {
   // }
   log(res.request!.url.toString());
 
-  log(res.body.toString());
+  log(jsonEncode(res.body).toString());
   switch (res.statusCode) {
     case 200:
     case 201:

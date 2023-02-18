@@ -8,14 +8,15 @@ environment:
 dependencies:
   cached_network_image: ^3.1.0
   carousel_slider: ^4.2.1
+  contact_picker: ^0.0.2
   cupertino_icons: ^1.0.2
-  # easyqrimage: ^0.0.2
   esys_flutter_share_plus: ^2.2.0
   file_picker: ^5.2.5
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_native_contact_picker: ^0.0.3
   flutter_otp_text_field: ^1.1.1
   flutter_screenutil: ^5.6.0
   flutter_svg: ^1.1.6

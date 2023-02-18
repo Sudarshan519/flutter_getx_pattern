@@ -268,7 +268,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                     child: Obx(
                       () => Radio(
                         groupValue: controller.calculation_type.value,
-                        value: "30 days",
+                        value: "30_days",
                         activeColor: AppColors.primary,
                         onChanged: (String? value) {
                           controller.calculation_type(value!);
@@ -338,26 +338,15 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                           Obx(
                             () => Checkbox(
                                 activeColor: AppColors.primary,
-                                value: controller.companyWorkingDays.contains(
-                                        DateFormat("EEEE").format(DateTime.now()
-                                            .subtract(Duration(
-                                                days: DateTime.now().weekday -
-                                                    i))))
-                                    ? true
-                                    : false,
+                                value:
+                                    controller.businessLeaveDays.contains(i + 1)
+                                        ? true
+                                        : false,
                                 onChanged: (bool? v) {
                                   if (v == true) {
-                                    controller.companyWorkingDays.add(
-                                        DateFormat("EEEE").format(DateTime.now()
-                                            .subtract(Duration(
-                                                days: DateTime.now().weekday -
-                                                    i))));
+                                    controller.businessLeaveDays.add(i + 1);
                                   } else {
-                                    controller.companyWorkingDays.remove(
-                                        DateFormat("EEEE").format(DateTime.now()
-                                            .subtract(Duration(
-                                                days: DateTime.now().weekday -
-                                                    i))));
+                                    controller.businessLeaveDays.remove(i + 1);
                                   }
                                 }),
                           )
@@ -599,7 +588,7 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
                     child: CustomDropDownField(
                         icon: const Icon(Icons.keyboard_arrow_down_outlined),
                         onChanged: (String? v) {
-                          controller.sickLeaveType(v!);
+                          controller.sickLeaveAllowed(v!);
                         },
                         title: 'Sick leave allowed',
                         hint: 'Please select',
@@ -619,7 +608,12 @@ class CreateCompanyView extends GetView<CreateCompanyController> {
               ),
               CustomDropDownField(
                   onChanged: (String? v) {
-                    controller.probationPeroid(v!);
+                    controller.probationPeroid((v == '1 Month'
+                            ? 1
+                            : v == '3 Months'
+                                ? 3
+                                : 6)
+                        .toString());
                   },
                   title: 'Probation peroid',
                   hint: 'Please select',

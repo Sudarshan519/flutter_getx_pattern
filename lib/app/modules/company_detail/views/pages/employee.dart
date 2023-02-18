@@ -100,11 +100,6 @@ class EmployeeList extends StatelessWidget {
           const SizedBox(
             height: 17,
           ),
-          // Container(
-          //   height: 200,
-          //   width: 200,
-          //   child: CustomPaint(painter: ArcPainter(percentage: .5)),
-          // ),
           Row(
             children: [
               Column(
@@ -366,7 +361,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                             ? widget.controller.emplist[widget.index]['name'] ??
                                 "NA"
                             : widget.controller.invitationlist[widget.index]
-                                    ['phone'] ??
+                                    ['name'] ??
                                 'NA',
                         style: const TextStyle(
                           fontSize: 15,
@@ -380,7 +375,7 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                               "NA".toString() ??
                               "NA"
                           : widget.controller.invitationlist[widget.index]
-                                  ['candidatedetails']?['email'] ??
+                                  ['email'] ??
                               "NA".toString() ??
                               'NA',
                       // "RT00${widget.index + 1}",

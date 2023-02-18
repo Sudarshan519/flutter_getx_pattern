@@ -1,100 +1,118 @@
+// To parse this JSON data, do
+//
+//     final companies = companiesFromJson(jsonString);
+
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+Companies companiesFromJson(String str) => Companies.fromJson(json.decode(str));
+
+String companiesToJson(Companies data) => json.encode(data.toJson());
 
 class Companies {
-  List<CompanyModel> companies;
   Companies({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+
+  String status;
+  String message;
+  Data data;
+
+  factory Companies.fromJson(Map<String, dynamic> json) => Companies(
+        status: json["status"],
+        message: json["message"],
+        data: Data.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "data": data.toJson(),
+      };
+}
+
+class Data {
+  Data({
     required this.companies,
   });
 
-  Companies copyWith({
-    List<CompanyModel>? companies,
-  }) {
-    return Companies(
-      companies: companies ?? this.companies,
-    );
-  }
+  List<Company> companies;
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'companies': companies.map((x) => x.toJson()).toList(),
-    };
-  }
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        companies: List<Company>.from(
+            json["companies"].map((x) => Company.fromJson(x))),
+      );
 
-  factory Companies.fromMap(Map<String, dynamic> map) {
-    return Companies(
-      companies: List<CompanyModel>.from(
-        (map['companies'] as List<int>).map<CompanyModel>(
-          (x) => CompanyModel.fromJson(x as Map<String, dynamic>),
-        ),
-      ),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Companies.fromJson(String source) =>
-      Companies.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'CompanyList(companies: $companies)';
-
-  @override
-  bool operator ==(covariant Companies other) {
-    if (identical(this, other)) return true;
-
-    return listEquals(other.companies, companies);
-  }
-
-  @override
-  int get hashCode => companies.hashCode;
+  Map<String, dynamic> toJson() => {
+        "companies": List<dynamic>.from(companies.map((x) => x.toJson())),
+      };
 }
 
-class CompanyModel {
+class Company {
+  Company({
+    this.id,
+    this.name,
+    this.generateCode,
+    this.phone,
+    this.address,
+    this.workingHours,
+    this.officeHourStart,
+    this.officeHourEnd,
+    this.salaryType,
+    this.sickLeaveType,
+    this.sickLeaveDays,
+    this.probationDuration,
+    this.employeeCount,
+    this.approverCount,
+  });
+
   int? id;
   String? name;
-  String? code;
+  bool? generateCode;
   String? phone;
   String? address;
-  String? working_hours;
-  String? office_hour_start;
-  String? office_hour_end;
-  String? total_employee;
-  String? total_approver;
-  String? salary_type;
-  String? duty_time;
-  String? overtime;
-  String? salry_amount;
-  String? createdAt;
-  String? updatedAt;
+  dynamic workingHours;
+  String? officeHourStart;
+  String? officeHourEnd;
+  String? salaryType;
+  String? sickLeaveType;
+  String? sickLeaveDays;
+  String? probationDuration;
+  String? employeeCount;
+  int? approverCount;
+  factory Company.empty() => Company.fromJson({});
+  factory Company.fromJson(Map<String, dynamic> json) => Company(
+        id: json["id"],
+        name: json["name"],
+        generateCode: json["generate_code"] ?? false,
+        phone: json["phone"],
+        address: json["address"],
+        workingHours: json["working_hours"],
+        officeHourStart: json["office_hour_start"],
+        officeHourEnd: json["office_hour_end"],
+        salaryType: json["salary_type"],
+        sickLeaveType: json["sick_leave_type"],
+        sickLeaveDays: json["sick_leave_days"],
+        probationDuration: json["probation_duration"],
+        employeeCount: json["employee_count"],
+        approverCount: json["approver_count"],
+      );
 
-  CompanyModel({this.id, this.name, this.total_employee, this.total_approver});
-
-  CompanyModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    phone = json['phone'];
-    address = json['address'];
-    working_hours = json['working_hours'];
-    office_hour_start = json['office_hour_start'];
-    office_hour_end = json['office_hour_end'];
-    salary_type = json['salary_type'];
-    duty_time = json['duty_time'];
-    overtime = json['overtime'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "generate_code": generateCode,
+        "phone": phone,
+        "address": address,
+        "working_hours": workingHours,
+        "office_hour_start": officeHourStart,
+        "office_hour_end": officeHourEnd,
+        "salary_type": salaryType,
+        "sick_leave_type": sickLeaveType,
+        "sick_leave_days": sickLeaveDays,
+        "probation_duration": probationDuration,
+        "employee_count": employeeCount,
+        "approver_count": approverCount,
+      };
 }
-
-var companies = [
-  CompanyModel(name: "Rasan Tech", total_employee: "24", total_approver: "2"),
-  CompanyModel(
-      name: "Spark Digital", total_employee: "24", total_approver: "2"),
-  CompanyModel(
-      name: "DNA Technology", total_employee: "24", total_approver: "2"),
-];

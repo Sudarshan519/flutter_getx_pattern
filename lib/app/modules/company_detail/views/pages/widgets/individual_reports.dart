@@ -35,6 +35,18 @@ class IndividualReportController extends GetxController {
     var result = await attendanceApi.getCandidateMonthlyReport(id, compId);
   }
 
+  sendNotification(String message) async {
+    var result = await attendanceApi.sendNotification(
+        Get.arguments['id'].toString(),
+        detailController.selectedCompany.value,
+        message);
+
+    Get.back();
+    if (result.body['status'] == 'success') {
+      Get.rawSnackbar(message: result.body['message']);
+    }
+  }
+
   @override
   onInit() {
     super.onInit();
@@ -52,6 +64,7 @@ class IndividualReport extends StatelessWidget {
   Widget build(BuildContext context) {
     final CompanyDetailController controller = Get.find();
     final individualReportController = Get.put(IndividualReportController());
+    final TextEditingController message = TextEditingController();
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16),
       child: AppBottomSheet(
@@ -822,6 +835,7 @@ class IndividualReport extends StatelessWidget {
                       ),
                       CustomFormField(
                         isMultiline: true,
+                        controller: message,
                         title: strings.send_notification,
                         hint: strings.message,
                       ),
@@ -830,7 +844,11 @@ class IndividualReport extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            CustomButton(onPressed: () {}, label: strings.add),
+            CustomButton(
+                onPressed: () {
+                  individualReportController.sendNotification(message.text);
+                },
+                label: strings.add),
             const SizedBox(
               height: 20,
             ),
