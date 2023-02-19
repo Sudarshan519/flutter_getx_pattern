@@ -49,7 +49,6 @@ class OverAllReports extends StatelessWidget {
             height: Get.height * .8,
             child: Column(children: [
               Column(
-                // mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TitleWidget(title: strings.overall_reports),
@@ -159,11 +158,13 @@ class OverAllReports extends StatelessWidget {
                           child: CustomPaint(
                             painter: CircularPercentPaint(
                               allGreen: true,
-                              progress: 97.toInt(),
+                              progress:
+                                  overallController.dailyReport['percentage'] ??
+                                      0,
                             ),
                             child: Center(
                                 child: Text(
-                              "97%",
+                              '${overallController.dailyReport['percentage'] ?? '0'}%',
                               style: AppTextStyles.b1
                                   .copyWith(color: Colors.green.shade800),
                             )),

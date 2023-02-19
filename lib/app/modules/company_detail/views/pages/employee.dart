@@ -414,10 +414,8 @@ class _EmployeeWidgetState extends State<EmployeeWidget> {
                         onTap: () {
                           if (widget.isEmployee) {
                           } else {
-                            // print(widget.controller.invitationlist[widget.index]
-                            //     ['id']);
-                            var candidateId = (widget
-                                .controller.invitationlist[widget.index]['id']
+                            var candidateId = (widget.controller
+                                .invitationlist[widget.index]['candidate_id']
                                 .toString());
                             if (widget.controller.loading.isFalse) {
                               widget.controller.sendInvitation(candidateId);

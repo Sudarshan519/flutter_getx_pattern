@@ -1,5 +1,7 @@
-import 'package:contact_picker/contact_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 
 import 'package:get/get.dart';
 import 'package:hajir/app/config/app_colors.dart';
@@ -16,6 +18,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
   Widget build(BuildContext context) {
     final CompanyDetailController companyDetailController = Get.find();
     final formKey = GlobalKey<FormState>();
+
     controller.generateCandidateCode();
     return Scaffold(
         body: SafeArea(
@@ -68,9 +71,26 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                       ),
                       TextFormField(
                         controller: controller.phone,
-                        validator: validatePhone,
+                        validator: (v) =>
+                            GetUtils.isPhoneNumber(v!) ? null : 'Invalid Phone',
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                            suffixIcon: InkWell(
+                              onTap: () async {
+                                final PhoneContact contact =
+                                    await FlutterContactPicker
+                                        .pickPhoneContact();
+                                controller.phone.text = contact
+                                    .phoneNumber!.number!
+                                    .replaceAll('+977', "")
+                                    .replaceAll(' ', '')
+                                    .replaceAll('-', '');
+                              },
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.primary,
+                              ),
+                            ),
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 12),
                             hintText: strings.mobile_number,
@@ -88,40 +108,33 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text("[Add from contact address]"),
+                      // const Text("[Add from contact address]"),
                       const SizedBox(
                         height: 8,
                       ),
-                      InkWell(
-                        onTap: () async {
-//                           try {
-                          Contact contact =
-                              await ContactPicker().selectContact();
-                          controller.phone.text = contact.phoneNumber.number!;
-                        },
-                        child: TextFormField(
-                          enabled: false,
-                          controller: controller.phone,
-                          keyboardType: TextInputType.number,
-                          // validator: (v) => confirmPassword(
-                          //     password: v!,
-                          //     cPassword: controller.phone.text,
-                          //     value: "Phone does not match."),
-                          decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 12),
-                              hintText: "Confirm Phone",
-                              hintStyle: AppTextStyles.l1
-                                  .copyWith(fontWeight: FontWeight.w500),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade400)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade300)),
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey))),
-                        ),
+                      TextFormField(
+                        enabled: true,
+                        // controller: controller.phone,
+                        autovalidateMode: AutovalidateMode.always,
+                        keyboardType: TextInputType.number,
+                        validator: (v) => confirmPassword(
+                            password: v!,
+                            cPassword: controller.phone.text,
+                            value: "Phone does not match."),
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            hintText: "Confirm Phone",
+                            hintStyle: AppTextStyles.l1
+                                .copyWith(fontWeight: FontWeight.w500),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade400)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade300)),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey))),
                       ),
                       const SizedBox(
                         height: 20,
@@ -730,9 +743,119 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Obx(
+                        () => Row(
+                          children: [
+                            const Text("Allow late attendance"),
+                            const Spacer(),
+                            Obx(
+                              () => Checkbox(
+                                  value: controller.allowLateAttendance.value,
+                                  onChanged: (bool? v) {
+                                    controller.allowLateAttendance(v!);
+                                  }),
+                            ),
+                            if (controller.allowLateAttendance.isTrue)
+                              InkWell(
+                                  onTap: () {
+                                    var time =
+                                        controller.allowlateBy.value.split(':');
+                                    var hour = int.parse(time.first);
+                                    var minute = int.parse(time.last);
 
-                      ///
-                      ///TODO LATE ATTENDANCE
+                                    if ((minute) < 60 && minute != 0) {
+                                      controller.allowlateBy(
+                                          "${(hour) < 10 ? '0$hour' : hour}:${minute - 10}");
+                                    } else if ((hour) <= 12 && hour != 0) {
+                                      controller.allowlateBy(
+                                          "${(hour - 1) < 10 ? '0${hour - 1}' : hour - 1}:00");
+                                    } else {}
+                                  },
+                                  child: Container(
+                                      width: 40.w,
+                                      height: 46,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(4),
+                                            bottomLeft: Radius.circular(4)),
+                                        border: Border.all(
+                                            color: Colors.grey.shade300),
+                                      ),
+                                      child: const Icon(Icons.remove))),
+                            if (controller.allowLateAttendance.isTrue)
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                    width: 60.w,
+                                    height: 46,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey.shade300),
+                                    ),
+                                    child: TextFormField(
+                                      enabled: false,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(9),
+                                      ],
+                                      onChanged: (String v) {
+                                        // if (v.length <= 2) {
+                                        // } else if (v.length == 4) {
+                                        //   if (!v.contains(":")) {
+                                        //     allowlateBy.text =
+                                        //         "${v.substring(0, 2)}:${v.substring(2, 4)}";
+                                        //   }
+                                        //   controller.allowlateBy.value =
+                                        //       allowlateBy.text;
+                                        // }
+                                      },
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                              decimal: false),
+                                      controller: TextEditingController()
+                                        ..text = controller.allowlateBy.value,
+                                      decoration: const InputDecoration(
+                                          hintText: "00:30",
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          border: InputBorder.none),
+                                    )),
+                              ),
+                            if (controller.allowLateAttendance.isTrue)
+                              InkWell(
+                                onTap: () {
+                                  var time =
+                                      controller.allowlateBy.value.split(':');
+                                  var hour = int.parse(time.first);
+                                  var minute = int.parse(time.last);
+
+                                  if ((minute) < 60) {
+                                    controller.allowlateBy(
+                                        "${(hour) < 10 ? '0$hour' : hour}:${minute + 10}");
+                                  } else if ((hour) < 12) {
+                                    controller.allowlateBy(
+                                        "${(hour + 1) < 10 ? '0${hour + 1}' : hour + 1}:00");
+                                  } else {}
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey.shade300),
+                                      borderRadius: const BorderRadius.only(
+                                          topRight: Radius.circular(4),
+                                          bottomRight: Radius.circular(4)),
+                                    ),
+                                    width: 40.w,
+                                    height: 46,
+                                    child: const Icon(Icons.add)),
+                              ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
                       // const Text("30 minutes laet)                                                                                         0"),
                       CustomButton(
                           onPressed: () {

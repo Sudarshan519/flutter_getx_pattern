@@ -111,7 +111,7 @@ class DashboardController extends GetxController {
 
       // Get.back();
 
-      Get.rawSnackbar(message: "Something Went Wrong".toString());
+      Get.rawSnackbar(message: e.toString());
     }
   }
 
@@ -122,13 +122,12 @@ class DashboardController extends GetxController {
         await Get.closeCurrentSnackbar();
       }
 
-      var res = await attendanceApi.acceptInvitation(invitationId);
+      await attendanceApi.acceptInvitation(invitationId);
       getInvitations();
 
       isEmployed = true;
       appSettings.isEmployed = true;
       appSettings.companyId = companyId;
-      invitationlist(res.body['data']['candidateInvitations']);
 
       loading(false);
     } on BadRequestException catch (e) {

@@ -7,6 +7,7 @@ import 'package:hajir/app/modules/company_detail/controllers/company_detail_cont
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/individual_reports.dart';
 import 'package:hajir/app/modules/company_detail/views/pages/widgets/overall_reports.dart';
 import 'package:hajir/core/localization/l10n/strings.dart';
+import 'package:intl/intl.dart';
 
 class Attendance extends StatelessWidget {
   const Attendance({super.key});
@@ -28,12 +29,24 @@ class Attendance extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          Text(
-            controller.company.value.name ?? "NA",
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(color: Colors.grey, fontWeight: FontWeight.w400),
+          Row(
+            children: [
+              Text(
+                controller.company.value.name ?? "NA",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: Colors.grey, fontWeight: FontWeight.w400),
+              ),
+              const Spacer(),
+              Text(
+                DateFormat('dd, MMM yyyy').format(DateTime.now()).toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.grey, fontWeight: FontWeight.w400),
+              ),
+            ],
           ),
           const SizedBox(
             height: 20,

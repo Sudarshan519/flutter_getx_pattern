@@ -20,8 +20,7 @@ class CompanyDetailView extends GetView<CompanyDetailController> {
       const Attendance(),
       const EmployeeList(),
       const MyAccount(isEmployer: true)
-    ];
-    print(controller.emplist.isEmpty);
+    ]; 
     //     (controller.invitationlist.isEmpty && controller.emplist.isEmpty));
     return Scaffold(
       resizeToAvoidBottomInset: true,

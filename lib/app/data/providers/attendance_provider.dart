@@ -185,19 +185,19 @@ class AttendanceSystemProvider extends GetConnect {
     return parseRes(res);
   }
 
-  getCompanyById() async {
-    globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
-    var url = ('company/get-companies/1');
+  // getCompanyById() async {
+  //   globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
+  //   var url = ('company/get-companies/1');
 
-    // try {
-    var res = await get(url, headers: headersList);
-    return parseRes(res);
-    // } catch (e) {
-    //   rethrow;
-    // }
-    // if (res.statusCode! >= 200 && res.statusCode! < 300) {
-    // } else {}
-  }
+  //   // try {
+  //   var res = await get(url, headers: headersList);
+  //   return parseRes(res);
+  //   // } catch (e) {
+  //   //   rethrow;
+  //   // }
+  //   // if (res.statusCode! >= 200 && res.statusCode! < 300) {
+  //   // } else {}
+  // }
 
   updateCompanyById() async {
     globalHeaders['Authorization'] = 'Bearer ${appSettings.token}';
@@ -286,7 +286,8 @@ class AttendanceSystemProvider extends GetConnect {
       'candidate_id': candidateId,
       // 'status': status
     };
-    var url = 'employer/$companyId /invitation/store';
+ 
+    var url = 'employer/$companyId/invitation/store';
     var result = await post(url, body, headers: globalHeaders);
     return parseRes(result);
   }

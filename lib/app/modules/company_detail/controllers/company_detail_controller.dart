@@ -49,6 +49,7 @@ class CompanyDetailController extends GetxController {
     try {
       var employeeList =
           await attendanceApi.allCandidates(companyId.toString());
+
       if (employeeList.body['data'] is Map) {
         if (employeeList.body['data']['candidate'].length is int) {
           emplist(employeeList.body['data']['candidate']);
@@ -91,6 +92,7 @@ class CompanyDetailController extends GetxController {
           await Get.closeCurrentSnackbar();
         }
       }
+      
       var result = await attendanceApi.sendInvitation(
           params['company_id'], candidateId, 'Not-Approved');
       Get.back();
@@ -144,11 +146,13 @@ class CompanyDetailController extends GetxController {
     employerReport.clear();
     try {
       loading(true);
+      // print(Get.parameters['company_id']);
       attendanceLoading(true);
-      var result =
-          await repository.getEmployerReport(Get.parameters['company_id']!);
+      var result = await repository.getEmployerReport(selectedCompany.value);
+
       employerReport(result.body['data']);
       loading(false);
+      loadingFailed(false); 
       attendanceLoading(false);
     } catch (e) {
       attendanceLoading(false);

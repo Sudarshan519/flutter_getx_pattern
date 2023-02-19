@@ -97,7 +97,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             controller.logout();
                           },
                           child: Text(
-                            strings.logout,
+                            "Clock out", // strings.logout,
                             style:
                                 AppTextStyles.b2.copyWith(color: AppColors.red),
                           ))
@@ -119,9 +119,7 @@ class CandidateLoginView extends GetView<CandidateLoginController> {
                             }
                           },
                           child: Text(
-                            controller.isLoggedOut
-                                ? "Logged Out"
-                                : strings.login,
+                            controller.isLoggedOut ? "Clock Out" : "Clock In",
                             style: AppTextStyles.b2,
                           ))),
                 ),
@@ -893,7 +891,6 @@ class _TimeWidgetState extends State<TimeWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     timer.cancel();
   }
@@ -903,9 +900,8 @@ class _TimeWidgetState extends State<TimeWidget> {
     return Text(
       DateFormat('hh:mm a').format(now),
       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          fontWeight: FontWeight.w700,
-          color: Colors.grey.shade200,
-          shadows: [const Shadow(color: Colors.black, offset: Offset(1, 1))]),
+          fontWeight: FontWeight.w700, color: Colors.black), //.shade200,
+      // shadows: [const Shadow(color: Colors.black, offset: Offset(1, 1))]),
       textAlign: TextAlign.center,
     );
   }

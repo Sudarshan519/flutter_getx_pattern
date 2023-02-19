@@ -35,6 +35,8 @@ class IndividualReportController extends GetxController {
     var result = await attendanceApi.getCandidateMonthlyReport(id, compId);
   }
 
+  getYearlyReport(id, compId) async {}
+
   sendNotification(String message) async {
     var result = await attendanceApi.sendNotification(
         Get.arguments['id'].toString(),

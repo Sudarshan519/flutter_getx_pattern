@@ -29,9 +29,9 @@ class AddEmployeeController extends GetxController {
   final breakStart = '13:00'.obs;
   final breakEnd = '13:45'.obs;
   var hasOvertimerRatio = false.obs;
-
+  var allowLateAttendance = false.obs;
   var designation = TextEditingController();
-
+  final allowlateBy = '00:00'.obs;
   var phone = TextEditingController();
 
   var loading = false.obs;
@@ -47,11 +47,13 @@ class AddEmployeeController extends GetxController {
       ..officeHourEnd = officeHourEnd.value
       ..email = email.text
       ..dob = dob.value
+      ..designation = designation.text
       ..salaryType = salaryType.text
       ..salaryAmount = salaryAmount.text
       ..joiningDate = joiningDate.value
       ..dutyTime = dutyTime.text
-      ..overTime = overTime.text;
+      ..overTime = overTime.text
+      ..allowLateAttendance = allowlateBy.value;
     try {
       showLoading();
       if (kDebugMode) {
@@ -59,7 +61,7 @@ class AddEmployeeController extends GetxController {
       }
       await attendaceApi.addCandidate(candidate.toJson(), args.value);
       Get.back();
-      Get.back();
+      // Get.back();
       Get.find<CompanyDetailController>().getallCandidates();
       Get.rawSnackbar(message: "Successfully Created");
     } on UnauthorisedException catch (e) {

@@ -12,7 +12,8 @@ class Candidate {
   String? salaryAmount;
   String? joiningDate;
   String? overTime;
-
+  String? allowLateAttendance;
+  String? designation;
   Candidate(
       {this.name,
       this.address,
@@ -26,6 +27,7 @@ class Candidate {
       this.dob,
       this.salaryAmount,
       this.joiningDate,
+      this.allowLateAttendance,
       this.overTime});
 
   Candidate.fromJson(Map<String, dynamic> json) {
@@ -59,6 +61,8 @@ class Candidate {
     data['salary_amount'] = salaryAmount;
     data['joining_date'] = joiningDate;
     data['over_time'] = overTime;
+    data['designation']=designation;
+    data['allow_late_attendance'] = allowLateAttendance;
     return data;
   }
 }

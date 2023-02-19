@@ -41,7 +41,7 @@ class DashboardView extends GetView<DashboardController> {
                       const Material(color: Colors.white, child: ApplyLeave()),
                       isScrollControlled: true);
                 } else if (controller.companySelected == '' && i == 1) {
-                  Get.rawSnackbar(message: "No employment details found.");
+                  Get.rawSnackbar(message: "Selct a company.");
                 } else {
                   controller.selectedIndex = i;
                 }
